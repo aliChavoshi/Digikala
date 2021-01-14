@@ -1,0 +1,9 @@
+Digikala/obj/
+Digikala/bin/
+Digikala.Core/bin/
+Digikala.Core/obj/
+Digikala.DataAccessLayer/obj/
+Digikala.DataAccessLayer/bin/
+Digikala.DTOs/bin/
+Digikala.DTOs/obj/
+Digikala/.vs/

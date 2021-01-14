@@ -1,0 +1,52 @@
+﻿@model Digikala.DTOs.AccountDtos.ChangeMobileNumberDto
+
+@{
+    ViewBag.Title = "ویرایش شماره همراه" + " " + Model.OldMobile;
+}
+
+<!-- Start mini-header -->
+<partial name="Account/_PartialMiniHeader" />
+<!-- End mini-header -->
+<!-- Start main-content -->
+<!-- Start main-content -->
+<main class="main-content dt-sl mt-4 mb-3">
+    <div class="container main-container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-7 col-12 mx-auto">
+                <div class="form-ui dt-sl dt-sn pt-4">
+                    <div class="section-title title-wide mb-1 no-after-title-wide">
+                        <h2 class="font-weight-bold">ویرایش شماره همراه : @Model.OldMobile</h2>
+                    </div>
+                   
+                    <form method="post">
+                        <input type="hidden" asp-for="OldMobile"/>
+                        <div class="form-row with-icon">
+                            <input required asp-for="NewMobile" type="text" maxlength="11" class="input-ui pr-2" placeholder="شماره موبایل جدید را وارد نمائید.">
+                            <i class="mdi mdi-account-circle-outline"></i>
+                        </div>
+                        <div class="form-row-title mt-2">
+                            <span class="text-danger font-weight-bold" asp-validation-for="NewMobile"></span>
+                            <span class="text-danger font-weight-bold" asp-validation-for="OldMobile"></span>
+                        </div>
+                        <div class="form-row mt-3">
+                            <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
+                                <i class="mdi mdi-account-circle-outline"></i>
+                                تایید کردن شماره
+                            </button>
+                        </div>
+                        <div class="form-footer text-right mt-3">
+                            <span class="d-block font-weight-bold">کاربر جدید هستید؟</span>
+                            <a asp-action="Register" class="d-inline-block mr-3 mt-2">ثبت نام در دیدیکالا</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<!-- End main-content -->
+<!-- End main-content -->
+<!-- Start mini-footer -->
+<partial name="Account/_PartialMiniFooter" />
+<!-- End mini-footer -->
