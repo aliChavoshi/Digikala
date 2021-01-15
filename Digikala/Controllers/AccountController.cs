@@ -38,7 +38,7 @@ namespace Digikala.Controllers
                 //
             }
         }
-        private async Task LoginUser(User user, bool rememberMe)
+        private async Task LoginUserClaim(User user, bool rememberMe)
         {
             var claims = new List<Claim>
             {
@@ -76,6 +76,7 @@ namespace Digikala.Controllers
             await SendSms(user.Mobile, user.ActiveCode);
             #endregion
 
+            TempData["ResendActiveCode"] = true;
             return RedirectToAction("ActivateUser", new ActivateDto { Mobile = user.Mobile });
         }
 
@@ -86,30 +87,35 @@ namespace Digikala.Controllers
         }
 
         [HttpPost("{mobile}")]
-        public async Task<IActionResult> ActivateUser(ActivateDto model)
+        public async Task<IActionResult> ActivateUser(string mobile, ActivateDto model)
         {
+            if (mobile != model.Mobile)
+            {
+                return NotFound();
+            }
             if (!await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", "شماره همراه اشتباه است.");
+                ModelState.AddModelError("Mobile", "شماره موبایل مورد نظر یافت نشد.");
                 return View(model);
             }
-            var code = CodeGenerators.MergeCodes(model.ActiveCode);
+            var mergeCode = CodeGenerators.MergeCodes(model.ActiveCode);
 
             var user = await _accountRepository.GetUser(model.Mobile);
-            if (user.IsActive)
+            if (user.ActiveCode != mergeCode)
             {
-                ModelState.AddModelError("ActiveCode", "حساب کاربری شما فعال میباشد.");
+                ModelState.AddModelError("ActiveCode", "کد وارد شده اشتباه است لطفا مجدد تلاش کنید .");
                 return View(model);
             }
-            if (user.ActiveCode != code)
+            if (user.IsActive && user.ConfirmActiveCode)
             {
-                ModelState.AddModelError("ActiveCode", "کد وارد شده اشتباه است .");
-                return View(model);
+                return RedirectToAction("ResetPassword", new RegisterDto { Mobile = model.Mobile });
             }
-            if (await _accountRepository.ActivateUser(code, user.Mobile))
+            else
             {
-                return RedirectToAction("Login");
+                if (await _accountRepository.ActivateUser(mergeCode, user.Mobile))
+                    return RedirectToAction("Login");
             }
+
             return View(model);
         }
 
@@ -189,7 +195,7 @@ namespace Digikala.Controllers
                 {
                     #region LognInWeb
 
-                    await LoginUser(user, model.RememberMe);
+                    await LoginUserClaim(user, model.RememberMe);
                     #endregion
 
                     if (!string.IsNullOrEmpty(returnUrl))
@@ -208,7 +214,8 @@ namespace Digikala.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("ActivateUser", new ActivateDto() { Mobile = user.Mobile });
+                    ModelState.AddModelError("Mobile", "حساب کاربری شما غیر فعال میباشد");
+                    return View(model);
                 }
             }
             else
@@ -233,11 +240,42 @@ namespace Digikala.Controllers
             }
             if (!await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", "شماره وارد شده اشتباه است.");
+                ModelState.AddModelError("Mobile", "شماره موبایل وارد شده اشتباه است.");
                 return View(model);
             }
-            
-            return RedirectToAction("ActivateUser", new ActivateDto { Mobile = model.Mobile });
+
+            return await ResendActiveCode(model.Mobile);
+        }
+
+        public IActionResult ResetPassword(string mobile)
+        {
+            return View(new RegisterDto() { Mobile = mobile });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string mobile, RegisterDto model)
+        {
+            if (mobile != model.Mobile)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _accountRepository.GetUser(mobile);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var hash = HashGenerators.Encrypt(model.Password);
+            user.Password = hash;
+            user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
+            await _accountRepository.UpdateUser(user);
+
+            return RedirectToAction("Login");
         }
     }
 }

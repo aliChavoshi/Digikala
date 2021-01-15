@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210115160911_ConfirmActiveCodeUserEntity")]
+    partial class ConfirmActiveCodeUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
