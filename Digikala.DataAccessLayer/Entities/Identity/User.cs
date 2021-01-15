@@ -41,6 +41,7 @@ namespace Digikala.DataAccessLayer.Entities.Identity
         [MaxLength(100, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string Fullname { get; set; }
 
+        public bool ConfirmActiveCode { get; set; } = false;
 
         #region 8Command
 
