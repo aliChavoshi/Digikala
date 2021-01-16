@@ -17,7 +17,7 @@ namespace Digikala.Core.Classes
                 .ForMember(x => x.Password,
                     c => c.MapFrom(v => HashGenerators.Encrypt(v.Password)))
                 .ForMember(x => x.RoleId,
-                    c => c.MapFrom(v => 2));
+                    c => c.MapFrom(v => 1));
 
             #endregion
 
