@@ -41,7 +41,11 @@ namespace Digikala.DataAccessLayer.Entities.Identity
         [MaxLength(100, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         public string Fullname { get; set; }
 
-        public bool ConfirmActiveCode { get; set; } = false;
+        [Display(Name = "تایید شماره موبایل")]
+        public bool ConfirmMobile { get; set; } = false;
+        
+        [Display(Name = "تایید ایمیل")]
+        public bool ConfirmEmail { get; set; } = false;
 
         #region Relations
 
@@ -49,7 +53,7 @@ namespace Digikala.DataAccessLayer.Entities.Identity
         public Role Role { get; set; }
 
         [InverseProperty("User")]
-        public Store Store { get; set; }
+        public Store.Store Store { get; set; }
 
         #endregion
     }

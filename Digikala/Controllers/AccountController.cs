@@ -106,7 +106,7 @@ namespace Digikala.Controllers
                 ModelState.AddModelError("ActiveCode", "کد وارد شده اشتباه است لطفا مجدد تلاش کنید .");
                 return View(model);
             }
-            if (user.IsActive && user.ConfirmActiveCode)
+            if (user.IsActive && user.ConfirmMobile)
             {
                 return RedirectToAction("ResetPassword", new RegisterDto { Mobile = model.Mobile });
             }

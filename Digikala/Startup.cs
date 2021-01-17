@@ -51,9 +51,10 @@ namespace Digikala
             #region IOC
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //services.AddTransient<IUserService, UserService>();
-            //services.AddTransient<IRolePermissionService, RolePermissionService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRolePermissionService, RolePermissionService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
             #endregion
 
             #region AutoMapping

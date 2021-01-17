@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Digikala.DataAccessLayer.Entities.Identity;
 
-namespace Digikala.DataAccessLayer.Entities
+namespace Digikala.DataAccessLayer.Entities.Store
 {
     public class Store : Commands
     {
@@ -11,7 +11,6 @@ namespace Digikala.DataAccessLayer.Entities
 
         [Display(Name = "نام فروشگاه")]
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Name { get; set; }
 
         [Display(Name = "آدرس فروشگاه")]
@@ -24,11 +23,6 @@ namespace Digikala.DataAccessLayer.Entities
         [MaxLength(50, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         [DataType(DataType.PhoneNumber)]
         public string Tel { get; set; }
-
-        [Display(Name = "ایمیل فروشگاه")]
-        [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
-        [DataType(DataType.EmailAddress)]
-        public string Mail { get; set; }
 
         [Display(Name = "تصویر")]
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]

@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210117092346_RemoveEmailFromStore")]
+    partial class RemoveEmailFromStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,10 +102,7 @@ namespace Digikala.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<bool>("ConfirmEmail")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ConfirmMobile")
+                    b.Property<bool>("ConfirmActiveCode")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("CreateDate")
@@ -157,7 +156,7 @@ namespace Digikala.DataAccessLayer.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Store.Store", b =>
+            modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Store", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -187,6 +186,7 @@ namespace Digikala.DataAccessLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -233,11 +233,11 @@ namespace Digikala.DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Store.Store", b =>
+            modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Store", b =>
                 {
                     b.HasOne("Digikala.DataAccessLayer.Entities.Identity.User", "User")
                         .WithOne("Store")
-                        .HasForeignKey("Digikala.DataAccessLayer.Entities.Store.Store", "UserId")
+                        .HasForeignKey("Digikala.DataAccessLayer.Entities.Store", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

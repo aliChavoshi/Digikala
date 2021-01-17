@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Digikala.DataAccessLayer.Entities;
 using Digikala.DataAccessLayer.Entities.Identity;
+using Digikala.DataAccessLayer.Entities.Store;
 using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.DataAccessLayer.Context

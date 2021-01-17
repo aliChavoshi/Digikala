@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Digikala.Core.Utility;
 using Digikala.DataAccessLayer.Entities.Identity;
+using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.AccountDtos;
+using Digikala.DTOs.Store;
 
 namespace Digikala.Core.Classes
 {
@@ -21,6 +23,13 @@ namespace Digikala.Core.Classes
 
             #endregion
 
+            #region Store
+
+            CreateMap<StoreRegisterDto, Store>()
+                .ForMember(x => x.IsActive,
+                    c => c.MapFrom(v => false));
+
+            #endregion
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Digikala.Core.Services
             var user = await GetUser(mobile);
 
             user.IsActive = true;
-            user.ConfirmActiveCode = true;
+            user.ConfirmMobile = true;
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
             await UpdateUser(user);
             return true;
