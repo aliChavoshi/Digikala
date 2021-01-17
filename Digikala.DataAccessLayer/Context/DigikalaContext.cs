@@ -16,8 +16,9 @@ namespace Digikala.DataAccessLayer.Context
         public DbSet<Permission> Permission { get; set; }
         public DbSet<RolePermission> RolePermission { get; set; }
         public DbSet<User> User { get; set; }
-        
-        
+        public DbSet<Store> Stores { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -27,8 +28,19 @@ namespace Digikala.DataAccessLayer.Context
 
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
+
+
+            modelBuilder.Entity<User>()
+                .HasQueryFilter(u => u.IsDeleted == false);
             
-            
+            modelBuilder.Entity<Role>()
+                .HasQueryFilter(u => u.IsDeleted== false);
+
+            modelBuilder.Entity<Permission>()
+                .HasQueryFilter(u => u.IsDeleted == false);
+
+            modelBuilder.Entity<Store>()
+                .HasQueryFilter(u => u.IsDeleted == false);
         }
     }
 }

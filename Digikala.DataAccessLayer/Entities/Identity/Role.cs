@@ -14,7 +14,7 @@ namespace Digikala.DataAccessLayer.Entities.Identity
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         public string Title { get; set; }
 
-        public bool IsDelete { get; set; }
+        public bool IsDeleted { get; set; }
 
         #region Relations
 
