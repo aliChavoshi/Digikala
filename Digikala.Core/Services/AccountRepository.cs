@@ -25,6 +25,11 @@ namespace Digikala.Core.Services
             return await _unitOfWork.Repository<User>().IsExist(x => x.Mobile == mobileNumber);
         }
 
+        public async Task<bool> IsExistMail(string mail)
+        {
+            return await _unitOfWork.Repository<User>().IsExist(x => x.Email == mail);
+        }
+
         public async Task AddUser(User user)
         {
             await _unitOfWork.Repository<User>().Add(user);
@@ -33,7 +38,7 @@ namespace Digikala.Core.Services
 
         public async Task<bool> ActivateUser(string activeCode, string mobile)
         {
-            var user = await GetUser(mobile);
+            var user = await GetUserByMobile(mobile);
 
             user.IsActive = true;
             user.ConfirmMobile = true;
@@ -42,7 +47,7 @@ namespace Digikala.Core.Services
             return true;
         }
 
-        public async Task<User> GetUser(string mobile)
+        public async Task<User> GetUserByMobile(string mobile)
         {
             return await _unitOfWork.Repository<User>().SingleOrDefaultAsync(x => x.Mobile == mobile);
         }
@@ -71,6 +76,15 @@ namespace Digikala.Core.Services
             user.Mobile = newMobile;
             await UpdateUser(user);
             return user;
+        }
+        public async Task<int> GetUserRole(int userId)
+        {
+            return (await GetUserById(userId)).RoleId;
+        }
+
+        public async Task<User> GetUserById(int userId)
+        {
+            return await _unitOfWork.Repository<User>().GetById(userId);
         }
     }
 }
