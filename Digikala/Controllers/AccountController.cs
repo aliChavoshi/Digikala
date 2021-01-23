@@ -100,7 +100,7 @@ namespace Digikala.Controllers
             }
             var mergeCode = CodeGenerators.MergeCodes(model.ActiveCode);
 
-            var user = await _accountRepository.GetUser(model.Mobile);
+            var user = await _accountRepository.GetUserByMobile(model.Mobile);
             if (user.ActiveCode != mergeCode)
             {
                 ModelState.AddModelError("ActiveCode", "کد وارد شده اشتباه است لطفا مجدد تلاش کنید .");
@@ -121,7 +121,7 @@ namespace Digikala.Controllers
 
         public async Task<IActionResult> ResendActiveCode(string mobile)
         {
-            var user = await _accountRepository.GetUser(mobile);
+            var user = await _accountRepository.GetUserByMobile(mobile);
             if (user == null)
             {
                 return NotFound();
@@ -140,7 +140,7 @@ namespace Digikala.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangeMobileNumber(string mobile)
         {
-            var user = await _accountRepository.GetUser(mobile);
+            var user = await _accountRepository.GetUserByMobile(mobile);
             if (user == null)
             {
                 return NotFound();
@@ -160,7 +160,7 @@ namespace Digikala.Controllers
                 ModelState.AddModelError("NewMobile", "قبلا با  این شماره تلفن ثبت نام کرده اید.");
                 return View(model);
             }
-            var user = await _accountRepository.GetUser(model.OldMobile);
+            var user = await _accountRepository.GetUserByMobile(model.OldMobile);
             if (user == null)
             {
                 return NotFound();
@@ -264,7 +264,7 @@ namespace Digikala.Controllers
                 return View(model);
             }
 
-            var user = await _accountRepository.GetUser(mobile);
+            var user = await _accountRepository.GetUserByMobile(mobile);
             if (user == null)
             {
                 return NotFound();
@@ -276,6 +276,12 @@ namespace Digikala.Controllers
             await _accountRepository.UpdateUser(user);
 
             return RedirectToAction("Login");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/");
         }
     }
 }
