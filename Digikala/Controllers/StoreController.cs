@@ -59,6 +59,11 @@ namespace Digikala.Controllers
             //اگر ایمیلی وجود نداشت باید ایمیل را ثبت کنیم
             if (string.IsNullOrEmpty(user.Email))
             {
+                if (await _accountRepository.IsExistMail(model.Email))
+                {
+                    ModelState.AddModelError("Email", "قبلا از این ایمیل استفاده شده است لطفا ایمیل را بررسی کنید.");
+                    return View(model);
+                }
                 //TODO CONFIRM EMAIL
                 //TODO If Emial is Valid Then Confirm Email
                 user.Email = model.Email;
@@ -74,7 +79,8 @@ namespace Digikala.Controllers
             store.UserId = user.Id;
 
             await _storeRepository.Insert(store);
-
+            TempData["IsSuccess"] = true;
+            
             return View();
         }
     }

@@ -3,6 +3,17 @@
     ViewBag.Title = "ثبت نام در فروشندگان";
     Layout = "_RegisterLayout";
 }
+@if (TempData["IsSuccess"] != null)
+{
+    <script>
+        swal({
+            title: "موفق",
+            text: "فروشگاه شما با موفقیت ساخته شد  پس از تایید ایمیل امکان استفاده از فروشگاه را خواهید داشت",
+            icon: "success",
+            button: "باشه"
+        });
+    </script>
+}
 
 <!-- Start mini-header -->
 <partial name="Account/_PartialMiniHeader" />
