@@ -51,7 +51,6 @@ namespace Digikala
             #region IOC
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRolePermissionService, RolePermissionService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
@@ -80,20 +79,33 @@ namespace Digikala
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseRouting();
             app.UseStaticFiles();
             app.UseResponseCaching();
-            
+
+
             app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "areaRoute",
+                    pattern: "{area:exists}/{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
+            /*app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
-            });
+            });*/
         }
     }
 }
