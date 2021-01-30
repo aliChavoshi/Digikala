@@ -8,8 +8,10 @@ using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Utility;
 using Digikala.DataAccessLayer.Entities.Store;
+using Digikala.DTOs.AccountDtos;
 using Digikala.DTOs.Store;
 using Ghasedak.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.ProjectModel;
 
 namespace Digikala.Controllers
@@ -27,6 +29,7 @@ namespace Digikala.Controllers
             _storeRepository = storeRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
         public IActionResult Create() => View();
 
@@ -80,7 +83,51 @@ namespace Digikala.Controllers
 
             await _storeRepository.Insert(store);
             TempData["IsSuccess"] = true;
-            
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Login() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginStoreDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var hashPass = HashGenerators.Encrypt(model.Password);
+            var user = await _accountRepository.GetUser(model.Mobile, hashPass);
+            if (user != null)
+            {
+                if (user.IsActive)
+                {
+                    if (!await _storeRepository.IsExistUser(user.Id))
+                    {
+                        ModelState.AddModelError("Mobile", "چنین کاربری هم اکنون در فروشنگان یافت نشد ، لطفا ابتدا در بخش فروشندگان ثبت نام کنید");
+                        return View(model);
+                    }
+                    if (!await _storeRepository.IsActiveStore(user.Id))
+                    {
+                        ModelState.AddModelError("Mobile", "فروشگاه شما هنوز فعال نشده است با مدیر سایت ارتباط برقرار کنید");
+                        return View(model);
+                    }
+                    //TODO Index TempData Swal
+                    TempData["LoginSuccess"] = true;
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("Mobile", "حساب کاربری شما غیر فعال میباشد");
+                return View(model);
+            }
+            ModelState.AddModelError("Mobile", "کاربری با مشخصات وارد شده یافت نشد");
+            return View(model);
+        }
+
+        [HttpGet]
+        [Permission(5)]
+        public async Task<IActionResult> Index()
+        {
             return View();
         }
     }

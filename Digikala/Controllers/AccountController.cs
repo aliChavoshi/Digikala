@@ -194,7 +194,6 @@ namespace Digikala.Controllers
                 if (user.IsActive)
                 {
                     #region LognInWeb
-
                     await LoginUserClaim(user, model.RememberMe);
                     #endregion
 
@@ -207,7 +206,6 @@ namespace Digikala.Controllers
                     }
                     else
                     {
-                        //TODO
                         TempData["LoginSuccess"] = true;
                         return Redirect("/");
                     }
@@ -223,8 +221,6 @@ namespace Digikala.Controllers
                 ModelState.AddModelError("Mobile", "کاربری با مشخصات وارد شده یافت نشد");
                 return View(model);
             }
-
-            //TODO
             return View(model);
         }
 

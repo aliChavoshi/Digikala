@@ -23,5 +23,10 @@ namespace Digikala.Core.Services
         {
             return await _unitOfWork.Repository<Store>().IsExist(x => x.UserId == userId);
         }
+
+        public async Task<bool> IsActiveStore(int userId)
+        {
+            return await _unitOfWork.Repository<Store>().IsExist(x => x.UserId == userId && x.IsActive);
+        }
     }
 }
