@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using AutoMapper;
-using Digikala.Core.Classes;
+﻿using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Services;
 using Digikala.DataAccessLayer.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Digikala
 {
@@ -85,27 +83,6 @@ namespace Digikala
             app.UseRouting();
             app.UseStaticFiles();
             app.UseResponseCaching();
-
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "areaRoute",
-                    pattern: "{area:exists}/{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
-            });
-            /*app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });*/
         }
     }
 }

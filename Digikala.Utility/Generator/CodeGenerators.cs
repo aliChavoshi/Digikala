@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Digikala.Core.Utility
+namespace Digikala.Utility.Generator
 {
     public class CodeGenerators
     {

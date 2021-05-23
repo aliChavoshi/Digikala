@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
-using Digikala.Core.Utility;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DTOs.AccountDtos;
+using Digikala.Utility.Generator;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -25,6 +25,8 @@ namespace Digikala.Controllers
             _accountRepository = accountRepository;
             _mapper = mapper;
         }
+
+        #region Properties
 
         private async Task SendSms(string mobile, string activeCode)
         {
@@ -54,6 +56,8 @@ namespace Digikala.Controllers
             };
             await HttpContext.SignInAsync(principal, properties);
         }
+
+        #endregion
 
         [HttpGet]
         public IActionResult Register() => View();

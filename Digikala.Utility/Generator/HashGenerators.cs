@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Digikala.Core.Utility
+namespace Digikala.Utility.Generator
 {
     public static class HashGenerators
     {

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Digikala.Core.Interfaces;
-using Digikala.Core.Utility;
 using Digikala.DataAccessLayer.Entities.Identity;
+using Digikala.Utility.Generator;
 using Microsoft.AspNetCore.Http;
 
 namespace Digikala.Core.Services

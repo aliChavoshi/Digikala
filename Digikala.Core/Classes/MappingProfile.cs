@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Digikala.Core.Utility;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.AccountDtos;
 using Digikala.DTOs.Store;
+using Digikala.Utility.Generator;
 
 namespace Digikala.Core.Classes
 {

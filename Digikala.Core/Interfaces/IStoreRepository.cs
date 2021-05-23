@@ -1,6 +1,5 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using Digikala.DataAccessLayer.Entities.Store;
 using System.Threading.Tasks;
-using Digikala.DataAccessLayer.Entities.Store;
 
 namespace Digikala.Core.Interfaces
 {
