@@ -2,7 +2,7 @@
 
 namespace Digikala.DTOs.AccountDtos
 {
-    public class RegisterDto
+    public class ResetPasswordDto
     {
         [Display(Name = "تلفن همراه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -25,5 +25,12 @@ namespace Digikala.DTOs.AccountDtos
         [MinLength(5, ErrorMessage = "کلمه عبور نباید از پنج کارکتر کمتر باشد")]
         [Compare(nameof(Password), ErrorMessage = "کلمه عبور یکسان نمیباشد.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "کد فعال سازی")]
+        [MaxLength(5, ErrorMessage = "{0} اشتباه وارد شده است")]
+        [MinLength(5, ErrorMessage = "{0} اشتباه وارد شده است")]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+        [DataType(DataType.Password, ErrorMessage = "مقدار عددی وارد کنید کد وارد شده اشتباه است")]
+        public string ActiveCode { get; set; }
     }
 }

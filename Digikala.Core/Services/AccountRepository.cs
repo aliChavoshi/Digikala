@@ -36,15 +36,12 @@ namespace Digikala.Core.Services
             await _unitOfWork.Complete();
         }
 
-        public async Task<bool> ActivateUser(string activeCode, string mobile)
+        public async Task ConfirmMobileAndActiveUser(User user)
         {
-            var user = await GetUserByMobile(mobile);
-
             user.IsActive = true;
             user.ConfirmMobile = true;
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
             await UpdateUser(user);
-            return true;
         }
 
         public async Task<User> GetUserByMobile(string mobile)
@@ -54,8 +51,9 @@ namespace Digikala.Core.Services
 
         public async Task<User> GetUser(string mobile, string password)
         {
+            var hashPassword = HashGenerators.Encrypt(password);
             return await _unitOfWork.Repository<User>()
-                .SingleOrDefaultAsync(x => x.Mobile == mobile && x.Password == password);
+                .SingleOrDefaultAsync(x => x.Mobile == mobile && x.Password == hashPassword);
         }
 
         public async Task UpdateUser(User user)

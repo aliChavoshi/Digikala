@@ -9,7 +9,7 @@ namespace Digikala.Utility.Generator
             var random = new Random();
             return random.Next(10000, 99999).ToString();
         }
-        public static string MergeCodes(int[] numbers)
+        public static string MergeIntArray(int[] numbers)
         {
             var code = "";
             foreach (var number in numbers)
@@ -24,7 +24,7 @@ namespace Digikala.Utility.Generator
             return random.Next(10000000, 99999999).ToString();
         }
 
-        public static string FileCodeToSave()
+        public static string GuidId()
         {
             return Guid.NewGuid().ToString().Replace("-", "");
         }

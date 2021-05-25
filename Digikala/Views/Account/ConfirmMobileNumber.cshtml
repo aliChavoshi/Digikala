@@ -1,35 +1,35 @@
-﻿@model Digikala.DTOs.AccountDtos.ActivateDto
+﻿@model Digikala.DTOs.AccountDtos.ConfirmMobileDto
 
 @{
     ViewBag.Title = "تایید شماره همراه";
     Layout = "_RegisterLayout";
 }
 
-
 @if (TempData["ResendActiveCode"] != null)
 {
     <script>
         swal({
             title: "موفق",
-            text: "کد فعالسازی حساب برای شما پیامک گردید.",
+            text: "کد فعالسازی شماره همراه برای شما پیامک گردید",
             icon: "success",
             button: "باشه"
         });
     </script>
 }
 
-<!-- Start mini-header -->
-<partial name="Account/_PartialMiniHeader" />
-<!-- End mini-header -->
+
 <!-- Start main-content -->
 <!-- Start main-content -->
 <main class="main-content dt-sl mt-4 mb-3">
     <div class="container main-container">
         <div class="row">
             <div class="col-xl-4 col-lg-5 col-md-7 col-12 mx-auto">
-                <div class="form-ui dt-sl dt-sn pt-4">
+                <!-- Start mini-header -->
+                <partial name="Account/_PartialMiniHeader" />
+                <!-- End mini-header -->
+                <div class="auth-wrapper form-ui pt-4">
                     <div class="section-title title-wide mb-1 no-after-title-wide">
-                        <h2 class="font-weight-bold">تایید شماره</h2>
+                        <h2 class="font-weight-bold">تایید شماره همراه</h2>
                     </div>
                     <div class="message-light">
                         برای شماره همراه @Model.Mobile کد تایید ارسال گردید
@@ -37,8 +37,9 @@
                             ویرایش شماره
                         </a>
                     </div>
-                    <form method="post">
+                    <form method="post" id="form">
                         <input type="hidden" asp-for="Mobile" />
+                        <input type="hidden" name="resendCode" id="resendCode" value="false" />
                         <div class="form-row-title">
                             <h3>کد تایید را وارد کنید</h3>
                         </div>
@@ -46,18 +47,17 @@
                         <div class="form-row">
                             <div class="numbers-verify">
                                 <div class="lines-number-input">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1"  autofocus="">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" >
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" >
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" >
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" >
+                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" autofocus="">
+                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
                                 </div>
                             </div>
                         </div>
-                        @*TODO Resend Active Code*@
                         <div class="form-row mt-2">
-                            <span class="text-primary">دریافت مجدد کد تایید</span> (
-                            <p id="countdown-verify-end"></p> )
+                            <span class="text-primary">دریافت مجدد کد تایید</span>(
+                            <p id="countdown-verify-end"></p>)
                         </div>
                         <div class="form-row-title mt-2">
                             <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
@@ -69,11 +69,14 @@
                                 تایید کردن شماره
                             </button>
                         </div>
-                        <div class="form-footer text-right mt-3">
-                            <span class="d-block font-weight-bold">کاربر جدید هستید؟</span>
-                            <a asp-action="Register" class="d-inline-block mr-3 mt-2">ثبت نام در دیدیکالا</a>
-                        </div>
+
                     </form>
+                    <div class="form-footer mt-3">
+                        <div>
+                            <span class="font-weight-bold">کاربر جدید هستید؟</span>
+                            <a asp-action="Register" class="mr-3 mt-2">ثبت نام در دیدیکالا</a><br />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,4 +91,13 @@
 @section Script
 {
     <script src="/digikalaTemplate/js/vendor/countdown.min.js"></script>
+    <script>
+        $('#countdown-verify-end').click(function () {
+            var tag = $('#countdown-verify-end').children('a').removeAttr("href");
+            if (tag.length != 0) {
+                $('#resendCode').val('true');
+                $('#form').submit();
+            }
+        });
+    </script>
 }

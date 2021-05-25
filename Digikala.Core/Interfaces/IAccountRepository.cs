@@ -8,7 +8,7 @@ namespace Digikala.Core.Interfaces
         Task<bool> IsExistMobileNumber(string mobileNumber);
         Task<bool> IsExistMail(string mail);
         Task AddUser(User user);
-        Task<bool> ActivateUser(string activeCode,string mobile);
+        Task ConfirmMobileAndActiveUser(User user);
         Task<User> GetUserByMobile(string mobile);
         Task<User> GetUser(string mobile, string password);
         Task<User> GetUserById(int userId);

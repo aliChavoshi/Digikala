@@ -1,18 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Entities.Store;
-using Digikala.DTOs.AccountDtos;
 using Digikala.DTOs.Store;
 using Digikala.Utility.Generator;
-using Ghasedak.Core.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.ProjectModel;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Digikala.Controllers
 {
@@ -46,8 +39,7 @@ namespace Digikala.Controllers
                 return View(model);
             }
 
-            var hashPass = HashGenerators.Encrypt(model.Password);
-            var user = await _accountRepository.GetUser(model.Mobile, hashPass);
+            var user = await _accountRepository.GetUser(model.Mobile, model.Password);
             if (user == null)
             {
                 ModelState.AddModelError("Password", "لطفا شماره همراه یا کلمه عبور خود را بررسی کنید");
@@ -68,7 +60,7 @@ namespace Digikala.Controllers
                     return View(model);
                 }
                 //TODO CONFIRM EMAIL
-                //TODO If Emial is Valid Then Confirm Email
+                //TODO If Email is Valid Then Confirm Email
                 user.Email = model.Email;
                 await _accountRepository.UpdateUser(user);
             }
@@ -97,8 +89,7 @@ namespace Digikala.Controllers
             {
                 return View(model);
             }
-            var hashPass = HashGenerators.Encrypt(model.Password);
-            var user = await _accountRepository.GetUser(model.Mobile, hashPass);
+            var user = await _accountRepository.GetUser(model.Mobile, model.Password);
             if (user != null)
             {
                 if (user.IsActive)
