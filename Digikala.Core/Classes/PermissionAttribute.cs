@@ -27,12 +27,12 @@ namespace Digikala.Core.Classes
                 var userRoleId = _accountRepository.GetUserRole(userId).Result;
                 if (!_rolePermissionService.IsRoleHavePermission(_permissionId, userRoleId).Result)
                 {
-                    context.Result = new RedirectResult("/Account/Login?returnUrl=" + context.HttpContext.Request.Path);
+                    context.Result = new RedirectResult("/Account/Login?permission=false&returnUrl=" + context.HttpContext.Request.Path);
                 }
             }
             else
             {
-                context.Result = new RedirectResult("/Account/Login?returnUrl=" + context.HttpContext.Request.Path);
+                context.Result = new RedirectResult("/Account/Login?permission=false&returnUrl=" + context.HttpContext.Request.Path);
             }
         }
     }

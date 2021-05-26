@@ -132,11 +132,17 @@ namespace Digikala.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login() => View();
+        public IActionResult Login(bool permission = true, string returnUrl = null)
+        {
+            ViewBag.returnUrl = returnUrl;
+            ViewBag.permission = permission;
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto model, string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);

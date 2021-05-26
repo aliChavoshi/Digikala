@@ -28,6 +28,11 @@ namespace Digikala.DataAccessLayer.Entities.Store
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         public string Logo { get; set; }
 
+        [Display(Name = "ایمیل")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
+        [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
+        public string StoreEmail { get; set; }
+
         #region Relations
 
         [ForeignKey("UserId")]

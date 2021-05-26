@@ -26,6 +26,17 @@
         });
     </script>
 }
+@if (ViewBag.permission == false)
+{
+    <script>
+        swal({
+            title: "دسترسی ندارد",
+            text: "شما به این بخش دسترسی ندارید!",
+            icon: "error",
+            button: "باشه"
+        });
+    </script>
+}
 
 <!-- Start main-content -->
 <!-- Start main-content -->
@@ -40,6 +51,7 @@
                         <h2 class="font-weight-bold">ورود</h2>
                     </div>
                     <form asp-action="Login">
+                        <input type="hidden" name="returnUrl" value="@ViewBag?.returnUrl" />
                         <div class="form-row-title">
                             <h3>شماره موبایل</h3>
                         </div>

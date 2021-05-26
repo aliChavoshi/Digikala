@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.Store;
-using Digikala.Utility.Generator;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Digikala.Core.Classes;
 
 namespace Digikala.Controllers
 {
@@ -35,16 +34,11 @@ namespace Digikala.Controllers
             }
             if (!await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", "شماره موبایل یافت نشد ابتدا در سایت ثبت نام کنید یا شماره را بررسی کنید");
+                ModelState.AddModelError("Mobile", $"با این شماره همراه {model.Mobile}در سایت ثبت نام نکرده اید");
                 return View(model);
             }
 
-            var user = await _accountRepository.GetUser(model.Mobile, model.Password);
-            if (user == null)
-            {
-                ModelState.AddModelError("Password", "لطفا شماره همراه یا کلمه عبور خود را بررسی کنید");
-                return View(model);
-            }
+            var user = await _accountRepository.GetUserByMobile(model.Mobile);
             if (await _storeRepository.IsExistUser(user.Id))
             {
                 ModelState.AddModelError("Mobile", "شما قبلا ثبت نام کرده اید لطفا وارد بخش فروشندگان شوید");
@@ -75,7 +69,6 @@ namespace Digikala.Controllers
 
             await _storeRepository.Insert(store);
             TempData["IsSuccess"] = true;
-
             return View();
         }
 
@@ -116,7 +109,6 @@ namespace Digikala.Controllers
         }
 
         [HttpGet]
-        [Permission(5)]
         public async Task<IActionResult> Index()
         {
             return View();

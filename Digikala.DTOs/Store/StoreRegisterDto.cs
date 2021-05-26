@@ -24,6 +24,6 @@ namespace Digikala.DTOs.Store
         [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
+        public string StoreEmail { get; set; }
     }
 }

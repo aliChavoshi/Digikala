@@ -1,18 +1,21 @@
 ﻿@{
     ViewBag.Title = "صفحه اصلی";
 }
+
 <!-- Start header -->
-<header class="main-header js-fixed-header dt-sl">
+<header class="main-header">
     <!-- Start ads -->
-    <a href="#" class="ads-header hidden-sm" target="_blank"
-       style="background-image: url(./digikalaTemplate/img/banner/large-ads.jpg)"></a>
+    <div class="ads-header-wrapper">
+        <a href="#" class="ads-header hidden-sm" target="_blank"
+           style="background-image: url(./digikalaTemplate/img/banner/large-ads.jpg)"></a>
+    </div>
     <!-- End ads -->
     <!-- Start topbar -->
     <div class="container main-container">
         <div class="topbar dt-sl">
             <div class="row">
                 <div class="col-lg-2 col-md-3 col-6">
-                    <div class="logo-area float-right">
+                    <div class="logo-area">
                         <a href="#">
                             <img src="./digikalaTemplate/img/logo.png" alt="">
                         </a>
@@ -23,8 +26,10 @@
                         <form action="" class="search">
                             <input type="text"
                                    placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
-                            <button type="submit"><img src="./digikalaTemplate/img/theme/search.png" alt=""></button>
-                            <button class="close-search-result" type="button"><i class="mdi mdi-close"></i></button>
+                            <i class="far fa-search search-icon"></i>
+                            <button class="close-search-result" type="button">
+                                <i class="mdi mdi-close"></i>
+                            </button>
                             <div class="search-result">
                                 <ul>
                                     <li>
@@ -79,8 +84,8 @@
     <div class="bottom-header dt-sl mb-sm-bottom-header">
         <div class="container main-container">
             <!-- Start Main-Menu -->
-            <nav class="main-menu dt-sl">
-                <ul class="list float-right hidden-sm">
+            <nav class="main-menu d-flex justify-content-md-between justify-content-end dt-sl">
+                <ul class="list hidden-sm">
                     <!-- mega menu 2 column -->
                     <li class="list-item list-item-has-children mega-menu mega-menu-col-2">
                         <a class="nav-link" href="#">کالای دیجیتال</a>
@@ -170,25 +175,46 @@
                                 <a class="nav-link" href="#">عنوان دسته</a>
                                 <ul class="sub-menu nav">
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو یک</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو یک
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو دو</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو دو
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو سه</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو سه
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو چهار</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو چهار
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو پنج</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو پنج
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو شش</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو شش
+                                        </a>
                                     </li>
                                     <li class="list-item">
-                                        <a class="nav-link" href="#"><i class="mdi mdi-brightness-percent"></i> زیر منو هفت</a>
+                                        <a class="nav-link" href="#">
+                                            <i class="mdi mdi-brightness-percent"></i>
+                                            زیر منو هفت
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -453,57 +479,131 @@
                             </li>
                         </ul>
                     </li>
-                <li class="list-item">
-                    <a class="nav-link" href="#">ورزش و سفر</a>
-                </li>
-                <li class="list-item">
-                    <a class="nav-link" asp-controller="Store" asp-action="Create">فروشنده شوید</a>
-                </li>
+                    <li class="list-item">
+                        <a class="nav-link" href="#">ورزش و سفر</a>
+                    </li>
                 </ul>
-                <ul class="nav float-left">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
+                <div class="nav">
+                    <div class="nav-item cart--wrapper">
+                        <a class="nav-link" href="#">
                             <span class="label-dropdown">سبد خرید</span>
                             <i class="mdi mdi-cart-outline"></i>
                             <span class="count">2</span>
                         </a>
-                        <div class="dropdown-menu cart dropdown-menu-sm dropdown-menu-left">
-                            <div class="dropdown-header">سبد خرید</div>
-                            <div class="dropdown-list-icons">
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon">
-                                        <img src="./digikalaTemplate/img/cart/01.jpg" alt="">
-                                    </div>
-                                    <div class="mr-3">
-                                        تیشرت مردانه
-                                        <div class="pt-1">۵۹,۰۰۰ تومان</div>
-                                    </div>
-                                    <button class="remove"><i class="mdi mdi-close"></i></button>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon">
-                                        <img src="./digikalaTemplate/img/cart/02.jpg" alt="">
-                                    </div>
-                                    <div class="mr-3">
-                                        کت مردانه
-                                        <div class="pt-1">۱۹۹,۰۰۰ تومان</div>
-                                    </div>
-                                    <button class="remove"><i class="mdi mdi-close"></i></button>
+                        <div class="header-cart-info">
+                            <div class="header-cart-info-header">
+                                <div class="header-cart-info-count">
+                                    3 کالا
+                                </div>
+                                <a href="#" class="header-cart-info-link">
+                                    <span>مشاهده سبد خرید</span>
                                 </a>
                             </div>
-                            <hr>
-                            <div class="dropdown-footer text-center">
-                                <div class="dt-sl mb-3">
-                                    <span class="float-right">جمع :</span>
-                                    <span class="float-left">۲۵۸,۰۰۰ تومان</span>
+                            <ul class="header-basket-list do-nice-scroll">
+                                <li class="cart-item">
+                                    <a href="#" class="header-basket-list-item">
+                                        <div class="header-basket-list-item-image">
+                                            <img src="./digikalaTemplate/img/cart/1.jpg" alt="">
+                                        </div>
+                                        <div class="header-basket-list-item-content">
+                                            <p class="header-basket-list-item-title">
+                                                گوشی موبایل سامسونگ مدل Galaxy A30 SM-A305F/DS دو سیم کارت ظرفیت
+                                                64 گیگابایت
+                                            </p>
+                                            <div class="header-basket-list-item-footer">
+                                                <div class="header-basket-list-item-props">
+                                                    <span class="header-basket-list-item-props-item">
+                                                        1 x
+                                                    </span>
+                                                    <span class="header-basket-list-item-props-item">
+                                                        <div class="header-basket-list-item-color-badge"
+                                                             style="background: #2196f3"></div>
+                                                        آبی
+                                                    </span>
+                                                </div>
+                                                <button class="header-basket-list-item-remove">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="cart-item">
+                                    <a href="#" class="header-basket-list-item">
+                                        <div class="header-basket-list-item-image">
+                                            <img src="./digikalaTemplate/img/cart/2.jpg" alt="">
+                                        </div>
+                                        <div class="header-basket-list-item-content">
+                                            <p class="header-basket-list-item-title">
+                                                گوشی موبایل هوآوی مدل Y9 2019 JKM-LX1 دو سیم کارت ظرفیت 64
+                                                گیگابایت
+                                            </p>
+                                            <div class="header-basket-list-item-footer">
+                                                <div class="header-basket-list-item-props">
+                                                    <span class="header-basket-list-item-props-item">
+                                                        1 x
+                                                    </span>
+                                                    <span class="header-basket-list-item-props-item">
+                                                        <div class="header-basket-list-item-color-badge"
+                                                             style="background: #212121"></div>
+                                                        سفید
+                                                    </span>
+                                                </div>
+                                                <button class="header-basket-list-item-remove">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="cart-item">
+                                    <a href="#" class="header-basket-list-item">
+                                        <div class="header-basket-list-item-image">
+                                            <img src="./digikalaTemplate/img/cart/3.jpg" alt="">
+                                        </div>
+                                        <div class="header-basket-list-item-content">
+                                            <p class="header-basket-list-item-title">
+                                                گوشی موبایل سامسونگ مدل Galaxy A70 SM-A705FN/DS دو سیم‌کارت
+                                                ظرفیت 128 گیگابایت
+                                            </p>
+                                            <div class="header-basket-list-item-footer">
+                                                <div class="header-basket-list-item-props">
+                                                    <span class="header-basket-list-item-props-item">
+                                                        1 x
+                                                    </span>
+                                                    <span class="header-basket-list-item-props-item">
+                                                        <div class="header-basket-list-item-color-badge"
+                                                             style="background: #FFFFFF"></div>
+                                                        سفید
+                                                    </span>
+                                                </div>
+                                                <button class="header-basket-list-item-remove">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="header-cart-info-footer">
+                                <div class="header-cart-info-total">
+                                    <span class="header-cart-info-total-text">مبلغ قابل پرداخت:</span>
+                                    <p class="header-cart-info-total-amount">
+                                        <span class="header-cart-info-total-amount-number">
+                                            9,500,000 <span>تومان</span>
+                                        </span>
+                                    </p>
                                 </div>
-                                <a href="#" class="btn btn-success">مشاهده سبد خرید</a>
-                                <a href="#" class="btn btn-primary">پرداخت</a>
+
+                                <div>
+                                    <a href="#" class="header-cart-info-submit">
+                                        ثبت سفارش
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
                 <button class="btn-menu">
                     <div class="align align__justify">
                         <span></span>
@@ -514,7 +614,7 @@
                 <div class="side-menu">
                     <div class="logo-nav-res dt-sl text-center">
                         <a href="#">
-                            <img src="/digikalaTemplate/img/logo.png" alt="">
+                            <img src="./digikalaTemplate/img/logo.png" alt="">
                         </a>
                     </div>
                     <div class="search-box-side-menu dt-sl text-center mt-2 mb-3">
@@ -722,7 +822,7 @@
 </header>
 <!-- End header -->
 <!-- Start main-content -->
-<main class="main-content dt-sl mt-4 mb-3">
+<main class="main-content dt-sl mb-3">
     <div class="container main-container">
 
         <!-- Start Main-Slider -->
@@ -753,7 +853,8 @@
             </aside>
             <div class="col-lg-8 col-md-12 order-1">
                 <!-- Start main-slider -->
-                <section id="main-slider" class="main-slider main-slider-cs mt-1 carousel slide carousel-fade card hidden-sm"
+                <section id="main-slider"
+                         class="main-slider main-slider-cs mt-1 carousel slide carousel-fade card hidden-sm"
                          data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#main-slider" data-slide-to="0" class="active"></li>
@@ -767,44 +868,37 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/1.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/1.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/2.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/2.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/3.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/3.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/4.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/4.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/5.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/5.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/6.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/6.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                         <div class="carousel-item">
                             <a class="main-slider-slide" href="#">
-                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/7.jpg" alt=""
-                                     class="img-fluid">
+                                <img src="./digikalaTemplate/img/main-slider/img-slider-2/7.jpg" alt="" class="img-fluid">
                             </a>
                         </div>
                     </div>
@@ -2372,31 +2466,31 @@
             <div class="row">
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="/digikalaTemplate/img/svg/delivery.svg">
+                        <img src="./digikalaTemplate/img/svg/delivery.svg">
                     </a>
                     <p>تحویل اکسپرس</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="/digikalaTemplate/img/svg/contact-us.svg">
+                        <img src="./digikalaTemplate/img/svg/contact-us.svg">
                     </a>
                     <p>پشتیبانی 24 ساعته</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="/digikalaTemplate/img/svg/payment-terms.svg">
+                        <img src="./digikalaTemplate/img/svg/payment-terms.svg">
                     </a>
                     <p>پرداخت درمحل</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="/digikalaTemplate/img/svg/return-policy.svg">
+                        <img src="./digikalaTemplate/img/svg/return-policy.svg">
                     </a>
                     <p>۷ روز ضمانت بازگشت</p>
                 </div>
                 <div class="service-item col">
                     <a href="#" target="_blank">
-                        <img src="/digikalaTemplate/img/svg/origin-guarantee.svg">
+                        <img src="./digikalaTemplate/img/svg/origin-guarantee.svg">
                     </a>
                     <p>ضمانت اصل بودن کالا</p>
                 </div>
@@ -2514,8 +2608,8 @@
                     </p>
                 </div>
                 <div class="symbol col-12 col-lg-5">
-                    <a href="#" target="_blank"><img src="/digikalaTemplate/img/symbol-01.png" alt=""></a>
-                    <a href="#" target="_blank"><img src="/digikalaTemplate/img/symbol-02.png" alt=""></a>
+                    <a href="#" target="_blank"><img src="./digikalaTemplate/img/symbol-01.png" alt=""></a>
+                    <a href="#" target="_blank"><img src="./digikalaTemplate/img/symbol-02.png" alt=""></a>
                 </div>
             </div>
         </div>
