@@ -1,32 +1,27 @@
 ﻿using System.Threading.Tasks;
 using Digikala.Core.Interfaces;
+using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Store;
 
 namespace Digikala.Core.Services
 {
-    public class StoreRepository : IStoreRepository
+    public class StoreRepository : GenericRepository<Store>, IStoreRepository
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly DigikalaContext _context;
 
-        public StoreRepository(IUnitOfWork unitOfWork)
+        public StoreRepository(DigikalaContext context) : base(context)
         {
-            _unitOfWork = unitOfWork;
-        }
-        public async Task<int> Insert(Store store)
-        {
-            await _unitOfWork.Repository<Store>().Add(store);
-            await _unitOfWork.Complete();
-            return store.UserId;
+            _context = context;
         }
 
         public async Task<bool> IsExistUser(int userId)
         {
-            return await _unitOfWork.Repository<Store>().IsExist(x => x.UserId == userId);
+            return await IsExist(x => x.UserId == userId);
         }
 
         public async Task<bool> IsActiveStore(int userId)
         {
-            return await _unitOfWork.Repository<Store>().IsExist(x => x.UserId == userId && x.IsActive);
+            return await IsExist(x => x.UserId == userId && x.IsActive);
         }
     }
 }

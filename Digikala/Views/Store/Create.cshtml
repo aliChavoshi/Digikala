@@ -1,80 +1,74 @@
 ﻿@model Digikala.DTOs.Store.StoreRegisterDto
 @{
-    ViewBag.Title = "فروشنده شوید";
-    Layout = "_RegisterLayout";
+	ViewBag.Title = "فروشنده شوید";
+	Layout = "_RegisterLayout";
 }
+
 @if (TempData["IsSuccess"] != null)
 {
-    <script>
-        swal({
-            title: "موفق",
-            text: "فروشگاه شما با موفقیت ساخته شد  پس از تایید ایمیل امکان استفاده از فروشگاه را خواهید داشت",
-            icon: "success",
-            button: "باشه"
-        });
-    </script>
+	<script>
+	 swal({
+	  title: "موفق",
+	  text: "فروشگاه شما با موفقیت ساخته شد  پس از تایید ایمیل امکان استفاده از فروشگاه را خواهید داشت",
+	  icon: "success",
+	  button: "باشه"
+	 });
+	</script>
 }
 
-<!-- Start mini-header -->
-<partial name="Account/_PartialMiniHeader" />
-<!-- End mini-header -->
 <!-- Start main-content -->
 <main class="main-content dt-sl mt-4 mb-3">
-    <div class="container main-container">
-        <div class="row">
-            <div class="col-xl-4 col-lg-5 col-md-7 col-12 mx-auto">
-                <div class="form-ui dt-sl dt-sn pt-4">
-                    <div class="section-title title-wide mb-1 no-after-title-wide">
-                        <h2 class="font-weight-bold">فروشنده شوید</h2>
-                    </div>
-                    <div class="message-light">
-                        اگر قبلا در فروشندگان ثبت نام کرده اید نیازی به ثبت نام مجدد نمیباشد
-                    </div>
-                    <form method="post">
-                        <div class="form-row-title">
-                            <h3>ایمیل </h3>
-                        </div>
-                        <div class="form-row with-icon">
-                            <input required asp-for="Email" type="email" class="input-ui pr-2" placeholder="لطفا ایمیل خود را وارد نمائید">
-                            <i class="mdi mdi-account-circle-outline"></i>
-                            <span class="text-danger font-weight-bold" asp-validation-for="Email"></span>
-                        </div>
-                        <div class="form-row-title">
-                            <h3>شماره موبایل</h3>
-                        </div>
-                        <div class="form-row with-icon">
-                            <input required asp-for="Mobile" type="tel" class="input-ui pr-2" placeholder="09">
-                            <i class="mdi mdi-account-circle-outline"></i>
-                            <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
-                        </div>
-                        <div class="form-row-title">
-                            <h3>رمز عبور</h3>
-                        </div>
-                        <div class="form-row with-icon">
-                            <input required asp-for="Password" type="password" class="input-ui pr-2" placeholder="رمز عبور خود را وارد نمایید">
-                            <i class="mdi mdi-lock-open-variant-outline"></i>
-                            <span class="text-danger font-weight-bold" asp-validation-for="Password"></span>
-                        </div>
-                        <div class="form-row mt-3">
-                            <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
-                                <i class="mdi mdi-account-circle-outline"></i>
-                                ثبت نام در فروشندگان
-                            </button>
-                        </div>
-                        <div class="form-footer text-right mt-3">
-                            <span class="d-block font-weight-bold">قبلا ثبت نام کرده اید؟</span>
-                            <a asp-controller="Store" asp-action="Login" class="d-inline-block mr-3 mt-2">وارد شوید</a>
-                        </div>
-                        <div class="form-footer text-right mt-3">
-                            <span class="d-block font-weight-bold">تاکنون در سایت ثبت نام نکرده اید ؟</span>
-                            <a asp-controller="Account" asp-action="Register" class="d-inline-block mr-3 mt-2">ثبت نام در سایت</a>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+ <div class="container main-container">
+  <div class="row">
+   <div class="col-xl-4 col-lg-5 col-md-7 col-12 mx-auto">
+	<!-- Start mini-header -->
+	<partial name="Account/_PartialMiniHeader" />
+	<!-- End mini-header -->
+	<div class="auth-wrapper form-ui pt-4">
+	 <div class="section-title title-wide mb-1 no-after-title-wide">
+	  <h2 class="font-weight-bold">فروشنده شوید</h2>
+	 </div>
+	 <div class="message-light">
+	  اگر قبلا ثبت نام کرده اید نیاز به ثبت نام مجدد نیست 
+	 </div>
+	 <form method="post">
+	  <div class="form-row-title">
+	   <h3>ایمیل فروشگاهی</h3>
+	  </div>
+	  <div class="form-row with-icon">
+	   <input required asp-for="Email" type="email" class="input-ui pr-2" placeholder="لطفا ایمیل خود را وارد نمائید">
+	   <i class="mdi mdi-account-circle-outline"></i>
+	   <span class="text-danger font-weight-bold" asp-validation-for="Email"></span>
+	  </div>
+	  <div class="form-row-title">
+	   <h3>شماره موبایل</h3>
+	  </div>
+	  <div class="form-row with-icon">
+	   <input required asp-for="Mobile" type="tel" class="input-ui pr-2" placeholder="09">
+	   <i class="mdi mdi-account-circle-outline"></i>
+	   <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
+	  </div>
+	  <div class="form-row mt-3">
+	   <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
+		<i class="mdi mdi-account-circle-outline"></i>
+		ثبت نام در فروشندگان
+	   </button>
+	  </div>
+	 </form>
+	 <div class="form-footer mt-3">
+	  <div>
+	   <span class="font-weight-bold">قبلا ثبت نام کرده اید ؟</span>
+	   <a asp-action="Login" class="mr-3 mt-2">ورود به فروشگاه</a><br />
+	  </div>
+	  <div class="mt-3">
+	   <span class="font-weight-bold">کاربر جدید هستید؟</span>
+	   <a asp-controller="Account" asp-action="Register" class="mr-3 mt-2">ثبت نام در سایت</a>
+	  </div>
+	 </div>
+	</div>
+   </div>
+  </div>
+ </div>
 </main>
 <!-- End main-content -->
 <!-- Start mini-footer -->

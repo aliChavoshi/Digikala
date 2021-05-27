@@ -34,10 +34,9 @@ namespace Digikala.Controllers
             }
             if (!await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", $"با این شماره همراه {model.Mobile}در سایت ثبت نام نکرده اید");
+                ModelState.AddModelError("Mobile", $"شما با این شماره {model.Mobile}  در سایت ثبت نام نکرده اید");
                 return View(model);
             }
-
             var user = await _accountRepository.GetUserByMobile(model.Mobile);
             if (await _storeRepository.IsExistUser(user.Id))
             {
@@ -50,7 +49,7 @@ namespace Digikala.Controllers
             {
                 if (await _accountRepository.IsExistMail(model.Email))
                 {
-                    ModelState.AddModelError("Email", "قبلا از این ایمیل استفاده شده است لطفا ایمیل را بررسی کنید.");
+                    ModelState.AddModelError("Email", "ایمیل وارد شده تکراری میباشد");
                     return View(model);
                 }
                 //TODO CONFIRM EMAIL
@@ -60,14 +59,16 @@ namespace Digikala.Controllers
             }
             else if (user.Email != model.Email)
             {
-                ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید همخوانی ندارد ");
+                ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید متفاوت است ");
                 return View(model);
             }
 
             var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
             store.UserId = user.Id;
 
-            await _storeRepository.Insert(store);
+            await _storeRepository.Add(store);
+            await _storeRepository.Save();
+
             TempData["IsSuccess"] = true;
             return View();
         }

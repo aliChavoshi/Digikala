@@ -18,7 +18,6 @@ namespace Digikala.DataAccessLayer.Entities.Store
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
 
-
         [Display(Name = "شماره تماس")]
         [MaxLength(50, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         [DataType(DataType.PhoneNumber)]
@@ -27,11 +26,6 @@ namespace Digikala.DataAccessLayer.Entities.Store
         [Display(Name = "تصویر")]
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         public string Logo { get; set; }
-
-        [Display(Name = "ایمیل")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
-        public string StoreEmail { get; set; }
 
         #region Relations
 

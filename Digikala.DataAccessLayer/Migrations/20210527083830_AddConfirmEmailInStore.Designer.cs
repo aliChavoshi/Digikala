@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210527083830_AddConfirmEmailInStore")]
+    partial class AddConfirmEmailInStore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,6 +168,9 @@ namespace Digikala.DataAccessLayer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<bool>("ConfirmEmail")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -189,6 +194,10 @@ namespace Digikala.DataAccessLayer.Migrations
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("StoreEmail")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Tel")
                         .HasMaxLength(50)
