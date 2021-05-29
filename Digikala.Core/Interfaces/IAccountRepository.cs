@@ -11,6 +11,7 @@ namespace Digikala.Core.Interfaces
         Task ConfirmMobileAndActiveUser(User user);
         Task<User> GetUserByMobile(string mobile);
         Task<User> GetUser(string mobile, string password);
+        Task<User> GetUserByEmail(string email, string password);
         Task<User> GetUserById(int userId);
         Task UpdateUser(User user);
         Task<User> ResetActiveCode(User user);

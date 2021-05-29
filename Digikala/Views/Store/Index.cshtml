@@ -1,8 +1,18 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
-    Layout = "_PanelLayout";
+     ViewData["Title"] = "Index";
+     Layout = "_PanelLayout";
 }
-
+@if (TempData["IsSuccess"] != null)
+{
+     <script>
+          swal({
+               title: "موفق",
+               text: "ورود با موفقیت انجام شد",
+               icon: "success",
+               button: "باشه"
+          });
+     </script>
+}
 <h1>Index</h1>
 

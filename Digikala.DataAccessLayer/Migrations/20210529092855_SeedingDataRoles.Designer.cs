@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210529092855_SeedingDataRoles")]
+    partial class SeedingDataRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,23 +177,6 @@ namespace Digikala.DataAccessLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConfirmEmail = true,
-                            ConfirmMobile = true,
-                            CreateDate = new DateTime(2021, 5, 29, 14, 5, 45, 463, DateTimeKind.Local).AddTicks(6351),
-                            Email = "Admin@gmail.com",
-                            Fullname = "Admin",
-                            IsActive = true,
-                            IsDeleted = false,
-                            Mobile = "09130242780",
-                            Password = "nRy/sK5Z7ENvGsSwfcmLzw==",
-                            RoleId = 3,
-                            Version = 0
-                        });
                 });
 
             modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Store.Store", b =>

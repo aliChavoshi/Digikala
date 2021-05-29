@@ -17,15 +17,15 @@ namespace Digikala.Core.Classes
             _permissionId = permissionId;
         }
 
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async void OnAuthorization(AuthorizationFilterContext context)
         {
             _accountRepository = (IAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IAccountRepository));
             _rolePermissionService = (IRolePermissionService)context.HttpContext.RequestServices.GetService(typeof(IRolePermissionService));
             if (context.HttpContext.User.Identity.IsAuthenticated)
             {
                 var userId = context.HttpContext.User.GetUserId();
-                var userRoleId = _accountRepository.GetUserRole(userId).Result;
-                if (!_rolePermissionService.IsRoleHavePermission(_permissionId, userRoleId).Result)
+                var userRoleId = await _accountRepository.GetUserRole(userId);
+                if (!await _rolePermissionService.IsRoleHavePermission(_permissionId, userRoleId))
                 {
                     context.Result = new RedirectResult("/Account/Login?permission=false&returnUrl=" + context.HttpContext.Request.Path);
                 }

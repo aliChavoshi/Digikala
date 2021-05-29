@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Digikala.DataAccessLayer.Entities;
-using Digikala.DataAccessLayer.Entities.Identity;
+﻿using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
+using Digikala.DataAccessLayer.SeedingData;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Digikala.DataAccessLayer.Context
 {
@@ -30,18 +30,21 @@ namespace Digikala.DataAccessLayer.Context
             foreach (var fk in cascadeFKs)
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
 
-
             modelBuilder.Entity<User>()
                 .HasQueryFilter(u => u.IsDeleted == false);
-            
+
             modelBuilder.Entity<Role>()
-                .HasQueryFilter(u => u.IsDeleted== false);
+                .HasQueryFilter(u => u.IsDeleted == false);
 
             modelBuilder.Entity<Permission>()
                 .HasQueryFilter(u => u.IsDeleted == false);
 
             modelBuilder.Entity<Store>()
                 .HasQueryFilter(u => u.IsDeleted == false);
+
+            //Seeding Data
+            DataSeeder.SeedRoles(modelBuilder);
+            DataSeeder.SeedUserAdmin(modelBuilder);
         }
     }
 }

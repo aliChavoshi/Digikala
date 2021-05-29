@@ -56,6 +56,12 @@ namespace Digikala.Core.Services
                 .SingleOrDefaultAsync(x => x.Mobile == mobile && x.Password == hashPassword);
         }
 
+        public async Task<User> GetUserByEmail(string email, string password)
+        {
+            return await _unitOfWork.Repository<User>()
+                .FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim() && x.Password == HashGenerators.Encrypt(password));
+        }
+
         public async Task UpdateUser(User user)
         {
             _unitOfWork.Repository<User>().Update(user);

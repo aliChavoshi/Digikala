@@ -11,7 +11,7 @@ namespace Digikala.DTOs.Store
         [MinLength(11, ErrorMessage = "شماره همراه حداقل 11 کاراکتر میباشد.")]
         public string Mobile { get; set; }
 
-        [Display(Name = "ایمیل فروشگاهی")]
+        [Display(Name = "ایمیل ")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد")]
         [DataType(DataType.EmailAddress)]
