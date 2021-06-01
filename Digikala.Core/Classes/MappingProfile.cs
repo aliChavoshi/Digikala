@@ -20,7 +20,6 @@ namespace Digikala.Core.Classes
                     c => c.MapFrom(v => HashGenerators.Encrypt(v.Password)))
                 .ForMember(x => x.RoleId,
                     c => c.MapFrom(v => 1));
-
             #endregion
 
             #region Store
@@ -28,6 +27,17 @@ namespace Digikala.Core.Classes
             CreateMap<StoreRegisterDto, Store>()
                 .ForMember(x => x.IsActive,
                     c => c.MapFrom(v => false));
+
+            CreateMap<StoreRegisterDto, User>()
+                .ForMember(x => x.Password,
+                    c =>
+                        c.MapFrom(v => HashGenerators.Encrypt(v.Password)))
+                .ForMember(x => x.ActiveCode,
+                    c =>
+                        c.MapFrom(v => CodeGenerators.ActiveCodeFiveNumbers()))
+                .ForMember(x => x.RoleId,
+                    c =>
+                        c.MapFrom(v => 2));
 
             #endregion
         }

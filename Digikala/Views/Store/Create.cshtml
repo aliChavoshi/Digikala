@@ -48,6 +48,15 @@
                                    <i class="mdi mdi-phone-incoming"></i>
                                    <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
                               </div>
+                              <div class="form-row-title">
+                                   <h3>رمز عبور</h3>
+                              </div>
+                              <div class="form-row with-icon">
+                                   <input required asp-for="Password" type="password" class="input-ui pr-2"
+                                          placeholder="رمز عبور خود را وارد نمایید">
+                                   <i class="mdi mdi-lock-open-variant-outline"></i>
+                                   <span class="text-danger font-weight-bold" asp-validation-for="Password"></span>
+                              </div>
                               <div class="form-row mt-3">
                                    <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
                                         <i class="mdi mdi-account-circle-outline"></i>

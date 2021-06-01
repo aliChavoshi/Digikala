@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Digikala.Core.Classes;
@@ -28,7 +29,11 @@ namespace Digikala.Controllers
         }
 
         #region Properties
-
+        private static async Task SendSms(string mobile, string activeCode)
+        {
+            var messageSender = new MessageSender();
+            await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
+        }
         private async Task LoginUserClaim(User user)
         {
             var claims = new List<Claim>
@@ -61,50 +66,73 @@ namespace Digikala.Controllers
             {
                 return View(model);
             }
-            if (!await _accountRepository.IsExistMobileNumber(model.Mobile))
+            if (await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", $"شما با این شماره {model.Mobile}  در سایت ثبت نام نکرده اید");
-                return View(model);
-            }
-            var user = await _accountRepository.GetUserByMobile(model.Mobile);
-            if (await _storeRepository.IsExistUser(user.Id))
-            {
-                ModelState.AddModelError("Mobile", "شما قبلا ثبت نام کرده اید لطفا وارد بخش فروشندگان شوید");
-                return View(model);
-            }
+                var user = await _accountRepository.GetUser(model.Mobile, model.Password);
+                if (user == null)
+                {
+                    ModelState.AddModelError(nameof(model.Mobile), "شماره همراه یا رمز عبور اشتباه است ");
+                    return View(model);
+                }
+                if (await _storeRepository.IsExistUser(user.Id))
+                {
+                    ModelState.AddModelError("Mobile", "شما قبلا ثبت نام کرده اید لطفا وارد بخش فروشندگان شوید");
+                    return View(model);
+                }
 
-            #region CheckingEmail
+                #region CheckingEmail
+                //کاربر ایمیل از قبل نداشته است
+                if (string.IsNullOrEmpty(user.Email))
+                {
+                    if (await _accountRepository.IsExistMail(model.Email))
+                    {
+                        ModelState.AddModelError("Email", "ایمیل وارد شده تکراری میباشد");
+                        return View(model);
+                    }
+                    //TODO CONFIRM EMAIL SEND EMAIL
+                    //TODO IsActive Store with EMail
+                    user.Email = model.Email;
+                }
+                //ایمیلی که الان میزند با ایمیلی که قبلا زده متفاوت است
+                else if (user.Email != model.Email)
+                {
+                    ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید متفاوت است ");
+                    return View(model);
+                }
 
-            //کاربر ایمیل از قبل نداشته است
-            if (string.IsNullOrEmpty(user.Email))
+                #endregion
+
+                var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
+                store.UserId = user.Id;
+
+                //update user to store roleId
+                await _storeRepository.Add(store);
+                await _accountRepository.UpdateSaveUserRoleId(user, 2);
+
+                TempData["IsSuccess"] = true;
+                return View();
+            }
+            else
             {
                 if (await _accountRepository.IsExistMail(model.Email))
                 {
-                    ModelState.AddModelError("Email", "ایمیل وارد شده تکراری میباشد");
+                    ModelState.AddModelError(nameof(model.Email), "ایمیل وارد شده با شماره همراه همخوانی ندارد");
                     return View(model);
                 }
-                //TODO CONFIRM EMAIL SEND EMAIL
-                //TODO IsActive Store with EMail
-                user.Email = model.Email;
+                var user = _mapper.Map<StoreRegisterDto, User>(model);
+                var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
+                store.UserId = user.Id;
+
+                await _storeRepository.Add(store);
+                await _storeRepository.Save();
+
+                #region SendSms
+                await SendSms(user.Mobile, user.ActiveCode);
+                #endregion
+
+                TempData["ResendActiveCode"] = true;
+                return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = model.Mobile });
             }
-            //ایمیلی که الان میزند با ایمیلی که قبلا زده متفاوت است
-            else if (user.Email != model.Email)
-            {
-                ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید متفاوت است ");
-                return View(model);
-            }
-
-            #endregion
-
-            var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
-            store.UserId = user.Id;
-
-            //update user to store roleId
-            await _storeRepository.Add(store);
-            await _accountRepository.UpdateSaveUserRoleId(user, 2);
-
-            TempData["IsSuccess"] = true;
-            return View();
         }
 
         #endregion
@@ -112,40 +140,9 @@ namespace Digikala.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login() => View();
-
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginStoreDto model)
+        public IActionResult Login(bool permission = false, string backUrl = "")
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = await _accountRepository.GetUser(model.Mobile, model.Email, model.Password);
-            if (user != null)
-            {
-                if (user.IsActive)
-                {
-                    if (!await _storeRepository.IsExistUser(user.Id))
-                    {
-                        ModelState.AddModelError(nameof(model.Email), "شما هنوز در بخش فروشندگان ثبت نام نکرده اید");
-                        return View(model);
-                    }
-                    if (!await _storeRepository.IsActiveStore(user.Id))
-                    {
-                        ModelState.AddModelError(nameof(model.Email), "فروشگاه شما هنوز فعال نشده است با مدیر سایت ارتباط برقرار کنید");
-                        return View(model);
-                    }
-
-                    await LoginUserClaim(user);
-                    TempData["LoginSuccess"] = true;
-                    return RedirectToAction("Index");
-                }
-                ModelState.AddModelError(nameof(model.Email), "حساب کاربری شما غیر فعال میباشد");
-                return View(model);
-            }
-            ModelState.AddModelError(nameof(model.Email), "کاربری با مشخصات وارد شده یافت نشد");
-            return View(model);
+            return RedirectToAction("Login", "Account", new { permission = permission, returnUrl = backUrl });
         }
 
         #endregion
