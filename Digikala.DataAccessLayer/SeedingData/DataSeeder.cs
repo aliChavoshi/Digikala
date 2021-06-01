@@ -19,7 +19,19 @@ namespace Digikala.DataAccessLayer.SeedingData
                 new Role() {Id = 3, IsDeleted = false, Title = "ادمین"},
             });
         }
-
+        public static void SeedPermission(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Permission>().HasData(new List<Permission>()
+            {
+                new Permission()
+                {
+                    Id = 1,
+                    IsDeleted = false,
+                    Name = "صفحه اصلی فروشگاه",
+                    ParentId = null
+                }
+            });
+        }
         public static void SeedUserAdmin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(new List<User>()

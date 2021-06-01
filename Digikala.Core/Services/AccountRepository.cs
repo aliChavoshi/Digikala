@@ -1,94 +1,93 @@
-﻿using System;
-using System.CodeDom.Compiler;
-using Microsoft.AspNetCore.Authentication;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Digikala.Core.Interfaces;
+﻿using Digikala.Core.Interfaces;
+using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace Digikala.Core.Services
 {
-    public class AccountRepository : IAccountRepository
+    public class AccountRepository : GenericRepository<User>, IAccountRepository
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public AccountRepository(IUnitOfWork unitOfWork)
+        private readonly DigikalaContext _context;
+        public AccountRepository(DigikalaContext context) : base(context)
         {
-            _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         public async Task<bool> IsExistMobileNumber(string mobileNumber)
         {
-            return await _unitOfWork.Repository<User>().IsExist(x => x.Mobile == mobileNumber);
+            return await IsExist(x => x.Mobile == mobileNumber);
         }
 
         public async Task<bool> IsExistMail(string mail)
         {
-            return await _unitOfWork.Repository<User>().IsExist(x => x.Email == mail);
+            return await IsExist(x => x.Email == mail);
         }
 
-        public async Task AddUser(User user)
-        {
-            await _unitOfWork.Repository<User>().Add(user);
-            await _unitOfWork.Complete();
-        }
-
-        public async Task ConfirmMobileAndActiveUser(User user)
+        public async Task ConfirmMobileAndActiveUserUpdateSaveUser(User user)
         {
             user.IsActive = true;
             user.ConfirmMobile = true;
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
-            await UpdateUser(user);
+            await UpdateSaveUser(user);
         }
 
         public async Task<User> GetUserByMobile(string mobile)
         {
-            return await _unitOfWork.Repository<User>().SingleOrDefaultAsync(x => x.Mobile == mobile);
+            return await FirstOrDefaultAsync(x => x.Mobile == mobile);
         }
 
         public async Task<User> GetUser(string mobile, string password)
         {
             var hashPassword = HashGenerators.Encrypt(password);
-            return await _unitOfWork.Repository<User>()
-                .SingleOrDefaultAsync(x => x.Mobile == mobile && x.Password == hashPassword);
+            return await FirstOrDefaultAsync(x => x.Mobile == mobile && x.Password == hashPassword);
+        }
+
+        public async Task<User> GetUser(string mobile, string email, string password)
+        {
+            var hashPassword = HashGenerators.Encrypt(password);
+            return await FirstOrDefaultAsync(x => x.Mobile == mobile && x.Email.Trim() == email.Trim() &&
+                                           x.Password == hashPassword);
         }
 
         public async Task<User> GetUserByEmail(string email, string password)
         {
-            return await _unitOfWork.Repository<User>()
-                .FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim() && x.Password == HashGenerators.Encrypt(password));
+            return await FirstOrDefaultAsync(x => x.Email.Trim() == email.Trim() && x.Password == HashGenerators.Encrypt(password));
         }
 
-        public async Task UpdateUser(User user)
+        public async Task UpdateSaveUser(User user)
         {
-            _unitOfWork.Repository<User>().Update(user);
-            await _unitOfWork.Complete();
+            Update(user);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<User> ResetActiveCode(User user)
+        public async Task<User> ResetActiveCodeUpdateSaveUser(User user)
         {
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
-            await UpdateUser(user);
+            await UpdateSaveUser(user);
             return user;
         }
 
-        public async Task<User> ChangeMobileNumberOfUser(User user, string newMobile)
+        public async Task<User> ChangeMobileNumberOfUserUpdateSaveUser(User user, string newMobile)
         {
             user.Mobile = newMobile;
-            await UpdateUser(user);
+            await UpdateSaveUser(user);
             return user;
         }
         public async Task<int> GetUserRole(int userId)
         {
-            return (await GetUserById(userId)).RoleId;
+            return (await FirstOrDefaultAsync(x => x.Id == userId)).RoleId;
+        }
+
+        public async Task UpdateSaveUserRoleId(User user, int newRoleId)
+        {
+            user.RoleId = newRoleId;
+            await UpdateSaveUser(user);
         }
 
         public async Task<User> GetUserById(int userId)
         {
-            return await _unitOfWork.Repository<User>().GetById(userId);
+            return await FirstOrDefaultAsync(x => x.Id == userId);
         }
     }
 }

@@ -34,7 +34,8 @@ namespace Digikala.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.MobilePhone,user.Mobile)
+                new Claim(ClaimTypes.MobilePhone,user.Mobile),
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -47,6 +48,8 @@ namespace Digikala.Controllers
         }
 
         #endregion
+
+        #region Create
 
         [HttpGet]
         public IActionResult Create() => View();
@@ -97,13 +100,16 @@ namespace Digikala.Controllers
             store.UserId = user.Id;
 
             //update user to store roleId
-            user.RoleId = 3;
             await _storeRepository.Add(store);
-            await _accountRepository.UpdateUser(user);
+            await _accountRepository.UpdateSaveUserRoleId(user, 2);
 
             TempData["IsSuccess"] = true;
             return View();
         }
+
+        #endregion
+
+        #region Login
 
         [HttpGet]
         public IActionResult Login() => View();
@@ -115,7 +121,7 @@ namespace Digikala.Controllers
             {
                 return View(model);
             }
-            var user = await _accountRepository.GetUserByEmail(model.Email, model.Password);
+            var user = await _accountRepository.GetUser(model.Mobile, model.Email, model.Password);
             if (user != null)
             {
                 if (user.IsActive)
@@ -142,11 +148,17 @@ namespace Digikala.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Index
+
         [HttpGet]
         [Permission(1)]
         public async Task<IActionResult> Index()
         {
             return View();
         }
+
+        #endregion
     }
 }

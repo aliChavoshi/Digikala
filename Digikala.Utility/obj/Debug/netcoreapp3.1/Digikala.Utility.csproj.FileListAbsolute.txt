@@ -1,9 +1,0 @@
-D:\My Project\DigiKala\Digikala.Utility\bin\Debug\netcoreapp3.1\Digikala.Utility.deps.json
-D:\My Project\DigiKala\Digikala.Utility\bin\Debug\netcoreapp3.1\Digikala.Utility.dll
-D:\My Project\DigiKala\Digikala.Utility\bin\Debug\netcoreapp3.1\Digikala.Utility.pdb
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.csprojAssemblyReference.cache
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.AssemblyInfoInputs.cache
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.AssemblyInfo.cs
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.csproj.CoreCompileInputs.cache
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.dll
-D:\My Project\DigiKala\Digikala.Utility\obj\Debug\netcoreapp3.1\Digikala.Utility.pdb

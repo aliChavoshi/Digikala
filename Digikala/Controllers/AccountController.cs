@@ -51,7 +51,7 @@ namespace Digikala.Controllers
         {
             var user = await _accountRepository.GetUserByMobile(mobile);
 
-            var result = await _accountRepository.ResetActiveCode(user);
+            var result = await _accountRepository.ResetActiveCodeUpdateSaveUser(user);
 
             #region SendSms
             await SendSms(mobile, result.ActiveCode);
@@ -78,7 +78,8 @@ namespace Digikala.Controllers
             }
 
             var user = _mapper.Map<RegisterDto, User>(source: model);
-            await _accountRepository.AddUser(user);
+            await _accountRepository.Add(user);
+            await _accountRepository.Save();
 
             #region SendSms
             await SendSms(user.Mobile, user.ActiveCode);
@@ -122,7 +123,7 @@ namespace Digikala.Controllers
                 return View(model);
             }
 
-            await _accountRepository.ConfirmMobileAndActiveUser(user);
+            await _accountRepository.ConfirmMobileAndActiveUserUpdateSaveUser(user);
             TempData["SuccessConfirmMobile"] = true;
             return RedirectToAction("Login");
         }
@@ -224,7 +225,7 @@ namespace Digikala.Controllers
             }
             //new active code for user
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
-            var result = await _accountRepository.ChangeMobileNumberOfUser(user, model.NewMobile);
+            var result = await _accountRepository.ChangeMobileNumberOfUserUpdateSaveUser(user, model.NewMobile);
 
             #region SendSms
             await SendSms(result.Mobile, result.ActiveCode);
@@ -291,7 +292,8 @@ namespace Digikala.Controllers
 
             user.Password = HashGenerators.Encrypt(model.Password);
             user.ActiveCode = CodeGenerators.ActiveCodeFiveNumbers();
-            await _accountRepository.UpdateUser(user);
+            _accountRepository.Update(user);
+            await _accountRepository.Save();
 
             TempData["SuccessResetPassword"] = true;
             return RedirectToAction("Login");

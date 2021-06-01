@@ -3,7 +3,7 @@ using Digikala.DataAccessLayer.Entities.Identity;
 
 namespace Digikala.Core.Interfaces
 {
-    public interface IRolePermissionService 
+    public interface IRolePermissionService :IGenericRepository<RolePermission>
     {
         Task<bool> IsRoleHavePermission(int permissionId, int roleId);
     }

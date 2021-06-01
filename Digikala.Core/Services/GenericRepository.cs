@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Digikala.Core.Interfaces;
+using Digikala.DataAccessLayer.Context;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Digikala.Core.Interfaces;
-using Digikala.DataAccessLayer.Context;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Digikala.Core.Services
 {
@@ -27,7 +26,7 @@ namespace Digikala.Core.Services
 
         #region Get
 
-        public async Task<TEntity> GetById(object id)
+        public async Task<TEntity> GetById(int id)
         {
             return await DbSet.FindAsync(id);
         }
@@ -40,11 +39,6 @@ namespace Digikala.Core.Services
         public async Task<IEnumerable<TEntity>> ToListAsync()
         {
             return await DbSet.ToListAsync();
-        }
-
-        public IEnumerable<TEntity> ToList()
-        {
-            return DbSet.AsEnumerable();
         }
 
         public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> where)
@@ -64,14 +58,6 @@ namespace Digikala.Core.Services
 
             return await query.Where(where).ToListAsync();
         }
-        public async Task<IEnumerable<TEntity>> WhereByIncludes(params Expression<Func<TEntity, object>>[] includes)
-        {
-            var query = includes.
-                Aggregate<Expression<Func<TEntity, object>>, IQueryable<TEntity>>(DbSet, (current, include) => current.Include(include));
-
-            return await query.ToListAsync();
-        }
-
 
         #endregion
 

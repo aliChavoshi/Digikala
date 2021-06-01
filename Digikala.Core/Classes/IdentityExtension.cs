@@ -9,15 +9,15 @@ namespace Digikala.Core.Classes
     {
         public static string GetEmail(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            return claimsPrincipal?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
         }
         public static string GetMobileNumber(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone)?.Value;
+            return claimsPrincipal?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.MobilePhone)?.Value;
         }
         public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            return Convert.ToInt32(claimsPrincipal?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            return Convert.ToInt32(claimsPrincipal?.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
         }
     }
 }

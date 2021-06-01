@@ -5,19 +5,18 @@ using Digikala.DataAccessLayer.Entities.Identity;
 
 namespace Digikala.Core.Services
 {
-    public class RolePermissionService : IRolePermissionService
+    public class RolePermissionService : GenericRepository<RolePermission>,IRolePermissionService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly DigikalaContext _context;
 
-        public RolePermissionService(IUnitOfWork unitOfWork)
+        public RolePermissionService(DigikalaContext context) : base(context)
         {
-            _unitOfWork = unitOfWork;
+            _context = context;
         }
 
         public async Task<bool> IsRoleHavePermission(int permissionId, int roleId)
         {
-            return await _unitOfWork.Repository<RolePermission>()
-                .IsExist(x => x.RoleId == roleId && x.PermissionId == permissionId);
+            return await IsExist(x => x.RoleId == roleId && x.PermissionId == permissionId);
         }
     }
 }

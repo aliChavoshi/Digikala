@@ -21,13 +21,11 @@ namespace Digikala.Core.Interfaces
 
         #region Get
 
-        Task<TEntity> GetById(object id);
+        Task<TEntity> GetById(int id);
         //یه دونه با شرط و با اینکلود هاش واسم میاره
         Task<IEnumerable<TEntity>> WhereByIncludes(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes);
-        Task<IEnumerable<TEntity>> WhereByIncludes(params Expression<Func<TEntity, object>>[] includes);
         Task<IEnumerable<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> ToListAsync();
-        IEnumerable<TEntity> ToList();
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> where);
 
