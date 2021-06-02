@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Controllers
 {
@@ -19,16 +20,18 @@ namespace Digikala.Controllers
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
-        public AccountController(IAccountRepository accountRepository, IMapper mapper)
+        private readonly IConfiguration _configuration;
+        public AccountController(IAccountRepository accountRepository, IMapper mapper, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         #region Properties
-        private static async Task SendSms(string mobile, string activeCode)
+        private async Task SendSms(string mobile, string activeCode)
         {
-            var messageSender = new MessageSender();
+            var messageSender = new MessageSender(_configuration);
             await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
         }
         private async Task LoginUserClaim(User user, bool rememberMe)

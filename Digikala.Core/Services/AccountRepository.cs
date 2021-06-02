@@ -1,4 +1,5 @@
-﻿using Digikala.Core.Interfaces;
+﻿using System;
+using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
@@ -76,7 +77,12 @@ namespace Digikala.Core.Services
         }
         public async Task<int> GetUserRole(int userId)
         {
-            return (await FirstOrDefaultAsync(x => x.Id == userId)).RoleId;
+            var user = await FirstOrDefaultAsync(x => x.Id == userId);
+            if (user == null)
+            {
+                throw new Exception("user not fount ");
+            }
+            return user.RoleId;
         }
 
         public async Task UpdateSaveUserRoleId(User user, int newRoleId)

@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
+using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.Store;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Digikala.Core.Classes;
+using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Controllers
 {
@@ -20,38 +16,22 @@ namespace Digikala.Controllers
         private readonly IAccountRepository _accountRepository;
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper)
+        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper, IConfiguration configuration)
         {
             _accountRepository = accountRepository;
             _storeRepository = storeRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         #region Properties
-        private static async Task SendSms(string mobile, string activeCode)
+        private async Task SendSms(string mobile, string activeCode)
         {
-            var messageSender = new MessageSender();
+            var messageSender = new MessageSender(_configuration);
             await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
         }
-        private async Task LoginUserClaim(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.MobilePhone,user.Mobile),
-                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            var properties = new AuthenticationProperties
-            {
-                IsPersistent = true
-            };
-            await HttpContext.SignInAsync(principal, properties);
-        }
-
         #endregion
 
         #region Create
@@ -125,7 +105,7 @@ namespace Digikala.Controllers
 
                 var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
                 store.UserId = user.Id;
-                
+
                 await _storeRepository.Add(store);
                 await _storeRepository.Save();
                 //TODO CONFIRM EMAIL
@@ -143,7 +123,7 @@ namespace Digikala.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login(bool permission = false,string backUrl = "")
+        public IActionResult Login(bool permission = false, string backUrl = "")
         {
             return RedirectToAction("Login", "Account", new { permission = permission, returnUrl = backUrl });
         }
