@@ -120,12 +120,15 @@ namespace Digikala.Controllers
                     return View(model);
                 }
                 var user = _mapper.Map<StoreRegisterDto, User>(model);
+                await _accountRepository.Add(user);
+                await _accountRepository.Save();
+
                 var store = _mapper.Map<StoreRegisterDto, Store>(source: model);
                 store.UserId = user.Id;
-
+                
                 await _storeRepository.Add(store);
                 await _storeRepository.Save();
-
+                //TODO CONFIRM EMAIL
                 #region SendSms
                 await SendSms(user.Mobile, user.ActiveCode);
                 #endregion
@@ -140,7 +143,7 @@ namespace Digikala.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login(bool permission = false, string backUrl = "")
+        public IActionResult Login(bool permission = false,string backUrl = "")
         {
             return RedirectToAction("Login", "Account", new { permission = permission, returnUrl = backUrl });
         }

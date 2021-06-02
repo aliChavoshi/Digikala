@@ -46,6 +46,7 @@ namespace Digikala.DataAccessLayer.Context
             DataSeeder.SeedRoles(modelBuilder);
             DataSeeder.SeedUserAdmin(modelBuilder);
             DataSeeder.SeedPermission(modelBuilder);
+            DataSeeder.SeedRolePermission(modelBuilder);
         }
     }
 }

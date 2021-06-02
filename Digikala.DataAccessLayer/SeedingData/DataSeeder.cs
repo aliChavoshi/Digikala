@@ -32,6 +32,24 @@ namespace Digikala.DataAccessLayer.SeedingData
                 }
             });
         }
+        public static void SeedRolePermission(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<RolePermission>().HasData(new List<RolePermission>()
+            {
+                new RolePermission()
+                {
+                    Id = 1,
+                    RoleId = 2,
+                    PermissionId = 1
+                },
+                new RolePermission()
+                {
+                    Id = 2,
+                    RoleId = 3,
+                    PermissionId = 1
+                }
+            });
+        }
         public static void SeedUserAdmin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(new List<User>()

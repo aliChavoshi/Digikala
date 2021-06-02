@@ -25,6 +25,7 @@ namespace Digikala.Core.Classes
                 {
                     var userId = context.HttpContext.User.GetUserId();
                     var userRoleId = _accountRepository.GetUserRole(userId).Result;
+                    
                     if (!_rolePermissionService.IsRoleHavePermission(_permissionId, userRoleId).Result)
                     {
                         context.Result = new RedirectResult("/Account/Login?permission=false&returnUrl=" + context.HttpContext.Request.Path);

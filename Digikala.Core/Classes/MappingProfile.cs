@@ -27,7 +27,7 @@ namespace Digikala.Core.Classes
             CreateMap<StoreRegisterDto, Store>()
                 .ForMember(x => x.IsActive,
                     c => c.MapFrom(v => false));
-
+            //post create Store
             CreateMap<StoreRegisterDto, User>()
                 .ForMember(x => x.Password,
                     c =>

@@ -62,7 +62,10 @@ namespace Digikala.Controllers
         #region Register
 
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto model)
