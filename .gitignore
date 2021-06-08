@@ -7,3 +7,5 @@ Digikala.DataAccessLayer/bin/
 Digikala.DTOs/bin/
 Digikala.DTOs/obj/
 Digikala/.vs/
+
+Digikala/wwwroot/panelTemplate/assets/js/pages/features/miscellaneous/sweetalert2.all.js

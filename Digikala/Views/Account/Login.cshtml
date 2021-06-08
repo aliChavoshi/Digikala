@@ -15,6 +15,17 @@
           });
      </script>
 }
+@if (TempData["SuccessConfirmEmail"] != null)
+{
+     <script>
+          swal({
+               title: "موفق",
+               text: "ایمیل شما با موفقیت تایید شد",
+               icon: "success",
+               button: "باشه"
+          });
+     </script>
+}
 @if (TempData["SuccessResetPassword"] != null)
 {
      <script>

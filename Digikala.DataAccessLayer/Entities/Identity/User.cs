@@ -43,9 +43,13 @@ namespace Digikala.DataAccessLayer.Entities.Identity
 
         [Display(Name = "تایید شماره موبایل")]
         public bool ConfirmMobile { get; set; } = false;
-        
+
         [Display(Name = "تایید ایمیل")]
         public bool ConfirmEmail { get; set; } = false;
+
+        [Display(Name = "کد فعال سازی")]
+        [MaxLength(50, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
+        public string ActiveCodeEmail { get; set; } 
 
         #region Relations
 

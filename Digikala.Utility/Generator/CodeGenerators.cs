@@ -23,11 +23,9 @@ namespace Digikala.Utility.Generator
             var random = new Random();
             return random.Next(10000000, 99999999).ToString();
         }
-
         public static string GuidId()
         {
             return Guid.NewGuid().ToString().Replace("-", "");
         }
-
     }
 }

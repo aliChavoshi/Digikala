@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Digikala.Utility.Convertor;
 using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Controllers
@@ -21,17 +22,19 @@ namespace Digikala.Controllers
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        public AccountController(IAccountRepository accountRepository, IMapper mapper, IConfiguration configuration)
+        private readonly IViewRenderService _renderService;
+        public AccountController(IAccountRepository accountRepository, IMapper mapper, IConfiguration configuration, IViewRenderService renderService)
         {
             _accountRepository = accountRepository;
             _mapper = mapper;
             _configuration = configuration;
+            _renderService = renderService;
         }
 
         #region Properties
         private async Task SendSms(string mobile, string activeCode)
         {
-            var messageSender = new MessageSender(_configuration);
+            var messageSender = new MessageSender(_configuration, _renderService);
             await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
         }
         private async Task LoginUserClaim(User user, bool rememberMe)
@@ -136,6 +139,21 @@ namespace Digikala.Controllers
 
         #endregion
 
+        #region ConfirmEmail
+        [HttpGet]
+        public async Task<IActionResult> ActiveAccount(string code, string backPath)
+        {
+            var result = await _accountRepository.ConfirmEmailWithActiveCodeUpdateUser(code);
+            if (!result) return NotFound();
+            TempData["SuccessConfirmEmail"] = true;
+            if (string.IsNullOrEmpty(backPath))
+            {
+                return RedirectToAction("Login");
+            }
+            return Redirect(backPath);
+        }
+        #endregion
+
         #region Login
 
         [HttpGet]
@@ -163,6 +181,7 @@ namespace Digikala.Controllers
                     await LoginUserClaim(user, model.RememberMe);
                     #endregion
 
+                    TempData["LoginSuccess"] = true;
                     if (!string.IsNullOrEmpty(returnUrl))
                     {
                         if (Url.IsLocalUrl(returnUrl))
@@ -173,7 +192,6 @@ namespace Digikala.Controllers
                     else
                     {
                         //TODO For Alert
-                        TempData["LoginSuccess"] = true;
                         return Redirect("/");
                     }
                 }

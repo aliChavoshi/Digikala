@@ -4,6 +4,7 @@ using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.Core.Services
 {
@@ -83,6 +84,20 @@ namespace Digikala.Core.Services
                 throw new Exception("user not fount ");
             }
             return user.RoleId;
+        }
+
+        public async Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(u => u.ActiveCodeEmail == activeCode);
+            if (user == null || user.ConfirmEmail)
+                return false;
+            //به این دلیل مجددا آی دی را عوض کردیم چون اگر کاربری را غیر فعال کردیم نتواند مجددا با ایمیل بازیابی به سایت برگردد
+            user.IsActive = true;
+            user.ActiveCodeEmail = CodeGenerators.GuidId();
+            user.ConfirmEmail = true;
+            await UpdateSaveUser(user);
+
+            return true;
         }
 
         public async Task UpdateSaveUserRoleId(User user, int newRoleId)

@@ -1,16 +1,16 @@
-﻿
-@{
-    ViewBag.Title = "فروشگاه";
-    Layout = "_PanelLayout";
+﻿@{
+     ViewBag.Title = "فروشگاه";
+     Layout = "_PanelLayout";
 }
-@if (TempData["IsSuccess"] != null)
+@if (TempData["LoginSuccess"] != null)
 {
      <script>
           swal({
                title: "موفق",
                text: "ورود با موفقیت انجام شد",
                icon: "success",
-               button: "باشه"
+               button: false,
+               timer: 2000
           });
      </script>
 }

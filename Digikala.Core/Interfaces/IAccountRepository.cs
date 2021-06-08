@@ -11,6 +11,7 @@ namespace Digikala.Core.Interfaces
         Task<User> GetUser(string mobile, string password);
         Task<User> GetUser(string mobile, string email, string password);
         Task<int> GetUserRole(int userId);
+        Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode);
         //with update & save
         Task UpdateSaveUserRoleId(User user, int newRoleId);
         Task UpdateSaveUser(User user);

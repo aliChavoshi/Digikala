@@ -6,6 +6,8 @@ using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.Store;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Digikala.Utility.Convertor;
+using Digikala.Utility.Generator;
 using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Controllers
@@ -17,19 +19,21 @@ namespace Digikala.Controllers
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IViewRenderService _viewRenderService;
 
-        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper, IConfiguration configuration)
+        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper, IConfiguration configuration, IViewRenderService viewRenderService)
         {
             _accountRepository = accountRepository;
             _storeRepository = storeRepository;
             _mapper = mapper;
             _configuration = configuration;
+            _viewRenderService = viewRenderService;
         }
 
         #region Properties
         private async Task SendSms(string mobile, string activeCode)
         {
-            var messageSender = new MessageSender(_configuration);
+            var messageSender = new MessageSender(_configuration, _viewRenderService);
             await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
         }
         #endregion
@@ -69,9 +73,15 @@ namespace Digikala.Controllers
                         ModelState.AddModelError("Email", "ایمیل وارد شده تکراری میباشد");
                         return View(model);
                     }
-                    //TODO CONFIRM EMAIL SEND EMAIL
-                    //TODO IsActive Store with EMail
                     user.Email = model.Email;
+                    user.ActiveCodeEmail = CodeGenerators.GuidId();
+
+                    #region SendActiveEmailCode
+
+                    var messageSender = new MessageSender(_configuration, _viewRenderService);
+                    await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user, "Account/_PartialActiveEmail");
+
+                    #endregion
                 }
                 //ایمیلی که الان میزند با ایمیلی که قبلا زده متفاوت است
                 else if (user.Email != model.Email)
@@ -108,7 +118,13 @@ namespace Digikala.Controllers
 
                 await _storeRepository.Add(store);
                 await _storeRepository.Save();
-                //TODO CONFIRM EMAIL
+
+                #region SendActiveEmailCode
+
+                var messageSender = new MessageSender(_configuration, _viewRenderService);
+                await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user, "Account/_PartialActiveEmail");
+
+                #endregion
                 #region SendSms
                 await SendSms(user.Mobile, user.ActiveCode);
                 #endregion

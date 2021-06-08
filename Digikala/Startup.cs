@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Digikala.Utility.Convertor;
 
 namespace Digikala
 {
@@ -52,6 +53,7 @@ namespace Digikala
             services.AddTransient<IRolePermissionService, RolePermissionService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<IViewRenderService, RenderViewToString>();
             #endregion
 
             #region AutoMapping
