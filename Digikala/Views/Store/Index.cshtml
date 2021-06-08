@@ -10,9 +10,47 @@
                text: "ورود با موفقیت انجام شد",
                icon: "success",
                button: false,
-               timer: 2000
+               timer: 3000
           });
      </script>
 }
+@if (TempData["SuccessConfirmEmail"] != null)
+{
+     <script>
+          swal({
+               title: "موفق",
+               text: "ایمیل شما با موفقیت فعال گردید",
+               icon: "success",
+               button: false,
+               timer: 3000
+          });
+     </script>
+}
+@if (TempData["ResendConfirmEmail"] != null)
+{
+     <script>
+          swal({
+               title: "موفق",
+               text: "ایمیل فعالسازی برای شما ارسال گردید",
+               icon: "success",
+               button: false,
+               timer: 3000
+          });
+     </script>
+}
+@if (TempData["IsConfirmed"] != null)
+{
+     <script>
+          swal({
+               title: "خطا",
+               text: "حساب شما فعال میباشد",
+               icon: "error",
+               button: false,
+               timer: 3000
+          });
+     </script>
+}
+
+
 
 

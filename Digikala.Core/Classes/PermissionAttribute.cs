@@ -1,4 +1,5 @@
-﻿using Digikala.Core.Interfaces;
+﻿using System.Threading.Tasks;
+using Digikala.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -24,8 +25,8 @@ namespace Digikala.Core.Classes
                 if (context.HttpContext.User.Identity is { IsAuthenticated: true })
                 {
                     var userId = context.HttpContext.User.GetUserId();
-                    var userRoleId = _accountRepository.GetUserRole(userId).Result;
-                    
+                    var userRoleId =  _accountRepository.GetUserRole(userId).Result;
+
                     if (!_rolePermissionService.IsRoleHavePermission(_permissionId, userRoleId).Result)
                     {
                         context.Result = new RedirectResult("/Account/Login?permission=false&returnUrl=" + context.HttpContext.Request.Path);

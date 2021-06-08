@@ -1,0 +1,10 @@
+﻿<script src="/digikalaTemplate/js/vendor/countdown.min.js"></script>
+<script>
+     $('#countdown-verify-end').click(function () {
+          var tag = $('#countdown-verify-end').children('a').removeAttr("href");
+          if (tag.length != 0) {
+               $('#resendCode').val('true');
+               $('#form').submit();
+          }
+     });
+</script>

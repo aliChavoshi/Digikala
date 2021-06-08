@@ -11,12 +11,12 @@ namespace Digikala.Core.Interfaces
         Task<User> GetUser(string mobile, string password);
         Task<User> GetUser(string mobile, string email, string password);
         Task<int> GetUserRole(int userId);
-        Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode);
         //with update & save
         Task UpdateSaveUserRoleId(User user, int newRoleId);
         Task UpdateSaveUser(User user);
         Task<User> ChangeMobileNumberOfUserUpdateSaveUser(User user, string newMobile);
         Task ConfirmMobileAndActiveUserUpdateSaveUser(User user);
         Task<User> ResetActiveCodeUpdateSaveUser(User user);
+        Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode);
     }
 }

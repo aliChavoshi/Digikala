@@ -53,12 +53,12 @@ namespace Digikala.Core.Classes
                 Console.WriteLine(ep.Message);
             }
         }
-        public async Task SendMailToUserWithView(string subject, User user, string viewName)
+        public async Task SendMailToUserWithView(string subject, User user, string viewName, string backUrl)
         {
             var message = new MailMessage
             {
                 Subject = subject,
-                Body = _viewRender.RenderToStringAsync(viewName, user),
+                Body = _viewRender.RenderToStringAsync(viewName, new Tuple<User, string>(user, backUrl)),
                 From = new MailAddress(_configuration["Smtp:Username"], "شرکت دیجی کالا"),
                 IsBodyHtml = true,
             };

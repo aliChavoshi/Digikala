@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Digikala.Utility.Convertor;
 using Digikala.Utility.Generator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Controllers
@@ -79,7 +80,8 @@ namespace Digikala.Controllers
                     #region SendActiveEmailCode
 
                     var messageSender = new MessageSender(_configuration, _viewRenderService);
-                    await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user, "Account/_PartialActiveEmail");
+                    await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user,
+                        "Account/_PartialActiveEmail", "/store/index");
 
                     #endregion
                 }
@@ -122,7 +124,8 @@ namespace Digikala.Controllers
                 #region SendActiveEmailCode
 
                 var messageSender = new MessageSender(_configuration, _viewRenderService);
-                await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user, "Account/_PartialActiveEmail");
+                await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user,
+                    "Account/_PartialActiveEmail", "/store/index");
 
                 #endregion
                 #region SendSms
@@ -132,6 +135,46 @@ namespace Digikala.Controllers
                 TempData["ResendActiveCode"] = true;
                 return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = model.Mobile });
             }
+        }
+
+        #endregion
+
+        #region ConfirmMobileAndEmail
+
+        public async Task<IActionResult> ConfirmMobileNumber()
+        {
+            var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
+            if (user.ConfirmMobile)
+            {
+                TempData["IsConfirmed"] = true;
+                return RedirectToAction("Index");
+            }
+            #region SendSms
+            await SendSms(user.Mobile, user.ActiveCode);
+            #endregion
+
+            TempData["ResendActiveCode"] = true;
+            return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = User.GetMobileNumber() });
+        }
+
+        public async Task<IActionResult> ConfirmEmail()
+        {
+            var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
+            if (user.ConfirmEmail)
+            {
+                TempData["IsConfirmed"] = true;
+                return RedirectToAction("Index");
+            }
+
+            #region SendActiveEmailCode
+
+                var messageSender = new MessageSender(_configuration, _viewRenderService);
+                await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user,
+                    "Account/_PartialActiveEmail", "/store/index");
+
+            #endregion
+            TempData["ResendConfirmEmail"] = true;
+            return RedirectToAction("Index");
         }
 
         #endregion
@@ -150,6 +193,7 @@ namespace Digikala.Controllers
 
         [HttpGet]
         [Permission(1)]
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View();

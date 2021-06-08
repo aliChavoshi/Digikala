@@ -82,7 +82,7 @@ namespace Digikala.Controllers
             }
             if (await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
-                ModelState.AddModelError("Mobile", "قبلا با  این شماره تلفن ثبت نام کرده اید.");
+                ModelState.AddModelError("Mobile", $"شما قبلا با این شماره  {model.Mobile} ثبت نام کرده اید");
                 return View(model);
             }
 
@@ -141,7 +141,7 @@ namespace Digikala.Controllers
 
         #region ConfirmEmail
         [HttpGet]
-        public async Task<IActionResult> ActiveAccount(string code, string backPath)
+        public async Task<IActionResult> ConfirmEmail(string code, string backPath)
         {
             var result = await _accountRepository.ConfirmEmailWithActiveCodeUpdateUser(code);
             if (!result) return NotFound();
@@ -244,7 +244,7 @@ namespace Digikala.Controllers
             var user = await _accountRepository.GetUserByMobile(model.OldMobile);
             if (user == null)
             {
-                ModelState.AddModelError("OldMobile", $"کاربری با این مشخصات یافت نشد");
+                ModelState.AddModelError("OldMobile", $"کاربری با این شماره  {model.OldMobile} یافت نشد");
                 return View(model);
             }
             //new active code for user
@@ -308,7 +308,8 @@ namespace Digikala.Controllers
                 return View(model);
             }
             var user = await _accountRepository.GetUserByMobile(model.Mobile);
-            if (user.ActiveCode != model.ActiveCode)
+            var mergeActiveCode = CodeGenerators.MergeIntArray(model.ActiveCode);
+            if (user.ActiveCode != mergeActiveCode)
             {
                 ModelState.AddModelError("ActiveCode", "کد فعالسازی وارد شده اشتباه است لطفا مجدد تلاش کنید ");
                 return View(model);

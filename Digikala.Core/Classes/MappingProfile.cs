@@ -29,8 +29,9 @@ namespace Digikala.Core.Classes
                     c => c.MapFrom(v => false));
             //post create Store
             CreateMap<StoreRegisterDto, User>()
-                .ForMember(x=>x.ActiveCodeEmail,
-                    c=>c.MapFrom(v=>CodeGenerators.GuidId()))
+                .ForMember(x => x.ActiveCodeEmail,
+                    c =>
+                        c.MapFrom(v => CodeGenerators.GuidId()))
                 .ForMember(x => x.Password,
                     c =>
                         c.MapFrom(v => HashGenerators.Encrypt(v.Password)))

@@ -31,6 +31,6 @@ namespace Digikala.DTOs.AccountDtos
         [MinLength(5, ErrorMessage = "{0} اشتباه وارد شده است")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [DataType(DataType.Password, ErrorMessage = "مقدار عددی وارد کنید کد وارد شده اشتباه است")]
-        public string ActiveCode { get; set; }
+        public int[] ActiveCode { get; set; }
     }
 }

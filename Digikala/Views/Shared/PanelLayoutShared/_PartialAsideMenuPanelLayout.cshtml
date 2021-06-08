@@ -1,4 +1,12 @@
-﻿<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+﻿@using Digikala.Core.Classes
+@using Digikala.Core.Interfaces
+@inject IAccountRepository _accountRepository
+@{
+     var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
+     var labelEmail = user.ConfirmEmail ? "تایید" : "عدم تایید";
+     var labelMobile = user.ConfirmMobile ? "تایید" : "عدم تایید";
+}
+<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 
      <!--begin::Menu Container-->
      <div id="kt_aside_menu"
@@ -73,10 +81,10 @@
                          <i class="menu-arrow"></i>
                          <ul class="menu-subnav">
                               <li class="menu-item " aria-haspopup="true">
-                                   <a href="custom/apps/inbox.html" class="menu-link "><i class="menu-bullet menu-bullet-line"><span></span></i><span class="menu-text">فعالسازی موبایل</span><span class="menu-label"><span class="label label-danger label-inline">جدید</span></span></a>
+                                   <a asp-controller="Store" asp-action="ConfirmMobileNumber" class="menu-link "><i class="menu-bullet menu-bullet-line"><span></span></i><span class="menu-text">فعالسازی موبایل</span><span class="menu-label"><span class="label @(user.ConfirmMobile ? "label-success" : "label-danger") label-inline">@labelMobile</span></span></a>
                               </li>
                               <li class="menu-item " aria-haspopup="true">
-                                   <a href="custom/apps/inbox.html" class="menu-link "><i class="menu-bullet menu-bullet-line"><span></span></i><span class="menu-text">فعالسازی ایمیل</span><span class="menu-label"><span class="label label-danger label-inline">جدید</span></span></a>
+                                   <a asp-controller="Store" asp-action="ConfirmEmail" class="menu-link "><i class="menu-bullet menu-bullet-line"><span></span></i><span class="menu-text">فعالسازی ایمیل</span><span class="menu-label"><span class="label @(user.ConfirmEmail ? "label-success" : "label-danger") label-inline">@labelEmail</span></span></a>
                               </li>
                          </ul>
                     </div>

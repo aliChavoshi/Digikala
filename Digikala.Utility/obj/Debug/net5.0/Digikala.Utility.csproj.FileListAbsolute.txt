@@ -1,0 +1,12 @@
+D:\My Project\DigiKala\Digikala.Utility\bin\Debug\net5.0\Digikala.Utility.deps.json
+D:\My Project\DigiKala\Digikala.Utility\bin\Debug\net5.0\Digikala.Utility.dll
+D:\My Project\DigiKala\Digikala.Utility\bin\Debug\net5.0\ref\Digikala.Utility.dll
+D:\My Project\DigiKala\Digikala.Utility\bin\Debug\net5.0\Digikala.Utility.pdb
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.csproj.AssemblyReference.cache
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.AssemblyInfoInputs.cache
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.AssemblyInfo.cs
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.csproj.CoreCompileInputs.cache
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.dll
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\ref\Digikala.Utility.dll
+D:\My Project\DigiKala\Digikala.Utility\obj\Debug\net5.0\Digikala.Utility.pdb

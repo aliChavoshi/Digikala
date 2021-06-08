@@ -10,14 +10,13 @@
     <script>
         swal({
             title: "موفق",
-            text: "کد فعالسازی شماره همراه برای شما پیامک گردید",
+            text: "کد فعالسازی برای شما پیامک گردید",
             icon: "success",
             button: false,
-            timer: 2000
+            timer: 3000
         });
     </script>
 }
-
 
 <!-- Start main-content -->
 <!-- Start main-content -->
@@ -91,14 +90,5 @@
 
 @section Script
 {
-    <script src="/digikalaTemplate/js/vendor/countdown.min.js"></script>
-    <script>
-        $('#countdown-verify-end').click(function () {
-            var tag = $('#countdown-verify-end').children('a').removeAttr("href");
-            if (tag.length != 0) {
-                $('#resendCode').val('true');
-                $('#form').submit();
-            }
-        });
-    </script>
+     <partial name="_PartialResendCode"/>
 }
