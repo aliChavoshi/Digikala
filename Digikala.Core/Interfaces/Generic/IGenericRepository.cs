@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Digikala.Core.Interfaces
+namespace Digikala.Core.Interfaces.Generic
 {
 
     public interface IGenericRepository<TEntity> where TEntity : class

@@ -4,6 +4,7 @@ using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
 using System.Threading.Tasks;
+using Digikala.Core.Services.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.Core.Services

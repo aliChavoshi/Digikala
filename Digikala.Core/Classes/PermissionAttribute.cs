@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Digikala.Core.Interfaces;
+using Digikala.Core.Interfaces.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,7 +11,7 @@ namespace Digikala.Core.Classes
     {
         private readonly int _permissionId;
         private IAccountRepository _accountRepository;
-        private IRolePermissionService _rolePermissionService;
+        private IRolePermissionRepository _rolePermissionService;
         public PermissionAttribute(int permissionId)
         {
             _permissionId = permissionId;
@@ -19,7 +20,7 @@ namespace Digikala.Core.Classes
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             _accountRepository = (IAccountRepository)context.HttpContext.RequestServices.GetService(typeof(IAccountRepository));
-            _rolePermissionService = (IRolePermissionService)context.HttpContext.RequestServices.GetService(typeof(IRolePermissionService));
+            _rolePermissionService = (IRolePermissionRepository)context.HttpContext.RequestServices.GetService(typeof(IRolePermissionRepository));
             if (_accountRepository != null && _rolePermissionService != null)
             {
                 if (context.HttpContext.User.Identity is { IsAuthenticated: true })

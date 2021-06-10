@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Digikala.Core.Interfaces.Generic;
 using Digikala.DataAccessLayer.Entities.Identity;
 
 namespace Digikala.Core.Interfaces

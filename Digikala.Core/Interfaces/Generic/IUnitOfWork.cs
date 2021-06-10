@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Digikala.Core.Interfaces
+namespace Digikala.Core.Interfaces.Generic
 {
     public interface IUnitOfWork : IDisposable
     {

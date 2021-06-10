@@ -1,15 +1,16 @@
 ﻿using System.Threading.Tasks;
-using Digikala.Core.Interfaces;
+using Digikala.Core.Interfaces.Identity;
+using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 
-namespace Digikala.Core.Services
+namespace Digikala.Core.Services.Identity
 {
-    public class RolePermissionService : GenericRepository<RolePermission>,IRolePermissionService
+    public class RolePermissionRepository : GenericRepository<RolePermission>,IRolePermissionRepository
     {
         private readonly DigikalaContext _context;
 
-        public RolePermissionService(DigikalaContext context) : base(context)
+        public RolePermissionRepository(DigikalaContext context) : base(context)
         {
             _context = context;
         }

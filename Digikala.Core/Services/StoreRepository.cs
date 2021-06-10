@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Digikala.Core.Interfaces;
+using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Store;
 

@@ -1,14 +1,14 @@
-﻿using Digikala.Core.Interfaces;
-using Digikala.DataAccessLayer.Context;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Digikala.Core.Interfaces.Generic;
+using Digikala.DataAccessLayer.Context;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
-namespace Digikala.Core.Services
+namespace Digikala.Core.Services.Generic
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {

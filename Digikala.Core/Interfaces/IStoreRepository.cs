@@ -1,5 +1,6 @@
 ﻿using Digikala.DataAccessLayer.Entities.Store;
 using System.Threading.Tasks;
+using Digikala.Core.Interfaces.Generic;
 
 namespace Digikala.Core.Interfaces
 {

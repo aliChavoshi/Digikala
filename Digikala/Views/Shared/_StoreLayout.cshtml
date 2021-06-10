@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+
+<html direction="rtl" dir="rtl" style="direction: rtl">
+<!--begin::Head-->
+<head>
+     <base href="">
+     <meta charset="utf-8" />
+     <title>@ViewBag.Title - دیجی کالا</title>
+     <meta name="description" content="Updates and statistics" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+     <partial name="StoreLayoutShared/_PartialStylesStoreLayout" />
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+     <!--begin::Main-->
+     <!--begin::Header Mobile-->
+     <partial name="StoreLayoutShared/_PartialHeaderMobileStoreLayout" />
+     <!--end::Header Mobile-->
+     <div class="d-flex flex-column flex-root">
+          <!--begin::Page-->
+          <div class="d-flex flex-row flex-column-fluid page">
+               <!--begin::Aside-->
+               <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
+                    <!--begin::Brand-->
+                    <partial name="StoreLayoutShared/_PartialAsideBrandStoreLayout" />
+                    <!--end::Brand-->
+                    <!--begin::Aside Menu-->
+                    <partial name="StoreLayoutShared/_PartialAsideMenuStoreLayout" />
+                    <!--end::Aside Menu-->
+               </div>
+               <!--end::Aside-->
+               <!--begin::Wrapper-->
+               <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                    <!--begin::Header-->
+                    <div id="kt_header" class="header  header-fixed ">
+                         <partial name="StoreLayoutShared/_PartialHeaderMobileStoreLayout" />
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Content-->
+                    <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                         @RenderBody()
+                    </div>
+                    <!--end::Content-->
+                    <!--begin::Footer-->
+                    <partial name="StoreLayoutShared/_PartialFooterStoreLayout" />
+                    <!--end::Footer-->
+               </div>
+               <!--end::Wrapper-->
+          </div>
+          <!--end::Page-->
+     </div>
+     <!--end::Main-->
+     <!-- begin::User Panel-->
+     <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
+          <partial name="StoreLayoutShared/_PartialQuickUserToggleStoreLayout" />
+     </div>
+     <!-- end::User Panel-->
+     <!--begin::Quick Cart-->
+     <partial name="StoreLayoutShared/_PartialQuickCartStoreLayout" />
+     <!--end::Quick Cart-->
+     <!--begin::پنل سریع-->
+     <partial name="StoreLayoutShared/_PartialQuickStoreLayout" />
+     <!--end::پنل سریع-->
+     <!--begin::چت Panel-->
+     <partial name="StoreLayoutShared/_PartialChatStoreLayout" />
+     <!--end::چت Panel-->
+     <!--begin::Scrolltop-->
+     <partial name="StoreLayoutShared/_PartialScrollTopStoreLayout" />
+     <!--end::Scrolltop-->
+     <partial name="StoreLayoutShared/_PartialStickyToolbatStoreLayout" />
+     <!--end::نسخه ی نمایشی Panel-->
+     <!--begin::Scripts-->
+     <partial name="StoreLayoutShared/_PartialScriptStoreLayout" />
+     <!--end::scripts-->
+     @await RenderSectionAsync("scripts", false)
+</body>
+<!--end::Body-->
+</html>

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
-using Digikala.Core.Interfaces;
+using Digikala.Core.Interfaces.Generic;
 using Digikala.DataAccessLayer.Context;
-using Microsoft.Extensions.Caching.Memory;
 
-namespace Digikala.Core.Services
+namespace Digikala.Core.Services.Generic
 {
     public class UnitOfWork : IUnitOfWork
     {
