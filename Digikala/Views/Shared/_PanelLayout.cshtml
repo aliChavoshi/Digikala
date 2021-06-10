@@ -40,6 +40,8 @@
                     <!--end::Header-->
                     <!--begin::Content-->
                     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                         @await RenderSectionAsync("SubHeader", false)
+                         @await RenderSectionAsync("Notice", false)
                          @RenderBody()
                     </div>
                     <!--end::Content-->
