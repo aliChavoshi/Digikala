@@ -1,10 +1,8 @@
-﻿@using Digikala.DataAccessLayer.Entities.Identity
-@model IEnumerable<Digikala.DataAccessLayer.Entities.Identity.Role>
+﻿@model IEnumerable<Digikala.DataAccessLayer.Entities.Identity.Role>
 @{
      ViewBag.title = "نقش ها";
      Layout = "_PanelLayout";
      var row = 1;
-     var role = new Role();
 }
 
 <!--begin::زیر هدر-->
@@ -36,7 +34,7 @@
                               <!--begin::نمونه-->
                               <div class="mb-10">
                                    <p>
-                                        <button type="button" class="btn btn-success btn-shadow font-weight-bold mr-2" data-toggle="modal" data-target="#exampleModal">ثبت رکورد جدید</button>
+                                        <button type="button" class="btn btn-success btn-shadow font-weight-bold mr-2" onclick="CreateRole()">ثبت رکورد جدید</button>
                                    </p>
                                    <table class="table table-hover table-responsive-xl">
                                         <thead>
@@ -53,10 +51,10 @@
                                                        <th scope="row">@row</th>
                                                        <td>@item.Title</td>
                                                        <td>
-                                                            <a href="#" class="btn btn-icon btn-sm btn-warning">
+                                                            <a onclick="EditRole(@item.Id)" class="btn btn-icon btn-sm btn-warning">
                                                                  <i class="flaticon2-edit"></i>
                                                             </a>
-                                                            <a href="#" class="btn btn-icon btn-sm btn-danger">
+                                                            <a onclick="DeleteRole(@item.Id)" class="btn btn-icon btn-sm btn-danger">
                                                                  <i class="flaticon2-delete"></i>
                                                             </a>
                                                        </td>
@@ -76,5 +74,42 @@
      <!--end::Container-->
 </div>
 <!--end::Entry-->
-
-<partial name="_PartialModalCreateRole" model="role" />
+<partial name="_PartialModalRole" />
+@section scripts
+{
+     <script>
+          function CreateRole() {
+               $.ajax({
+                    url: '/adminPanel/Home/CreateRole',
+                    type: 'GET',
+                    date: {}
+               }).done(function (result) {
+                    $('#exampleModal').modal('show');
+                    $('#exampleModalLabel').html('ثبت نقش جدید');
+                    $('#modalBody').html(result);
+               });
+          }
+          function EditRole(id) {
+               $.ajax({
+                    url: '/adminPanel/Home/EditRole/' + id,
+                    type: 'GET',
+                    date: {}
+               }).done(function (result) {
+                    $('#exampleModal').modal('show');
+                    $('#exampleModalLabel').html('ویرایش نقش');
+                    $('#modalBody').html(result);
+               });
+          }
+          function DeleteRole(id) {
+               $.ajax({
+                    url: '/adminPanel/Home/DeleteRole/' + id,
+                    type: 'GET',
+                    date: {}
+               }).done(function (result) {
+                    $('#exampleModal').modal('show');
+                    $('#exampleModalLabel').html('حذف نقش');
+                    $('#modalBody').html(result);
+               });
+          }
+     </script>
+}
