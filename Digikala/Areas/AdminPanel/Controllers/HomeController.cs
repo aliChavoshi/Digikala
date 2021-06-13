@@ -46,14 +46,17 @@ namespace Digikala.Areas.AdminPanel.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //TODO
                 return RedirectToAction("Roles");
             }
             if (await _roleRepository.IsExist(x => x.Title.ToLower() == model.Title.ToLower()))
             {
+                //TODO
                 return RedirectToAction("Roles");
             }
             await _roleRepository.Add(model);
             await _roleRepository.Save();
+            TempData["IsSuccess"] = true;
             return RedirectToAction("Roles");
         }
 
@@ -71,12 +74,14 @@ namespace Digikala.Areas.AdminPanel.Controllers
             {
                 if (await _roleRepository.IsExist(x => x.Title.ToLower() == model.Title.ToLower()))
                 {
+                    //TODO
                     return RedirectToAction("Roles");
                 }
             }
             role.Title = model.Title;
             _roleRepository.Update(role);
             await _roleRepository.Save();
+            TempData["IsSuccess"] = true;
             return RedirectToAction("Roles");
         }
 
@@ -91,16 +96,19 @@ namespace Digikala.Areas.AdminPanel.Controllers
         {
             if (await _accountRepository.IsExist(x => x.RoleId == model.Id))
             {
+                //TODO
                 return RedirectToAction("Roles");
             }
             if (await _rolePermissionRepository.IsExist(x => x.RoleId == model.Id))
             {
+                //TODO
                 return RedirectToAction("Roles");
             }
             var role = await _roleRepository.GetById(model.Id);
             role.IsDeleted = true;
             _roleRepository.Update(role);
             await _roleRepository.Save();
+            TempData["IsSuccess"] = true;
             return RedirectToAction("Roles");
         }
 

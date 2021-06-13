@@ -22,7 +22,7 @@
           <!--begin::Page-->
           <div class="d-flex flex-row flex-column-fluid page">
                <!--begin::Aside-->
-               <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
+               <div class="aside aside-left aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
                     <!--begin::Brand-->
                     <partial name="StoreLayoutShared/_PartialAsideBrandStoreLayout" />
                     <!--end::Brand-->
@@ -35,11 +35,13 @@
                <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                     <!--begin::Header-->
                     <div id="kt_header" class="header  header-fixed ">
-                         <partial name="StoreLayoutShared/_PartialHeaderMobileStoreLayout" />
+                         <partial name="StoreLayoutShared/_PartialHeaderStoreLayout" />
                     </div>
                     <!--end::Header-->
                     <!--begin::Content-->
                     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+                         @await RenderSectionAsync("SubHeader", false)
+                         @await RenderSectionAsync("Notice", false)
                          @RenderBody()
                     </div>
                     <!--end::Content-->
