@@ -1,5 +1,6 @@
 ﻿@using Digikala.Core.Classes
 @using Digikala.Core.Interfaces
+@using Digikala.Utility.TagHelper
 @inject IAccountRepository _accountRepository
 @{
      var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
@@ -75,10 +76,10 @@
                     <div class="menu-submenu ">
                          <i class="menu-arrow"></i>
                          <ul class="menu-subnav">
-                              <li class="menu-item " aria-haspopup="true">
+                              <li class="menu-item @Html.IsActive("","store","ConfirmMobileNumber")" aria-haspopup="true">
                                    <a asp-controller="Store" asp-action="ConfirmMobileNumber" class="menu-link "><i class="menu-bullet menu-bullet-dot"><span></span></i><span class="menu-text">فعالسازی موبایل</span><span class="menu-label"><span class="label @(user.ConfirmMobile ? "label-success" : "label-danger") label-inline">@labelMobile</span></span></a>
                               </li>
-                              <li class="menu-item " aria-haspopup="true">
+                              <li class="menu-item @Html.IsActive("","store","ConfirmEmail")" aria-haspopup="true">
                                    <a asp-controller="Store" asp-action="ConfirmEmail" class="menu-link "><i class="menu-bullet menu-bullet-dot"><span></span></i><span class="menu-text">فعالسازی ایمیل</span><span class="menu-label"><span class="label @(user.ConfirmEmail ? "label-success" : "label-danger") label-inline">@labelEmail</span></span></a>
                               </li>
                          </ul>

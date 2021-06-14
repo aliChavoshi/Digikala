@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Digikala.DataAccessLayer.Context;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Digikala.DataAccessLayer.Entities.Identity;
+﻿using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 
 namespace Digikala.DataAccessLayer.SeedingData
 {

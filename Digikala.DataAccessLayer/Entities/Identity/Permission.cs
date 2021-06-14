@@ -14,9 +14,10 @@ namespace Digikala.DataAccessLayer.Entities.Identity
         [MaxLength(100, ErrorMessage = "نمیتواند {0} بیشتر از {1} کاراکتر باشد")]
         public string Name { get; set; }
 
+        [Display(Name = "Root")]
         public int? ParentId { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         #region Relations
 
