@@ -29,6 +29,13 @@ namespace Digikala.DataAccessLayer.SeedingData
                     IsDeleted = false,
                     Name = "صفحه اصلی فروشگاه",
                     ParentId = null
+                },
+                new Permission()
+                {
+                    Id = 2,
+                    IsDeleted = false,
+                    Name = "صفحه اصلی ادمین",
+                    ParentId = null
                 }
             });
         }
@@ -47,6 +54,12 @@ namespace Digikala.DataAccessLayer.SeedingData
                     Id = 2,
                     RoleId = 3,
                     PermissionId = 1
+                },
+                new RolePermission()
+                {
+                    Id = 3,
+                    RoleId = 3,
+                    PermissionId = 2
                 }
             });
         }

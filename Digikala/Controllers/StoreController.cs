@@ -141,6 +141,7 @@ namespace Digikala.Controllers
 
         #region ConfirmMobileAndEmail
 
+        [Permission(1)]
         public async Task<IActionResult> ConfirmMobileNumber()
         {
             var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
@@ -157,6 +158,7 @@ namespace Digikala.Controllers
             return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = User.GetMobileNumber() });
         }
 
+        [Permission(1)]
         public async Task<IActionResult> ConfirmEmail()
         {
             var user = await _accountRepository.GetUserByMobile(User.GetMobileNumber());
@@ -193,7 +195,6 @@ namespace Digikala.Controllers
 
         [HttpGet]
         [Permission(1)]
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View();

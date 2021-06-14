@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Interfaces.Identity;
 using Digikala.DataAccessLayer.Entities.Identity;
@@ -9,6 +10,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
     [Route("[area]/[controller]/[action]")]
+    [Permission(2)]
     public class HomeController : Controller
     {
         private readonly IRoleRepository _roleRepository;
@@ -22,12 +24,14 @@ namespace Digikala.Areas.AdminPanel.Controllers
             _rolePermissionRepository = rolePermissionRepository;
         }
 
-        #region Role
-
         public IActionResult Index()
         {
             return View();
         }
+
+        #region Role
+
+
 
         [HttpGet]
         public async Task<IActionResult> Roles()
@@ -111,6 +115,12 @@ namespace Digikala.Areas.AdminPanel.Controllers
             TempData["IsSuccess"] = true;
             return RedirectToAction("Roles");
         }
+
+        #endregion
+
+        #region Permission
+
+        
 
         #endregion
     }

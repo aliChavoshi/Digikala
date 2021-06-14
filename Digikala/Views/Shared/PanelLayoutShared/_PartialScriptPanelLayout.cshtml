@@ -72,3 +72,10 @@
 <!--begin::Page Scripts(used by this page)-->
 <script src="/panelTemplate/assets/js/pages/widgets.js?v=7.0.6"></script>
 <!--end::Global تم Bundle-->
+<script>
+     $(document).ready(function () {
+          $('li.menu-item-active').each(function () {
+               $(this).parent().parent().parent().addClass("menu-item-open");
+          });
+     })
+</script>
