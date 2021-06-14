@@ -38,16 +38,80 @@
                     <!--begin::Card-->
                     <div class="card card-custom gutter-b">
                          <div class="card-header">
-                              <div class="card-title">
-                                   <h3 class="card-label">@ViewData["Title"]</h3>
+                              <div class="card-title" id="search" onclick="ToggleFrm()">
+                                   <span class="card-icon"><i class="flaticon2-arrow-down text-primary"></i></span>
+                                   <h3 class="card-label">جستجو پیشرفته</h3>
+                              </div>
+                              <div class="card-toolbar">
+                                   <!--begin::دکمه-->
+                                   <a onclick="CreateRole()" class="btn btn-success btn-shadow font-weight-bold mr-2">
+                                        <span class="svg-icon svg-icon-md">
+                                             <!--begin::Svg Icon | path:assets/media/svg/icons/طرح/Flatten.svg-->
+                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                       <rect x="0" y="0" width="24" height="24" />
+                                                       <circle fill="#000000" cx="9" cy="15" r="6" />
+                                                       <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
+                                                  </g>
+                                             </svg>
+                                             <!--end::Svg Icon-->
+                                        </span>	رکورد جدید
+                                   </a>
+                                   <!--end::دکمه-->
                               </div>
                          </div>
+
                          <div class="card-body">
                               <!--begin::نمونه-->
                               <div class="mb-10">
-                                   <p>
-                                        <button type="button" class="btn btn-success btn-shadow font-weight-bold mr-2" onclick="CreateRole()">ثبت رکورد جدید</button>
-                                   </p>
+                                   <!--begin: جستجو Form-->
+                                   <form class="kt-form kt-form--fit mb-15" id="frm" style="display: none">
+                                        <div class="row mb-8">
+                                             <div class="col-lg-3  mb-lg-0 mb-6">
+                                                  <label>جستجو دسترسی:</label>
+                                                  <input type="text" class="form-control datatable-input" data-col-index="6" />
+                                             </div>
+                                             <div class="col-lg-3  mb-lg-0 mb-6">
+                                                  <label>جستجو Root:</label>
+                                                  <input type="text" class="form-control datatable-input" data-col-index="6" />
+                                             </div>
+                                             @*<div class="col-lg-3  mb-lg-0 mb-6">
+                                                       <label>تاریخ:</label>
+                                                       <div class="input-daterange input-group" id="kt_datepicker">
+                                                            <input type="text" class="form-control datatable-input" name="start" placeholder="از جانب" data-col-index="5" />
+                                                            <div class="input-group-append">
+                                                                 <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control datatable-input" name="end" placeholder="به" data-col-index="5" />
+                                                       </div>
+                                                  </div>
+                                                  <div class="col-lg-3  mb-lg-0 mb-6">
+                                                       <label>وضعیت:</label>
+                                                       <select class="form-control datatable-input" data-col-index="6">
+                                                            <option value="">انتخاب</option>
+                                                       </select>
+                                                  </div>*@
+                                        </div>
+
+                                        <div class="row mt-8">
+                                             <div class="col-lg-12">
+                                                  <button class="btn btn-primary btn-primary--icon" id="kt_search">
+                                                       <span>
+                                                            <i class="la la-search"></i>
+                                                            <span>جستجو</span>
+                                                       </span>
+                                                  </button>
+                                                  &nbsp;&nbsp;
+                                                  <button class="btn btn-secondary btn-secondary--icon" id="kt_reset">
+                                                       <span>
+                                                            <i class="la la-close"></i>
+                                                            <span>ریست</span>
+                                                       </span>
+                                                  </button>
+                                             </div>
+                                        </div>
+                                   </form>
+
                                    <table class="table table-hover table-responsive-md">
                                         <thead>
                                              <tr>
@@ -124,6 +188,14 @@
                     $('#modalBody').html(result);
                });
           }
+          function ToggleFrm() {
+               var x = document.getElementById("frm");
+               if (x.style.display === "none") {
+                    x.style.display = "block";
+               } else {
+                    x.style.display = "none";
+               }
+          }
      </script>
-   
+
 }

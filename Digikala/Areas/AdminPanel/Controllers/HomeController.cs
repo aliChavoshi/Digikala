@@ -187,7 +187,10 @@ namespace Digikala.Areas.AdminPanel.Controllers
                     return RedirectToAction("Permissions");
                 }
             }
-
+            if (model.ParentId.HasValue && model.ParentId.Value == permission.Id)
+            {
+                return RedirectToAction("Permissions");
+            }
             permission.Name = model.Name;
             permission.ParentId = model.ParentId;
             _permissionRepository.Update(permission);
@@ -196,6 +199,30 @@ namespace Digikala.Areas.AdminPanel.Controllers
             return RedirectToAction("Permissions");
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> DeletePermission(int id)
+        {
+            return PartialView(await _permissionRepository.GetById(id));
+        }
+
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> DeletePermission(Permission model)
+        {
+            if (await _rolePermissionRepository.IsExist(x => x.PermissionId == model.Id))
+            {
+                return RedirectToAction("Permissions");
+            }
+            if (await _permissionRepository.IsExist(x => x.ParentId == model.Id))
+            {
+                return RedirectToAction("Permissions");
+            }
+            var permission = await _permissionRepository.GetById(model.Id);
+            permission.IsDeleted = true;
+            _permissionRepository.Update(permission);
+            await _permissionRepository.Save();
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("Permissions");
+        }
         #endregion
     }
 }

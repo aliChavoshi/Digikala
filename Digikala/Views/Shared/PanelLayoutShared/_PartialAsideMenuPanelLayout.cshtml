@@ -46,7 +46,15 @@
                          <i class="menu-arrow"></i>
                          <ul class="menu-subnav">
                               <li class="menu-item @Html.IsActive("AdminPanel","Home","Roles")" aria-haspopup="true">
-                                   <a asp-area="AdminPanel" asp-controller="Home" asp-action="Roles" class="menu-link "><i class="menu-bullet menu-bullet-dot"><span></span></i><span class="menu-text">نقش ها</span><span class="menu-label"><span class="label label-danger label-inline">جدید</span></span></a>
+                                   <a asp-area="AdminPanel" asp-controller="Home" asp-action="Roles" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-dot"><span></span></i><span class="menu-text">نقش ها</span>
+                                   </a>
+                              </li>
+                              <li class="menu-item @Html.IsActive("AdminPanel","Home","Permissions")" aria-haspopup="true">
+                                   <a asp-area="AdminPanel" asp-controller="Home" asp-action="Permissions" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-dot"><span></span></i><span class="menu-text">دسترسی ها</span>
+                                        @* <span class="menu-label"><span class="label label-danger label-inline">جدید</span></span> *@
+                                   </a>
                               </li>
                          </ul>
                     </div>

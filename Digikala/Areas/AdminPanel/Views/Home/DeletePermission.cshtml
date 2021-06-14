@@ -1,10 +1,10 @@
-﻿@model Digikala.DataAccessLayer.Entities.Identity.Role
-<form method="post" asp-action="DeleteRole">
+﻿@model Digikala.DataAccessLayer.Entities.Identity.Permission
+<form method="post" asp-action="DeletePermission">
      <input type="hidden" asp-for="Id" />
      <div class="modal-body">
           <div class="form-group">
-               <label for="recipient-name" class="col-form-label" asp-for="Title"></label>
-               <input readonly="readonly" asp-for="Title" type="text" class="form-control" id="recipient-name">
+               <label for="recipient-name" class="col-form-label" asp-for="Name"></label>
+               <input readonly="readonly" asp-for="Name" type="text" class="form-control" id="recipient-name">
           </div>
      </div>
      <div class="modal-footer">
