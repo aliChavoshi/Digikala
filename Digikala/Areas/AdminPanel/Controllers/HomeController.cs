@@ -3,6 +3,7 @@ using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Interfaces.Identity;
 using Digikala.DataAccessLayer.Entities.Identity;
+using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
@@ -49,9 +50,11 @@ namespace Digikala.Areas.AdminPanel.Controllers
         #region Role
 
         [HttpGet]
-        public async Task<IActionResult> Roles()
+        public async Task<IActionResult> Roles(RoleParamsDto paramsDto)
         {
-            return View(await _roleRepository.ToListAsync());
+            ViewBag.FilterTitle = paramsDto.FilterTitle;
+
+            return View(await _roleRepository.RolesToList(paramsDto));
         }
 
         [HttpGet]
@@ -135,9 +138,11 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
         #region Permission
 
-        public async Task<IActionResult> Permissions()
+        public async Task<IActionResult> Permissions(PermissionParamsDto paramsDto)
         {
-            return View(await _permissionRepository.ToListAsync());
+            ViewBag.FilterRoot = paramsDto.FilterRoot;
+            ViewBag.FilterTitle = paramsDto.FilterTitle;
+            return View(await _permissionRepository.PermissionsToList(paramsDto));
         }
 
         public async Task<IActionResult> CreatePermission()

@@ -16,6 +16,7 @@ namespace Digikala
             #region Generic
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPaginationRepository,PaginationRepository>();
             #endregion
 
             #region Identity

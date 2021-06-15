@@ -1,0 +1,62 @@
+﻿@model Digikala.DTOs.FormDto.Public.PaginationDto
+<div class="col-sm-12 col-md-10 mt-5">
+     <div class="dataTables_paginate paging_simple_numbers">
+          <ul class="pagination">
+               @if (Model.EndPage > 1 && Model.CurrentPage > 1)
+               {
+                    //previous
+                    <li class="paginate_button page-item previous">
+                         <a onclick="changePage(@(Model.CurrentPage - 1))" aria-controls="kt_datatable" data-dt-idx="0" tabindex="0" class="page-link"><i class="ki ki-arrow-next"></i></a>
+                    </li>
+               }
+               @for (var i = Model.StartPage; i <= Model.EndPage; i++)
+               {
+                    <li class="paginate_button page-item @((i == Model.CurrentPage) ? "active" : "")">
+                         <a onclick="changePage(@i)" aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">@i</a>
+                    </li>
+               }
+               @if (Model.CurrentPage < Model.PageCount)
+               {
+                    //next
+                    <li class="paginate_button page-item next">
+                         <a onclick="changePage(@(Model.CurrentPage + 1))" aria-controls="kt_datatable" data-dt-idx="6" tabindex="0" class="page-link"><i class="ki ki-arrow-back"></i></a>
+                    </li>
+               }
+          </ul>
+     </div>
+</div>
+<div class="col-sm-12 col-md-2">
+     <label>
+          نمایش
+          <select onchange="changeTake(this.value)" name="Take" id="Take" aria-controls="kt_datatable" class="custom-select custom-select-sm form-control form-control-sm">
+               <option selected="selected" value="30">30</option>
+               <option value="60">60</option>
+               <option value="75">75</option>
+               <option value="100">100</option>
+          </select>
+     </label>
+</div>
+<script>
+     function Submit() {
+          $("#frm").submit();
+     }
+
+     function changePage(pageId) {
+          $('#SendPageId').val(pageId);
+          Submit();
+     }
+
+     function changeTake(value) {
+          $('#SendTake').val(value);
+          Submit();
+     }
+     (function () {
+          // your page initialization code here
+          // the DOM will be available here
+          var query = window.location.search;
+          var page = new URLSearchParams(query);
+          if (page.get('SendTake') != null) {
+               document.getElementById("Take").value = page.get('SendTake');
+          }
+     })();
+</script>

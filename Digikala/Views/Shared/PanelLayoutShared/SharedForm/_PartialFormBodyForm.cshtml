@@ -1,0 +1,104 @@
+﻿@model Digikala.DTOs.FormDto.AdminPanel.FormBodyDto
+@if (Model.ExistPagination)
+{
+     <input type="hidden" value="1" name="SendPageId" id="SendPageId" />
+     <input type="hidden" value="30" name="SendTake" id="SendTake" />
+}
+@if (Model.ExistSearch)
+{
+     @foreach (var n in Model.InputsSearch)
+     {
+          <div class="col-lg-3  mb-lg-0 mb-6">
+               <label>جستجو:</label>
+               <input autocomplete="off" type="text" class="form-control datatable-input filter-input" id="Filter@(n.Key)" value="@ViewData["Filter"+n.Key]" data-col-index="6" name="Filter@(n.Key)" placeholder="@n.Value" />
+          </div>
+          //Open form when search box is full
+          <script>
+               (function () {
+                    var items = document.getElementsByClassName('filter-input');
+                    Array.prototype.forEach.call(items, function (el) {
+                         if (el.value) {
+                              var x = document.getElementById("frm");
+                              if (x.style.display === "none") {
+                                   x.style.display = "block";
+                              }
+                         }
+                    });
+               })();
+          </script>
+     }
+}
+@if (Model.ExistOrder)
+{
+     <div class="col-lg-3  mb-lg-0 mb-6">
+          <label>مرتب سازی:</label>
+          <select class="form-control datatable-input" id="OrderFrom" name="OrderFrom" data-col-index="6">
+               @foreach (var f in Model.InputsOrder)
+               {
+                    <option value="@f.Key">@f.Value</option>
+               }
+          </select>
+     </div>
+}
+@if (Model.ExistOrder)
+{
+     <div class="col-lg-3  mb-lg-0 mb-6">
+          <label>نوع مرتب سازی:</label>
+          <select class="form-control datatable-input" name="Order" id="Order" data-col-index="6">
+               <option class="form-control" value="Des">نزولی</option>
+               <option class="form-control" selected="selected" value="Asc">صعودی</option>
+          </select>
+     </div>
+}
+@if (Model.ExistDateSearch)
+{
+     <div class="col-lg-3  mb-lg-0 mb-6">
+          <label>تاریخ:</label>
+          <div class="input-daterange input-group" id="kt_datepicker">
+               <input type="text" class="form-control datatable-input" name="StartDate" placeholder="از جانب" data-col-index="5" />
+               <div class="input-group-append">
+                    <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+               </div>
+               <input type="text" class="form-control datatable-input" name="EndDate" placeholder="به" data-col-index="5" />
+          </div>
+     </div>
+}
+@if (Model.ExistIsActive)
+{
+     <div class="col-lg-3  mb-lg-0 mb-6">
+          <label>وضعیت:</label>
+          <select class="form-control datatable-input" name="IsActive" id="IsActive" data-col-index="6">
+               <option class="form-control" value="true">فعال</option>
+               <option class="form-control" value="false">غیر فعال</option>
+          </select>
+     </div>
+}
+<script>
+     (function () {
+          // your page initialization code here
+          // the DOM will be available here
+          var query = window.location.search;
+          var page = new URLSearchParams(query);
+          if (page.get('OrderFrom') != null) {
+               document.getElementById("OrderFrom").value = page.get('OrderFrom');
+          }
+          if (page.get('IsActive') != null) {
+               document.getElementById("IsActive").value = page.get('IsActive');
+          }
+          if (page.get('Order') != null) {
+               document.getElementById("Order").value = page.get('Order');
+          }
+          if (page.get('StartDate') != null) {
+               document.getElementById("StartDate").value = page.get('StartDate');
+          }
+          if (page.get('EndDate') != null) {
+               document.getElementById("EndDate").value = page.get('EndDate');
+          }
+          if (page.get('SendPageId') != null) {
+               document.getElementById("SendPageId").value = page.get('SendPageId');
+          }
+          if (page.get('SendTake') != null) {
+               document.getElementById("SendTake").value = page.get('SendTake');
+          }
+     })();
+</script>
