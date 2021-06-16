@@ -1,6 +1,6 @@
 ﻿namespace Digikala.DTOs.FormDto.AdminPanel
 {
-    public class CardHeaderDto
+    public class CardHeaderFormDto
     {
         public bool ModalButton { get; set; } = false;
         public string CardLabel { get; set; } = "جستجو پیشرفته";

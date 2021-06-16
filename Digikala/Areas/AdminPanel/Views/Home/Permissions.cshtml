@@ -4,7 +4,7 @@
    ViewBag.title = "سطح دسترسی ها";
    Layout = "_PanelLayout";
    var row = 1;
-   var cardHeaderDto = new CardHeaderDto()
+   var cardHeaderDto = new CardHeaderFormDto()
    {
       ModalButton = true,
       NameMethodOnclick = "CreatePermission()",
@@ -26,6 +26,11 @@
    var searchResetButton = new SearchResetButtonFormDto()
    {
       ActionName = "Permissions"
+   };
+   var editDeleteBtnForm = new EditDeleteBtnFormDto()
+   {
+      ModalDeleteButton = true,
+      ModalEditButton = true,
    };
 }
 @if (TempData["IsSuccess"] != null)
@@ -91,17 +96,15 @@
                         <tbody>
                            @foreach (var item in Model.List)
                            {
+                              editDeleteBtnForm.Id = item.Id;
+                              editDeleteBtnForm.EditMethodOnclick = $"EditPermission({item.Id})";
+                              editDeleteBtnForm.DeleteMethodOnclick = $"DeletePermission({item.Id})";
                               <tr>
                                  <th scope="row">@row</th>
                                  <td>@item.Name</td>
                                  <td>@Model.List.FirstOrDefault(x => x.Id == item.ParentId)?.Name</td>
                                  <td>
-                                    <a onclick="EditPermission(@item.Id)" class="btn btn-icon btn-sm btn-warning">
-                                       <i class="flaticon2-edit"></i>
-                                    </a>
-                                    <a onclick="DeletePermission(@item.Id)" class="btn btn-icon btn-sm btn-danger">
-                                       <i class="flaticon2-delete"></i>
-                                    </a>
+                                    <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
                                  </td>
                               </tr>
                               row++;
@@ -113,7 +116,7 @@
                      </div>
 
                      <div class="row">
-                        <partial name="PanelLayoutShared/SharedForm/_PartialPaginationForm" model="@Model.PaginationDto"/>
+                        <partial name="PanelLayoutShared/SharedForm/_PartialPaginationForm" model="@Model.PaginationDto" />
                      </div>
                   </div>
                   <!--end::نمونه-->
@@ -163,15 +166,6 @@
             $('#exampleModalLabel').html('حذف دسترسی');
             $('#modalBody').html(result);
          });
-      }
-
-      function ToggleFrm() {
-         var x = document.getElementById("frm");
-         if (x.style.display === "none") {
-            x.style.display = "block";
-         } else {
-            x.style.display = "none";
-         }
       }
    </script>
 

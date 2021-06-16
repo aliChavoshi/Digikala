@@ -54,10 +54,10 @@ namespace Digikala.Core.Services.Identity
             }
             if (!string.IsNullOrEmpty(paramsDto.FilterRoot))
             {
-                var parentId = result.Where(x => x.ParentId == null &&
-                                                 x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
+                var ids = result
+                    .Where(x => x.ParentId == null && x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
                                                 .Select(x => x.Id);
-                result = result.Where(p => parentId.Any() && parentId.Contains(p.Id));
+                result = result.Where(p => ids.Any(x => p.Id == x || p.ParentId == x));
             }
 
             #endregion

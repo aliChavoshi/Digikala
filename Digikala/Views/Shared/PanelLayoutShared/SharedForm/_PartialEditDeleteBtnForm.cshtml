@@ -1,0 +1,25 @@
+﻿@model Digikala.DTOs.FormDto.AdminPanel.EditDeleteBtnFormDto
+@if (Model.ModalEditButton)
+{
+   <a onclick="@Model.EditMethodOnclick" class="btn btn-icon btn-sm btn-warning">
+      <i class="flaticon2-edit"></i>
+   </a>
+}
+else
+{
+   <a asp-action="@Model.ActionNameEdit" asp-route-id="@Model.Id" class="btn btn-icon btn-sm btn-warning">
+      <i class="flaticon2-edit"></i>
+   </a>
+}
+@if (Model.ModalDeleteButton)
+{
+   <a onclick="@Model.DeleteMethodOnclick" class="btn btn-icon btn-sm btn-danger">
+      <i class="flaticon2-delete"></i>
+   </a>
+}
+else
+{
+   <a asp-action="@Model.ActionNameDelete" asp-route-id="@Model.Id" class="btn btn-icon btn-sm btn-warning">
+      <i class="flaticon2-edit"></i>
+   </a>
+}
