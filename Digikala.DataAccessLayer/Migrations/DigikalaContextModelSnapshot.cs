@@ -16,7 +16,7 @@ namespace Digikala.DataAccessLayer.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Digikala.DataAccessLayer.Entities.Identity.Permission", b =>
@@ -49,6 +49,12 @@ namespace Digikala.DataAccessLayer.Migrations
                             Id = 1,
                             IsDeleted = false,
                             Name = "صفحه اصلی فروشگاه"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsDeleted = false,
+                            Name = "صفحه اصلی ادمین"
                         });
                 });
 
@@ -127,6 +133,12 @@ namespace Digikala.DataAccessLayer.Migrations
                         {
                             Id = 2,
                             PermissionId = 1,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PermissionId = 2,
                             RoleId = 3
                         });
                 });
@@ -208,7 +220,7 @@ namespace Digikala.DataAccessLayer.Migrations
                             Id = 1,
                             ConfirmEmail = true,
                             ConfirmMobile = true,
-                            CreateDate = new DateTime(2021, 6, 7, 15, 26, 40, 327, DateTimeKind.Local).AddTicks(212),
+                            CreateDate = new DateTime(2021, 6, 17, 20, 19, 40, 832, DateTimeKind.Local).AddTicks(6048),
                             Email = "Admin@gmail.com",
                             Fullname = "Admin",
                             IsActive = true,
