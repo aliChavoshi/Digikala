@@ -73,7 +73,7 @@
                                     </div>
                                     <div class="col-md-4 col-sm-4 form-group">
                                        <label asp-for="ExpireRolePermission"></label>
-                                       <input name="ExpireRolePermission" readonly placeholder="تاریخ انقضا این دسترسی را مشخص نمائید" autocomplete="off" type="text" class="form-control ExpireRolePermission"/>
+                                       <input onfocus="callDate()" name="ExpireRolePermission" readonly autocomplete="off" type="text" class="form-control expireRolePermission" placeholder="تاریخ انقضا این دسترسی را مشخص نمائید" />
                                     </div>
                                     <div class="col-md-3 col-sm-3 form-group mt-5">
                                        <a href="javascript:;" data-repeater-delete="" class="btn btn-sm font-weight-bolder btn-light-danger">
@@ -83,7 +83,7 @@
                                  </div>
                               </div>
                               <div>
-                                 <a href="javascript:;" onclick="callDate()" data-repeater-create="" class="btn btn-sm font-weight-bolder  btn-light-primary">
+                                 <a href="javascript:;" data-repeater-create="" class="btn btn-sm font-weight-bolder  btn-light-primary">
                                     <i class="la la-plus"></i>افزودن دسترسی جدید
                                  </a>
                               </div>
@@ -107,6 +107,47 @@
 @section scripts
 {
    <script>
-      $(".ExpireRolePermission").persianDatepicker();
+      function callDate() {
+         $('.expireRolePermission').each(function (item, index) {
+            console.log($(`input[name="[${index}][ExpireRolePermission]"]`));
+            $('input[name="[0][ExpireRolePermission]"]').persianDatepicker();
+            $('input[name="[1][ExpireRolePermission]"]').persianDatepicker();
+         });
+      }
+   </script>
+   <script>
+      // کلاس definition
+      var KTFormRepeater = function() {
+         //این بخش برای تکرار کردن یک فرم میباشد
+         // خصوصی functions
+         var demo1 = function() {
+            $('#kt_repeater_1').repeater({
+               initEmpty: false,
+
+               defaultValues: {
+                  'text-input': 'foo'
+               },
+
+               show: function() {
+                  $(this).slideDown();
+               },
+
+               hide: function(deleteElement) {
+                  $(this).slideUp(deleteElement);
+               }
+            });
+         }
+
+         return {
+            // public functions
+            init: function() {
+               demo1();
+            }
+         };
+      }();
+
+      jQuery(document).ready(function() {
+         KTFormRepeater.init();
+      });
    </script>
 }
