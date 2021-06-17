@@ -28,7 +28,6 @@ namespace Digikala.Core.Services.Identity
                 new SelectListItem()
                 {
                     Text = "لطفا انتخاب کنید",
-                    Value = "0"
                 }
             };
 
@@ -47,19 +46,18 @@ namespace Digikala.Core.Services.Identity
             IQueryable<Permission> result = Context.Permission.Include(x => x.Permissions);
 
             #region Searching
-
-            if (!string.IsNullOrEmpty(paramsDto.FilterTitle))
-            {
-                result = result.Where(p => p.Name.ToLower().Contains(paramsDto.FilterTitle.ToLower()));
-            }
+            //TODO Search both
             if (!string.IsNullOrEmpty(paramsDto.FilterRoot))
             {
                 var ids = result
                     .Where(x => x.ParentId == null && x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
-                                                .Select(x => x.Id);
+                    .Select(x => x.Id);
                 result = result.Where(p => ids.Any(x => p.Id == x || p.ParentId == x));
             }
-
+            if (!string.IsNullOrEmpty(paramsDto.FilterTitle))
+            {
+                result = result.Where(p => p.Name.ToLower().Contains(paramsDto.FilterTitle.ToLower()));
+            }
             #endregion
 
             #region OrderBy

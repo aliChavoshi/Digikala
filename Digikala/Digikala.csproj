@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -40,6 +40,40 @@
 
   <ItemGroup>
     <Folder Include="Areas\AdminPanel\Views\Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\.gitignore" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\.npmignore" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\animated.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\bordered-pulled.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\core.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\fixed-width.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\font-awesome.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\icons.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\larger.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\list.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\mixins.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\path.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\rotated-flipped.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\stacked.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\less\variables.less" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\font-awesome.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_animated.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_bordered-pulled.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_core.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_fixed-width.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_icons.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_larger.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_list.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_mixins.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_path.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_rotated-flipped.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_stacked.scss" />
+    <None Include="wwwroot\calenderShamsi\css\fontawesome\scss\_variables.scss" />
   </ItemGroup>
 
 </Project>

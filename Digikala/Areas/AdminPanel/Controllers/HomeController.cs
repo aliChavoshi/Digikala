@@ -35,7 +35,11 @@ namespace Digikala.Areas.AdminPanel.Controllers
             var permissions = await _permissionRepository.PermissionsForSelectList();
             ViewData["Permissions"] = new SelectList(permissions, "Value", "Text", id);
         }
-
+        private async Task RolesForSelectList(int id = 0)
+        {
+            var roles = await _roleRepository.RolesForSelectList();
+            ViewData["Roles"] = new SelectList(roles, "Value", "Text", id);
+        }
         #endregion
 
         #region AdminPanel
@@ -227,6 +231,30 @@ namespace Digikala.Areas.AdminPanel.Controllers
             await _permissionRepository.Save();
             TempData["IsSuccess"] = true;
             return RedirectToAction("Permissions");
+        }
+        #endregion
+
+        #region RolePermission
+
+        [HttpGet]
+        public async Task<IActionResult> CreateRolePermission()
+        {
+            await RolesForSelectList();
+            await PermissionsForSelectList();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRolePermission(CreateRolePermissionDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                await RolesForSelectList(model.RoleId);
+                await PermissionsForSelectList();
+                return View(model);
+            }
+
+            return View();
         }
         #endregion
     }

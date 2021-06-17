@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Digikala.DTOs.FormDto.AdminPanel
+﻿namespace Digikala.DTOs.FormDto.AdminPanel.ForIndex
 {
     public class EditDeleteBtnFormDto
     {

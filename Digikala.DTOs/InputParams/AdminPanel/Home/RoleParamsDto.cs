@@ -1,5 +1,4 @@
-﻿using Digikala.DTOs.FormDto.AdminPanel;
-using Digikala.DTOs.FormDto.Public;
+﻿using Digikala.DTOs.FormDto.Public;
 
 namespace Digikala.DTOs.InputParams.AdminPanel.Home
 {

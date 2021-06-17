@@ -1,7 +1,9 @@
-﻿namespace Digikala.DTOs.FormDto.AdminPanel
+﻿namespace Digikala.DTOs.FormDto.AdminPanel.ForIndex
 {
     public class CardHeaderFormDto
     {
+        public bool ExistCardTitle { get; set; } = true;
+        public bool ExistBtn { get; set; } = true;
         public bool ModalButton { get; set; } = false;
         public string CardLabel { get; set; } = "جستجو پیشرفته";
         public string ActionName { get; set; } = "";

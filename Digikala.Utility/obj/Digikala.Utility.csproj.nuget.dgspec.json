@@ -45,13 +45,17 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "MD.PersianDateTime.Core": {
+              "target": "Package",
+              "version": "[2.3.5, )"
+            },
             "Microsoft.AspNetCore.Mvc.Razor": {
               "target": "Package",
               "version": "[2.2.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.6, )"
+              "version": "[5.0.7, )"
             }
           },
           "imports": [

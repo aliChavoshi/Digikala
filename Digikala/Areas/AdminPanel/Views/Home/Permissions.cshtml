@@ -1,4 +1,4 @@
-﻿@using Digikala.DTOs.FormDto.AdminPanel
+﻿@using Digikala.DTOs.FormDto.AdminPanel.ForIndex
 @model Digikala.DTOs.FormDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Identity.Permission>
 @{
    ViewBag.title = "سطح دسترسی ها";
@@ -114,7 +114,6 @@
                      <div>
                         <hr />
                      </div>
-
                      <div class="row">
                         <partial name="PanelLayoutShared/SharedForm/_PartialPaginationForm" model="@Model.PaginationDto" />
                      </div>

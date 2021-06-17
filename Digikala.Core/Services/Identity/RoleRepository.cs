@@ -6,9 +6,9 @@ using Digikala.Core.Interfaces.Identity;
 using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
-using Digikala.DTOs.FormDto.AdminPanel;
 using Digikala.DTOs.FormDto.Public;
 using Digikala.DTOs.InputParams.AdminPanel.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.Core.Services.Identity
@@ -67,6 +67,25 @@ namespace Digikala.Core.Services.Identity
                 PaginationDto = page,
                 List = await result.Skip(page.Skip).Take(paramsDto.SendTake).ToListAsync()
             };
+        }
+
+        public async Task<List<SelectListItem>> RolesForSelectList()
+        {
+            var list = new List<SelectListItem>()
+            {
+                new SelectListItem()
+                {
+                    Text = "لطفا انتخاب کنید",
+                }
+            };
+            var roles = await Context.Role.Select(r => new SelectListItem()
+            {
+                Text = r.Title,
+                Value = r.Id.ToString()
+            }).ToListAsync();
+
+            list.AddRange(roles);
+            return list;
         }
     }
 }

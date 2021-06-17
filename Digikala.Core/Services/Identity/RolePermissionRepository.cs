@@ -19,5 +19,10 @@ namespace Digikala.Core.Services.Identity
         {
             return await IsExist(x => x.RoleId == roleId && x.PermissionId == permissionId);
         }
+
+        public async Task AddPermissionsIdToRole(int roleId, int[] permissionIds, string[] dateExpire)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
