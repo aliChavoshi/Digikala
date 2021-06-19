@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Digikala.DTOs.InputParams.AdminPanel.Home
@@ -11,9 +12,12 @@ namespace Digikala.DTOs.InputParams.AdminPanel.Home
         public int RoleId { get; set; }
 
         [Display(Name = "دسترسی :")]
-        public int[] PermissionId { get; set; }
+        public List<int> PermissionId { get; set; } = new List<int>();
 
         [Display(Name = "تاریخ انقضای دسترسی :")]
-        public string[] ExpireRolePermission { get; set; }
+        public List<string> ExpireRolePermission { get; set; } = new List<string>();
+
+        [Display(Name = "انقضا نیاز دارید؟")] 
+        public List<bool> IsExistExpireTime { get; set; } = new List<bool>();
     }
 }

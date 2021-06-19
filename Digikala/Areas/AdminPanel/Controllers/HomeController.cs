@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Interfaces.Identity;
@@ -247,13 +248,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateRolePermission(CreateRolePermissionDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                await RolesForSelectList(model.RoleId);
-                await PermissionsForSelectList();
-                return View(model);
-            }
-
+            await _rolePermissionRepository.AddPermissionsIdToRole(model);
             return View();
         }
         #endregion

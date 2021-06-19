@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
-using Digikala.Core.Interfaces.Identity;
+﻿using Digikala.Core.Interfaces.Identity;
 using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
+using Digikala.DTOs.InputParams.AdminPanel.Home;
+using Digikala.Utility.Convertor;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Digikala.Core.Services.Identity
 {
-    public class RolePermissionRepository : GenericRepository<RolePermission>,IRolePermissionRepository
+    public class RolePermissionRepository : GenericRepository<RolePermission>, IRolePermissionRepository
     {
         private readonly DigikalaContext _context;
 
@@ -20,9 +23,17 @@ namespace Digikala.Core.Services.Identity
             return await IsExist(x => x.RoleId == roleId && x.PermissionId == permissionId);
         }
 
-        public async Task AddPermissionsIdToRole(int roleId, int[] permissionIds, string[] dateExpire)
+        public async Task AddPermissionsIdToRole(CreateRolePermissionDto model)
         {
-            throw new System.NotImplementedException();
+            await _context.RolePermission
+                .AddRangeAsync(model.IsExistExpireTime.Select((permissionId, index) =>
+                new RolePermission()
+                {
+                    // PermissionId = model.,
+                    //ExpireRolePermission = model.IsExistExpireTime[index] ? model.ExpireRolePermission[index].ToMiladi() : null,
+                    RoleId = model.RoleId
+                }));
+            await _context.SaveChangesAsync();
         }
     }
 }
