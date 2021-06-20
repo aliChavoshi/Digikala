@@ -1,0 +1,20 @@
+﻿
+@{
+   ViewData["Title"] = "RolePermissions";
+   Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+@if (TempData["IsSuccess"] != null)
+{
+   <script>
+      swal({
+         title: "موفق",
+         text: "عملیات با موفقیت انجام شد",
+         icon: "success",
+         button: false,
+         timer: 2000
+      });
+   </script>
+}
+
+<h1>RolePermissions</h1>
+

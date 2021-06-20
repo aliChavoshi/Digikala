@@ -249,6 +249,13 @@ namespace Digikala.Areas.AdminPanel.Controllers
         public async Task<IActionResult> CreateRolePermission(CreateRolePermissionDto model)
         {
             await _rolePermissionRepository.AddPermissionsIdToRole(model);
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("RolePermissions");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RolePermissions()
+        {
             return View();
         }
         #endregion

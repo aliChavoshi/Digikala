@@ -16,8 +16,5 @@ namespace Digikala.DTOs.InputParams.AdminPanel.Home
 
         [Display(Name = "تاریخ انقضای دسترسی :")]
         public List<string> ExpireRolePermission { get; set; } = new List<string>();
-
-        [Display(Name = "انقضا نیاز دارید؟")] 
-        public List<bool> IsExistExpireTime { get; set; } = new List<bool>();
     }
 }

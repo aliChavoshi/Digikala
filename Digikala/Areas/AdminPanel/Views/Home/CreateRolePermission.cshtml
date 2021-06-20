@@ -11,21 +11,9 @@
    };
    var cardFooter = new CardFooterCreateEditBtnForm()
    {
-      ActionReturn = "Index",
+      ActionReturn = "RolePermissions",
       ActionSubmit = "CreateRolePermission"
    };
-}
-@if (TempData["IsSuccess"] != null)
-{
-   <script>
-      swal({
-         title: "موفق",
-         text: "عملیات با موفقیت انجام شد",
-         icon: "success",
-         button: false,
-         timer: 2000
-      });
-   </script>
 }
 
 <!--begin::زیر هدر-->
@@ -51,8 +39,6 @@
                <div class="card-header">
                   <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
                </div>
-               <!--begin::نمونه-->
-               <!--begin: جستجو Form-->
                <form class="form" method="post" asp-action="CreateRolePermission">
                   <div class="card-body">
                      <div class="form-group row">
@@ -99,7 +85,6 @@
                      <partial name="PanelLayoutShared/SharedForm/_PartialCardFooterCreateEditBtnForm" model="cardFooter" />
                   </div>
                </form>
-               <!--end::نمونه-->
             </div>
             <!--end::Card-->
          </div>
@@ -116,12 +101,8 @@
          input.addClass("is-valid");
       }
       function CreateRepeat() {
-         $('.repeatData:last').clone().fadeIn(600,
-            function () {
-               $(this).appendTo($('#appendData'));
-            });
+         $('.repeatData:last').clone().appendTo($('#appendData')).hide().fadeIn(600);
       }
-
       function DeleteRow(event) {
          //can not delete all permission
          if (event.closest('#appendData', 'div').children().length == 1) {
@@ -137,19 +118,5 @@
          inputDate.val('0');
          inputDate.removeClass("is-valid");
       }
-//      function changeMyCheckbox(checkbox) {
-//         var expireDate = checkbox.closest('div').siblings().find('input.expireRolePermission');
-//         //change input to active
-//         if (expireDate.prop('disabled')) {
-//            expireDate.removeAttr('disabled');
-//            
-//            expireDate.attr('required', 'required');
-//         } else {
-//            //change input to disabled
-//            
-//            expireDate.val('0');
-//            expireDate.attr('disabled', 'disabled');
-//         }
-//      }
    </script>
 }
