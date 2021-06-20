@@ -71,8 +71,12 @@
 <!--end::Page Vendors-->
 <!--begin::Page Scripts(used by this page)-->
 <script src="/panelTemplate/assets/js/pages/widgets.js?v=7.0.6"></script>
-<!--end::Global تم Bundle-->
+<!-- Persian Calender -->
 <script src="/calenderShamsi/js/persianDatepicker.min.js"></script>
+<script>
+   $('#StartDate').persianDatepicker();
+   $('#EndDate').persianDatepicker();
+</script>
 <script>
    //   این بخش برای انتخاب ساید بار کنار سایت میباشد
    $(document).ready(function () {

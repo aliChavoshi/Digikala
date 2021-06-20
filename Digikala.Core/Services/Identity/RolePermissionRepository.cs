@@ -7,6 +7,8 @@ using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Digikala.Utility.Convertor;
 using System.Linq;
 using System.Threading.Tasks;
+using Digikala.Core.Interfaces.Generic;
+using Digikala.DTOs.FormDto.Public;
 using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.Core.Services.Identity
@@ -14,10 +16,12 @@ namespace Digikala.Core.Services.Identity
     public class RolePermissionRepository : GenericRepository<RolePermission>, IRolePermissionRepository
     {
         private readonly DigikalaContext _context;
+        private readonly IPaginationRepository _pagination;
 
-        public RolePermissionRepository(DigikalaContext context) : base(context)
+        public RolePermissionRepository(DigikalaContext context, IPaginationRepository pagination) : base(context)
         {
             _context = context;
+            _pagination = pagination;
         }
 
         public async Task<bool> IsRoleHavePermission(int permissionId, int roleId)
@@ -59,6 +63,81 @@ namespace Digikala.Core.Services.Identity
                         }));
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<GetAllGenericByPaginationDto<RolePermission>> RolePermissionToList(RolePermissionParamsDto paramsDto)
+        {
+            IQueryable<RolePermission> result = Context.RolePermission
+                .Include(x => x.Permission)
+                .Include(x => x.Role);
+
+            #region FilterDate
+
+            if (!string.IsNullOrEmpty(paramsDto.StartDate))
+            {
+                result = result.Where(s => s.ExpireRolePermission.Value.Date >= paramsDto.StartDate.ToMiladi().Date);
+            }
+            if (!string.IsNullOrEmpty(paramsDto.EndDate))
+            {
+                result = result.Where(s => s.ExpireRolePermission.Value.Date <= paramsDto.EndDate.ToMiladi().Date);
+            }
+
+            #endregion
+
+            #region Searching
+            if (!string.IsNullOrEmpty(paramsDto.FilterRole))
+            {
+                result = result.Where(p => p.Role.Title.ToLower().Contains(paramsDto.FilterRole.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(paramsDto.FilterPermission))
+            {
+                result = result.Where(p => p.Permission.Name.ToLower().Contains(paramsDto.FilterPermission.ToLower()));
+            }
+            #endregion
+
+            #region OrderBy
+
+            if (paramsDto.Order == Order.Des)
+            {
+                switch (paramsDto.OrderFrom)
+                {
+                    case "0":
+                        {
+                            result = result.OrderByDescending(x => x.Role.Title);
+                            break;
+                        }
+                    case "1":
+                        {
+                            result = result.OrderByDescending(x => x.Permission.Name);
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                switch (paramsDto.OrderFrom)
+                {
+                    case "0":
+                        {
+                            result = result.OrderBy(x => x.Role.Title);
+                            break;
+                        }
+                    case "1":
+                    {
+                        result = result.OrderBy(x => x.Permission.Name);
+                        break;
+                    }
+                }
+            }
+            #endregion
+
+            var page = _pagination.CreatePagination(paramsDto.SendTake, result.Count(), paramsDto.SendPageId);
+
+            return new GetAllGenericByPaginationDto<RolePermission>()
+            {
+                PaginationDto = page,
+                List = await result.Skip(page.Skip).Take(paramsDto.SendTake).ToListAsync()
+            };
         }
     }
 }

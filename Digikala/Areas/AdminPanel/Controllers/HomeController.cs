@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Digikala.Core.Classes;
+﻿using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.Core.Interfaces.Identity;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis;
+using System.Threading.Tasks;
+using Digikala.Utility.Convertor;
 
 namespace Digikala.Areas.AdminPanel.Controllers
 {
@@ -254,9 +253,54 @@ namespace Digikala.Areas.AdminPanel.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RolePermissions()
+        public async Task<IActionResult> RolePermissions(RolePermissionParamsDto paramsDto)
         {
-            return View();
+            ViewBag.FilterPermission = paramsDto.FilterPermission;
+            ViewBag.FilterRole = paramsDto.FilterRole;
+            return View(await _rolePermissionRepository.RolePermissionToList(paramsDto));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> EditRolePermission(int id)
+        {
+            var rolePermission = await _rolePermissionRepository.GetById(id);
+            await RolesForSelectList(rolePermission.RoleId);
+            await PermissionsForSelectList(rolePermission.PermissionId);
+            return PartialView(rolePermission);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> EditRolePermission(RolePermission model, string expireDate = "")
+        {
+            var rolePer = await _rolePermissionRepository.GetById(model.Id);
+            if (!string.IsNullOrEmpty(expireDate))
+            {
+                rolePer.ExpireRolePermission = expireDate.ToMiladi();
+            }
+
+            _rolePermissionRepository.Update(rolePer);
+            await _rolePermissionRepository.Save();
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("RolePermissions");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> DeleteRolePermission(int id)
+        {
+            var rolePermission = await _rolePermissionRepository.GetById(id);
+            await RolesForSelectList(rolePermission.RoleId);
+            await PermissionsForSelectList(rolePermission.PermissionId);
+            return PartialView(rolePermission);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> DeleteRolePermission(RolePermission model)
+        {
+            var rolePer = await _rolePermissionRepository.GetById(model.Id);
+            _rolePermissionRepository.Delete(rolePer);
+            await _rolePermissionRepository.Save();
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("RolePermissions");
         }
         #endregion
     }

@@ -1,7 +1,40 @@
-﻿
+﻿@using Digikala.DTOs.FormDto.AdminPanel.ForIndex
+@using Digikala.Utility.Convertor
+@model Digikala.DTOs.FormDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Identity.RolePermission>
 @{
-   ViewData["Title"] = "RolePermissions";
-   Layout = "~/Views/Shared/_PanelLayout.cshtml";
+   ViewBag.title = "دسترسی های نقش";
+   Layout = "_PanelLayout";
+   var row = 1;
+   var cardHeaderDto = new CardHeaderFormDto()
+   {
+      ModalButton = false,
+      ActionName = "CreateRolePermission",
+   };
+   var formBodyDto = new FormBodyDto()
+   {
+      ExistSearch = true,
+      ExistOrder = true,
+      ExistDateSearch = true,
+      InputsSearch = new Dictionary<string, string>()
+{
+         {"Role","جستجو نقش"},
+         {"Permission","جستجو دسترسی"},
+      },
+      InputsOrder = new Dictionary<int, string>()
+      {
+         {0,"عنوان نقش"},
+         {1,"عنوان دسترسی"},
+      }
+   };
+   var searchResetButton = new SearchResetButtonFormDto()
+   {
+      ActionName = "RolePermissions"
+   };
+   var editDeleteBtnForm = new EditDeleteBtnFormDto()
+   {
+      ModalDeleteButton = true,
+      ModalEditButton = true
+   };
 }
 @if (TempData["IsSuccess"] != null)
 {
@@ -16,5 +49,116 @@
    </script>
 }
 
-<h1>RolePermissions</h1>
+<!--begin::زیر هدر-->
+@section SubHeader
+{
+   <partial name="PanelLayoutShared/_PartialSubHeaderPanelLayout" />
+}
+<!--end::زیر هدر-->
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+   <!--begin::Container-->
+   <div class="container">
+      <!--begin::Notice-->
+      @section Notice
+      {
+         <partial name="PanelLayoutShared/_PartialNoticePanelLayout" />
+      }
+      <!--end::Notice-->
+      <div class="row">
+         <div class="col-xxl-12">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b">
+               <div class="card-header">
+                  <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
+               </div>
+
+               <div class="card-body">
+                  <!--begin::نمونه-->
+                  <div class="mb-10">
+                     <!--begin: جستجو Form-->
+                     <form class="kt-form kt-form--fit mb-15" id="frm" style="display: none">
+                        <div class="row mb-8">
+                           <partial name="PanelLayoutShared/SharedForm/_PartialFormBodyForm" model="formBodyDto" />
+                        </div>
+
+                        <div class="row mt-8">
+                           <partial name="PanelLayoutShared/SharedForm/_PartialSearchResetButtonForm" model="searchResetButton" />
+                        </div>
+                     </form>
+                     <!--begin: جدول داده ها-->
+                     <table class="table table-hover table-responsive-md">
+                        <thead>
+                           <tr>
+                              <th scope="col">#</th>
+                              <th>نقش</th>
+                              <th>دسترسی ها</th>
+                              <th>تاریخ انقضا دسترسی</th>
+                              <th scope="col">دستورات</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (var item in Model.List)
+                           {
+                              editDeleteBtnForm.Id = item.Id;
+                              editDeleteBtnForm.DeleteMethodOnclick = $"DeleteRolePermission({item.Id})";
+                              editDeleteBtnForm.EditMethodOnclick = $"EditRolePermission({item.Id})";
+                              <tr>
+                                 <th scope="row">@row</th>
+                                 <td>@item.Role.Title</td>
+                                 <td>@item.Permission.Name</td>
+                                 <td>@item.ExpireRolePermission?.ToShamsi()</td>
+                                 <td>
+                                    <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
+                                 </td>
+                              </tr>
+                              row++;
+                           }
+                        </tbody>
+                     </table>
+                     <div class="row card-footer">
+                        <partial name="PanelLayoutShared/SharedForm/_PartialPaginationForm" model="@Model.PaginationDto" />
+                     </div>
+                  </div>
+                  <!--end::نمونه-->
+               </div>
+            </div>
+            <!--end::Card-->
+         </div>
+      </div>
+   </div>
+   <!--end::Container-->
+</div>
+<!--end::Entry-->
+<partial name="_PartialModalRole" />
+
+@section scripts
+{
+   <script>
+      function DeleteRolePermission(id) {
+         $.ajax({
+            url: '/adminPanel/Home/DeleteRolePermission/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('حذف دسترسی نقش');
+            $('#modalBody').html(result);
+         });
+      }
+      function EditRolePermission(id) {
+         $.ajax({
+            url: '/adminPanel/Home/EditRolePermission/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ویرایش دسترسی نقش');
+            $('#modalBody').html(result);
+         });
+      }
+   </script>
+
+}
+
 

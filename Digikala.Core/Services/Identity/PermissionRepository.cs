@@ -43,7 +43,7 @@ namespace Digikala.Core.Services.Identity
 
         public async Task<GetAllGenericByPaginationDto<Permission>> PermissionsToList(PermissionParamsDto paramsDto)
         {
-            IQueryable<Permission> result = Context.Permission.Include(x => x.Permissions);
+            IQueryable<Permission> result = Context.Permission;
 
             #region Searching
             //TODO Search both
