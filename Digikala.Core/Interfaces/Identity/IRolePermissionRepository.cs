@@ -11,5 +11,6 @@ namespace Digikala.Core.Interfaces.Identity
         Task<bool> IsRoleHavePermission(int permissionId, int roleId);
         Task AddPermissionsIdToRole(CreateRolePermissionDto model);
         Task<GetAllGenericByPaginationDto<RolePermission>> RolePermissionToList(RolePermissionParamsDto paramsDto);
+        Task UpdateSaveRolePermission(RolePermission model,string expireDate="");
     }
 }

@@ -123,10 +123,10 @@ namespace Digikala.Core.Services.Identity
                             break;
                         }
                     case "1":
-                    {
-                        result = result.OrderBy(x => x.Permission.Name);
-                        break;
-                    }
+                        {
+                            result = result.OrderBy(x => x.Permission.Name);
+                            break;
+                        }
                 }
             }
             #endregion
@@ -138,6 +138,20 @@ namespace Digikala.Core.Services.Identity
                 PaginationDto = page,
                 List = await result.Skip(page.Skip).Take(paramsDto.SendTake).ToListAsync()
             };
+        }
+
+        public async Task UpdateSaveRolePermission(RolePermission model, string expireDate = "")
+        {
+            if (string.IsNullOrEmpty(expireDate))
+            {
+                model.ExpireRolePermission = null;
+            }
+            else
+            {
+                model.ExpireRolePermission = expireDate.ToMiladi();
+            }
+            Update(model);
+            await Save();
         }
     }
 }

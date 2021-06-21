@@ -24,5 +24,10 @@
    </div>
 </form>
 <script>
+   $('#expireDate').on('click',
+      function () {
+         $(this).val('');
+      });
+
    $('#expireDate').persianDatepicker();
 </script>

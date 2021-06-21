@@ -1,4 +1,5 @@
-﻿using Digikala.DataAccessLayer.Entities.Identity;
+﻿using System;
+using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DataAccessLayer.SeedingData;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,10 @@ namespace Digikala.DataAccessLayer.Context
 
             modelBuilder.Entity<Store>()
                 .HasQueryFilter(u => u.IsDeleted == false);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasQueryFilter(x =>
+                    x.ExpireRolePermission.HasValue ? x.ExpireRolePermission.Value.Date >= DateTime.Now.Date : !x.ExpireRolePermission.HasValue);
 
             //Seeding Data
             DataSeeder.SeedRoles(modelBuilder);

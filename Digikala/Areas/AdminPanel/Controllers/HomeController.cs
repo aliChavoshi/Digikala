@@ -273,13 +273,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
         public async Task<IActionResult> EditRolePermission(RolePermission model, string expireDate = "")
         {
             var rolePer = await _rolePermissionRepository.GetById(model.Id);
-            if (!string.IsNullOrEmpty(expireDate))
-            {
-                rolePer.ExpireRolePermission = expireDate.ToMiladi();
-            }
-
-            _rolePermissionRepository.Update(rolePer);
-            await _rolePermissionRepository.Save();
+            await _rolePermissionRepository.UpdateSaveRolePermission(rolePer, expireDate);
             TempData["IsSuccess"] = true;
             return RedirectToAction("RolePermissions");
         }
