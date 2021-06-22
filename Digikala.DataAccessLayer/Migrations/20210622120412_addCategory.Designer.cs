@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210622120412_addCategory")]
+    partial class addCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +222,7 @@ namespace Digikala.DataAccessLayer.Migrations
                             Id = 1,
                             ConfirmEmail = true,
                             ConfirmMobile = true,
-                            CreateDate = new DateTime(2021, 6, 22, 16, 41, 11, 347, DateTimeKind.Local).AddTicks(2497),
+                            CreateDate = new DateTime(2021, 6, 22, 16, 34, 11, 143, DateTimeKind.Local).AddTicks(994),
                             Email = "Admin@gmail.com",
                             Fullname = "Admin",
                             IsActive = true,
@@ -248,10 +250,6 @@ namespace Digikala.DataAccessLayer.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

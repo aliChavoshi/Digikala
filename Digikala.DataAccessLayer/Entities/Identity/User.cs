@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Digikala.DataAccessLayer.Entities.Store;
 
 namespace Digikala.DataAccessLayer.Entities.Identity
 {
@@ -58,6 +60,12 @@ namespace Digikala.DataAccessLayer.Entities.Identity
 
         [InverseProperty("User")]
         public Store.Store Store { get; set; }
+
+        [InverseProperty("UserCreator")]
+        public List<Category> CreateCategory { get; set; }
+
+        [InverseProperty("UserModifier")]
+        public List<Category> ModifyCategory { get; set; }
 
         #endregion
     }

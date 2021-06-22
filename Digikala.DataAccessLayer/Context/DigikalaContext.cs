@@ -19,7 +19,7 @@ namespace Digikala.DataAccessLayer.Context
         public DbSet<RolePermission> RolePermission { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Store> Stores { get; set; }
-
+        public DbSet<Category> Category { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

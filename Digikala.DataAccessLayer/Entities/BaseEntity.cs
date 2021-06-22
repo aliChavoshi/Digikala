@@ -5,7 +5,7 @@ using Digikala.DataAccessLayer.Entities.Identity;
 
 namespace Digikala.DataAccessLayer.Entities
 {
-    public class BaseEntity
+    public class BaseEntity : Commands
     {
         [Key]
         [Column(Order = 1)]
@@ -20,10 +20,10 @@ namespace Digikala.DataAccessLayer.Entities
         [Display(Name = "ویرایش کننده")]
         public int? ModifierUser { get; set; }
 
-        [ForeignKey("CreatorUser")]
+        [ForeignKey(nameof(CreatorUser))]
         public User UserCreator { get; set; }
 
-        [ForeignKey("ModifierUser")]
+        [ForeignKey(nameof(ModifierUser))]
         public User UserModifier { get; set; }
 
         #endregion
