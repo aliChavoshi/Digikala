@@ -226,9 +226,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
                 return RedirectToAction("Permissions");
             }
             var permission = await _permissionRepository.GetById(model.Id);
-            permission.IsDeleted = true;
-            _permissionRepository.Update(permission);
-            await _permissionRepository.Save();
+            await _permissionRepository.DeleteSave(permission);
             TempData["IsSuccess"] = true;
             return RedirectToAction("Permissions");
         }

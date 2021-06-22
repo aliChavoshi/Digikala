@@ -12,5 +12,6 @@ namespace Digikala.Core.Interfaces.Identity
     {
         Task<List<SelectListItem>> PermissionsForSelectList();
         Task<GetAllGenericByPaginationDto<Permission>> PermissionsToList(PermissionParamsDto paramsDto);
+        Task DeleteSave(Permission permission);
     }
 }

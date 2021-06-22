@@ -94,5 +94,12 @@ namespace Digikala.Core.Services.Identity
                 List = await result.Skip(page.Skip).Take(paramsDto.SendTake).ToListAsync()
             };
         }
+
+        public async Task DeleteSave(Permission permission)
+        {
+            permission.IsDeleted = true;
+            Update(permission);
+            await Save();
+        }
     }
 }
