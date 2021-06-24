@@ -18,7 +18,11 @@ namespace Digikala.DataAccessLayer.Entities.Store
         public string Icon { get; set; }
 
 
+        #region Relation
+
         [ForeignKey(nameof(ParentId))]
         public Category Parent { get; set; }
+
+        #endregion
     }
 }
