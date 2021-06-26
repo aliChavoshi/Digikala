@@ -2,19 +2,32 @@
 <form method="post" asp-action="Create" enctype="multipart/form-data">
    <div class="modal-body">
       <div class="form-group">
-         <label for="recipient-name" class="col-form-label">عنوان :</label>
-         <input required asp-for="Name" type="text" class="form-control" id="recipient-name">
+         <label  class="col-form-label" asp-for="Name"></label>
+         <input required asp-for="Name" type="text" class="form-control">
       </div>
       <div class="form-group">
-         <label for="recipient-name" class="col-form-label" asp-for="ParentId"></label>
-         <select disabled asp-for="ParentId" asp-items="@ViewData["Permissions"] as SelectList" id="permissions" class="form-control"></select>
+         <label  class="col-form-label" asp-for="Description"></label>
+         <textarea class="form-control" rows="3" asp-for="Description"></textarea>
+      </div>
+      <div class="form-group">
+         <label  class="col-form-label" asp-for="Icon"></label>
+         <div class="form-group">
+            <div class="custom-file">
+               <input asp-for="Icon" type="file" class="custom-file-input" id="fileIcon"/>
+               <label class="custom-file-label" for="fileIcon">حجم آیکون انتخابی باید حداکثر 2 مگابایت باشد</label>
+            </div>
+         </div>
+      </div>
+      <div class="form-group">
+         <label  class="col-form-label" asp-for="ParentId"></label>
+         <select disabled asp-for="ParentId" asp-items="@ViewData["Categories"] as SelectList" id="Categories" class="form-control"></select>
       </div>
       <div class="form-group">
          <label class="col-3 col-form-label">سر گروه میباشد</label>
          <div class="col-3">
             <span class="switch switch-outline switch-icon switch-success">
                <label>
-                  <input type="checkbox" checked="checked" name="isParent" id="checkbox" />
+                  <input type="checkbox" checked="checked" id="checkbox" />
                   <span></span>
                </label>
             </span>
@@ -28,8 +41,7 @@
 </form>
 <script>
    var checkbox = document.getElementById('checkbox');
-   var input = document.getElementById("permissions");
-
+   var input = document.getElementById("Categories");
    checkbox.addEventListener("click", function () {
       input.toggleAttribute("disabled");
    });

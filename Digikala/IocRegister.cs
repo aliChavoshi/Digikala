@@ -1,7 +1,9 @@
 ﻿using Digikala.Core.Interfaces;
+using Digikala.Core.Interfaces.AdminPanel;
 using Digikala.Core.Interfaces.AdminPanel.Identity;
 using Digikala.Core.Interfaces.Generic;
 using Digikala.Core.Services;
+using Digikala.Core.Services.AdminPanel;
 using Digikala.Core.Services.AdminPanel.Identity;
 using Digikala.Core.Services.Generic;
 using Digikala.Utility.Convertor;
@@ -19,12 +21,19 @@ namespace Digikala
             services.AddScoped<IPaginationRepository,PaginationRepository>();
             #endregion
 
+            #region AdminPanel
+
             #region Identity
             services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
 
             #endregion
+
+            services.AddScoped<ICategoryRepository,CategoryRepository>();
+
+            #endregion
+
 
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();

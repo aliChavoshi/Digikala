@@ -5,6 +5,7 @@ namespace Digikala.DataAccessLayer.Entities.Store
 {
     public class Category : BaseEntity
     {
+        [Display(Name = "زیر مجموعه کدام است ؟")]
         public int? ParentId { get; set; }
 
         [Display(Name = "عنوان")]
@@ -16,7 +17,6 @@ namespace Digikala.DataAccessLayer.Entities.Store
         [Display(Name = "آیکون")]
         [MaxLength(30, ErrorMessage = "تعداد کارکتر های {0} بیش از حد مجاز است ")]
         public string Icon { get; set; }
-
 
         #region Relation
 
