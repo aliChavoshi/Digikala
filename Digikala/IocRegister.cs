@@ -1,9 +1,9 @@
 ﻿using Digikala.Core.Interfaces;
+using Digikala.Core.Interfaces.AdminPanel.Identity;
 using Digikala.Core.Interfaces.Generic;
-using Digikala.Core.Interfaces.Identity;
 using Digikala.Core.Services;
+using Digikala.Core.Services.AdminPanel.Identity;
 using Digikala.Core.Services.Generic;
-using Digikala.Core.Services.Identity;
 using Digikala.Utility.Convertor;
 using Microsoft.Extensions.DependencyInjection;
 

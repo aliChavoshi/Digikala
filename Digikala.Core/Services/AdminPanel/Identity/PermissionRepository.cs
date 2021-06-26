@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Digikala.Core.Interfaces.AdminPanel.Identity;
 using Digikala.Core.Interfaces.Generic;
-using Digikala.Core.Interfaces.Identity;
 using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
@@ -11,7 +11,7 @@ using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace Digikala.Core.Services.Identity
+namespace Digikala.Core.Services.AdminPanel.Identity
 {
     public class PermissionRepository : GenericRepository<Permission>, IPermissionRepository
     {

@@ -6,7 +6,7 @@ using Digikala.DTOs.FormDto.Public;
 using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Digikala.Core.Interfaces.Identity
+namespace Digikala.Core.Interfaces.AdminPanel.Identity
 {
     public interface IRoleRepository : IGenericRepository<Role>
     {

@@ -4,7 +4,7 @@ using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DTOs.FormDto.Public;
 using Digikala.DTOs.InputParams.AdminPanel.Home;
 
-namespace Digikala.Core.Interfaces.Identity
+namespace Digikala.Core.Interfaces.AdminPanel.Identity
 {
     public interface IRolePermissionRepository : IGenericRepository<RolePermission>
     {

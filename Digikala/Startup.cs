@@ -11,9 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Digikala.Core.Interfaces.Generic;
-using Digikala.Core.Interfaces.Identity;
 using Digikala.Core.Services.Generic;
-using Digikala.Core.Services.Identity;
 using Digikala.Utility.Convertor;
 
 namespace Digikala

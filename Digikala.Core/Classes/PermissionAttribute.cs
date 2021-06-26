@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Digikala.Core.Interfaces;
-using Digikala.Core.Interfaces.Identity;
+using Digikala.Core.Interfaces.AdminPanel.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
