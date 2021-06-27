@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="FormDto\AdminPanel\ForCreateOrEdit\" />
+    <Folder Include="InputParams\AdminPanel\Category\" />
     <Folder Include="InputParams\StorePanel\" />
   </ItemGroup>
 

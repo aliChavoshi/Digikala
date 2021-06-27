@@ -1,8 +1,181 @@
-﻿
+﻿@using Digikala.DTOs.FormDto.AdminPanel.ForIndex
+@using Digikala.Utility.Convertor
+@model Digikala.DTOs.FormDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Store.Category>
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+   ViewBag.title = "دسته بندی محصولات";
+   Layout = "_PanelLayout";
+   var row = 1;
+   var cardHeaderDto = new CardHeaderFormDto()
+   {
+      ModalButton = true,
+      NameMethodOnclick = "Create()",
+   };
+   var formBodyDto = new FormBodyDto()
+   {
+      ExistSearch = true,
+      ExistOrder = true,
+      InputsSearch = new Dictionary<string, string>()
+{
+         {"Title","جستجو بر اساس دسترسی"},
+         {"Root","جستجو بر اساس Root"},
+      },
+      InputsOrder = new Dictionary<int, string>()
+{
+         {0,"عنوان دسترسی"}
+      }
+   };
+   var searchResetButton = new SearchResetButtonFormDto()
+   {
+      ActionName = "Index"
+   };
+   var editDeleteBtnForm = new EditDeleteBtnFormDto()
+   {
+      ModalDeleteButton = true,
+      ModalEditButton = true,
+   };
+}
+@if (TempData["IsSuccess"] != null)
+{
+   <script>
+      swal({
+         title: "موفق",
+         text: "عملیات با موفقیت انجام شد",
+         icon: "success",
+         button: false,
+         timer: 2000
+      });
+   </script>
 }
 
-<h1>Index</h1>
+<!--begin::زیر هدر-->
+@section SubHeader
+{
+   <partial name="PanelLayoutShared/_PartialSubHeaderPanelLayout" />
+}
+<!--end::زیر هدر-->
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+   <!--begin::Container-->
+   <div class="container">
+      <!--begin::Notice-->
+      @section Notice
+      {
+         <partial name="PanelLayoutShared/_PartialNoticePanelLayout" />
+      }
+      <!--end::Notice-->
+      <div class="row">
+         <div class="col-xxl-12">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b">
+               <div class="card-header">
+                  <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
+               </div>
 
+               <div class="card-body">
+                  <!--begin::نمونه-->
+                  <div class="mb-10">
+                     <!--begin: جستجو Form-->
+                     <form class="kt-form kt-form--fit mb-15" id="frm" style="display: none">
+                        <div class="row mb-8">
+                           <partial name="PanelLayoutShared/SharedForm/_PartialFormBodyForm" model="formBodyDto" />
+                        </div>
+
+                        <div class="row mt-8">
+                           <partial name="PanelLayoutShared/SharedForm/_PartialSearchResetButtonForm" model="searchResetButton" />
+                        </div>
+                     </form>
+                     <!--begin: جدول داده ها-->
+                     <table class="table table-hover table-responsive-md">
+                        <thead>
+                           <tr>
+                              <th scope="col">#</th>
+                              <th>عنوان</th>
+                              <th>Root</th>
+                              <th>تصویر</th>
+                              <th>توضیحات</th>
+                              <th>زمان ثبت</th>
+                              <th>کاربر ثبت کننده</th>
+                              <th>وضیعت</th>
+                              <th>تعداد ویرایش</th>
+                              <th scope="col">دستورات</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (var item in Model.List)
+                           {
+                              editDeleteBtnForm.Id = item.Id;
+                              editDeleteBtnForm.EditMethodOnclick = $"Edit({item.Id})";
+                              editDeleteBtnForm.DeleteMethodOnclick = $"Delete({item.Id})";
+                              <tr>
+                                 <th scope="row">@row</th>
+                                 <td>@item.Name</td>
+                                 <td>@Model.List.FirstOrDefault(x => x.Id == item.ParentId)?.Name</td>
+                                 <td>@item.Icon</td>
+                                 <td>@item.Description</td>
+                                 <td>@item.CreateDate.ToShamsi()</td>
+                                 <td>@item.UserCreator.Fullname</td>
+                                 <td>@item.IsActive</td>
+                                 <td>@item.Version</td>
+                                 <td>
+                                    <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
+                                 </td>
+                              </tr>
+                              row++;
+                           }
+                        </tbody>
+                     </table>
+                     <div class="row card-footer">
+                        <partial name="PanelLayoutShared/SharedForm/_PartialPaginationForm" model="@Model.PaginationDto" />
+                     </div>
+                  </div>
+                  <!--end::نمونه-->
+               </div>
+            </div>
+            <!--end::Card-->
+         </div>
+      </div>
+   </div>
+   <!--end::Container-->
+</div>
+<!--end::Entry-->
+<partial name="_PartialModalRole" />
+
+@section scripts
+{
+   <script>
+      function Create() {
+         $.ajax({
+            url: '/adminPanel/Category/Create',
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ثبت دسته جدید');
+            $('#modalBody').html(result);
+         });
+      }
+      function Edit(id) {
+         $.ajax({
+            url: '/adminPanel/Category/Edit/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ویرایش دسته بندی');
+            $('#modalBody').html(result);
+         });
+      }
+      function Delete(id) {
+         $.ajax({
+            url: '/adminPanel/Category/Delete/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('حذف دسته بندی');
+            $('#modalBody').html(result);
+         });
+      }
+   </script>
+
+}

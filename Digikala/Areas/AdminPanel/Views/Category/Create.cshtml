@@ -2,24 +2,24 @@
 <form method="post" asp-action="Create" enctype="multipart/form-data">
    <div class="modal-body">
       <div class="form-group">
-         <label  class="col-form-label" asp-for="Name"></label>
+         <label class="col-form-label" asp-for="Name"></label>
          <input required asp-for="Name" type="text" class="form-control">
       </div>
       <div class="form-group">
-         <label  class="col-form-label" asp-for="Description"></label>
+         <label class="col-form-label" asp-for="Description"></label>
          <textarea class="form-control" rows="3" asp-for="Description"></textarea>
       </div>
       <div class="form-group">
-         <label  class="col-form-label" asp-for="Icon"></label>
+         <label class="col-form-label" asp-for="Icon"></label>
          <div class="form-group">
             <div class="custom-file">
-               <input asp-for="Icon" type="file" class="custom-file-input" id="fileIcon"/>
-               <label class="custom-file-label" for="fileIcon">حجم آیکون انتخابی باید حداکثر 2 مگابایت باشد</label>
+               <input asp-for="Icon" onchange="Filevalidation()" type="file" class="custom-file-input" id="file" />
+               <label class="custom-file-label" for="file">حجم آیکون انتخابی باید حداکثر 2 مگابایت باشد</label>
             </div>
          </div>
       </div>
       <div class="form-group">
-         <label  class="col-form-label" asp-for="ParentId"></label>
+         <label class="col-form-label" asp-for="ParentId"></label>
          <select disabled asp-for="ParentId" asp-items="@ViewData["Categories"] as SelectList" id="Categories" class="form-control"></select>
       </div>
       <div class="form-group">
@@ -36,7 +36,7 @@
    </div>
    <div class="modal-footer">
       <a href="#" class="btn btn-warning btn-shadow-hover font-weight-bold mr-2" data-dismiss="modal">بستن</a>
-      <button type="submit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">ثبت</button>
+      <button type="submit" id="btnSubmit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">ثبت</button>
    </div>
 </form>
 <script>
@@ -45,4 +45,24 @@
    checkbox.addEventListener("click", function () {
       input.toggleAttribute("disabled");
    });
+</script>
+<script>
+   Filevalidation = () => {
+      const fi = document.getElementById('file');
+      const btnSubmit = document.getElementById('btnSubmit');
+      // Check if any file is selected.
+      if (fi.files.length > 0) {
+         for (let i = 0; i <= fi.files.length - 1; i++) {
+            const fSize = fi.files.item(i).size;
+            const file = Math.round((fSize / 1024));
+            // The size of the file.
+            if (file >= 2048) {
+               alert('فایل باید کمتر از 2مگابایت باشد. ');
+               btnSubmit.setAttribute('disabled', 'disabled');
+            } else {
+               btnSubmit.removeAttribute('disabled');
+            }
+         }
+      }
+   }
 </script>

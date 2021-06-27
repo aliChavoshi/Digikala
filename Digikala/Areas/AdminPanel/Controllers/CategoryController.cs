@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Digikala.Core.Classes;
 using Digikala.Core.Interfaces.AdminPanel;
 using Digikala.DataAccessLayer.Entities.Store;
+using Digikala.DTOs.InputParams.AdminPanel.Category;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Digikala.Areas.AdminPanel.Controllers
@@ -30,17 +32,31 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
         #endregion
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Create()
         {
             await CategoriesForSelectList();
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(Category model)
         {
-            await CategoriesForSelectList(model.ParentId ?? 0);
-            return View();
+            if (await _categoryRepository.IsExist(x => x.Name == model.Name))
+            {
+                return RedirectToAction("Index");
+            }
+            var category = ObjectMapper.Mapper.Map<Category>(model);
+            category.CreatorUser = User.GetUserId();
+            await _categoryRepository.Add(category);
+            await _categoryRepository.Save();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Index(CategoryParamsDto paramsDto)
+        {
+            ViewBag.FilterRoot = paramsDto.FilterRoot;
+            ViewBag.FilterTitle = paramsDto.FilterTitle;
+            return View(await _categoryRepository.CategoriesToList(paramsDto));
         }
     }
 }
