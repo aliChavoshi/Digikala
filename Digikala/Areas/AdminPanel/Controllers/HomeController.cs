@@ -1,11 +1,11 @@
 ﻿using Digikala.Core.Classes;
 using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Entities.Identity;
-using Digikala.DTOs.InputParams.AdminPanel.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 using Digikala.Core.Interfaces.AdminPanel.Identity;
+using Digikala.DTOs.DtosAndViewModels.AdminPanel.Home;
 using Digikala.Utility.Convertor;
 
 namespace Digikala.Areas.AdminPanel.Controllers

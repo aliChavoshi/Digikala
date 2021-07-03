@@ -1,4 +1,4 @@
-﻿namespace Digikala.DTOs.FormDto.AdminPanel.ForCreateOrEdit
+﻿namespace Digikala.DTOs.FormGenericDto.AdminPanel.ForCreateOrEdit
 {
     public class CardFooterCreateEditBtnForm
     {

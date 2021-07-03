@@ -7,6 +7,7 @@ using Digikala.Core.Services.AdminPanel;
 using Digikala.Core.Services.AdminPanel.Identity;
 using Digikala.Core.Services.Generic;
 using Digikala.Utility.Convertor;
+using Digikala.Utility.Generator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Digikala
@@ -38,6 +39,7 @@ namespace Digikala
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IViewRenderService, RenderViewToString>();
+            services.AddScoped<ISaveFileDirectory,SaveFileDirectory>();
             return services;
         }
     }

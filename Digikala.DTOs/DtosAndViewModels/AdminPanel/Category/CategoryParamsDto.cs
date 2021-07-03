@@ -1,6 +1,6 @@
-﻿using Digikala.DTOs.FormDto.Public;
+﻿using Digikala.DTOs.FormGenericDto.Public;
 
-namespace Digikala.DTOs.InputParams.AdminPanel.Category
+namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
 {
     public class CategoryParamsDto: PublicFilterFormParams
     {

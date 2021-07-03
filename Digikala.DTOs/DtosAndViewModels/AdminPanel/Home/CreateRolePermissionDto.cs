@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Digikala.DTOs.InputParams.AdminPanel.Home
+namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Home
 {
     public class CreateRolePermissionDto
     {

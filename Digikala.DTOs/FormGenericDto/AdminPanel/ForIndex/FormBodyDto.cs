@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Digikala.DTOs.FormDto.AdminPanel.ForIndex
+namespace Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
 {
     public class FormBodyDto
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Digikala.Core.Interfaces.Generic;
-using Digikala.DTOs.FormDto.Public;
+using Digikala.DTOs.FormGenericDto.Public;
 
 namespace Digikala.Core.Services.Generic
 {

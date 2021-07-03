@@ -6,8 +6,8 @@ using Digikala.Core.Interfaces.Generic;
 using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
-using Digikala.DTOs.FormDto.Public;
-using Digikala.DTOs.InputParams.AdminPanel.Home;
+using Digikala.DTOs.DtosAndViewModels.AdminPanel.Home;
+using Digikala.DTOs.FormGenericDto.Public;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 

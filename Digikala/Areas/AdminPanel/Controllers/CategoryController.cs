@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Digikala.Core.Classes;
 using Digikala.Core.Interfaces.AdminPanel;
 using Digikala.DataAccessLayer.Entities.Store;
-using Digikala.DTOs.InputParams.AdminPanel.Category;
+using Digikala.DTOs.DtosAndViewModels.AdminPanel.Category;
+using Digikala.Utility.Generator;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 
 namespace Digikala.Areas.AdminPanel.Controllers
 {
@@ -16,10 +18,14 @@ namespace Digikala.Areas.AdminPanel.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ISaveFileDirectory _saveFileDirectory;
+        private readonly IConfiguration _configuration;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository, ISaveFileDirectory saveFileDirectory, IConfiguration configuration)
         {
             _categoryRepository = categoryRepository;
+            _saveFileDirectory = saveFileDirectory;
+            _configuration = configuration;
         }
 
         #region Properties
@@ -39,14 +45,21 @@ namespace Digikala.Areas.AdminPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Category model)
+        public async Task<IActionResult> Create(CreateCategoryViewModel model)
         {
             if (await _categoryRepository.IsExist(x => x.Name == model.Name))
             {
                 return RedirectToAction("Index");
             }
-            var category = ObjectMapper.Mapper.Map<Category>(model);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var category = ObjectMapper.Mapper.Map<CreateCategoryViewModel, Category>(model);
+
+            category.Icon = await _saveFileDirectory.SaveFile(model.Icon, _configuration["PathSaveFileDirectory:CategoryIcon"]);
             category.CreatorUser = User.GetUserId();
+
             await _categoryRepository.Add(category);
             await _categoryRepository.Save();
             return RedirectToAction("Index");
@@ -57,6 +70,15 @@ namespace Digikala.Areas.AdminPanel.Controllers
             ViewBag.FilterRoot = paramsDto.FilterRoot;
             ViewBag.FilterTitle = paramsDto.FilterTitle;
             return View(await _categoryRepository.CategoriesToList(paramsDto));
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _categoryRepository.GetById(id);
+            var model = ObjectMapper.Mapper.Map<Category, EditCategoryViewModel>(category);
+            await CategoriesForSelectList(category.ParentId ?? 0);
+            return PartialView(model);
         }
     }
 }

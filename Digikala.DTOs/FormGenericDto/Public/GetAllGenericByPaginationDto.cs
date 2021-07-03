@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Digikala.DTOs.FormDto.Public
+namespace Digikala.DTOs.FormGenericDto.Public
 {
     public class GetAllGenericByPaginationDto<T>
     {

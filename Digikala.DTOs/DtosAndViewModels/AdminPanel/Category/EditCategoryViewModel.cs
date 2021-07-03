@@ -1,10 +1,9 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
-namespace Digikala.DataAccessLayer.Entities.Store
+namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
 {
-    public class Category : BaseEntity
+    public class EditCategoryViewModel
     {
         [Display(Name = "زیر مجموعه کدام است ؟")]
         public int? ParentId { get; set; }
@@ -16,14 +15,12 @@ namespace Digikala.DataAccessLayer.Entities.Store
         public string Name { get; set; }
 
         [Display(Name = "آیکون")]
-        [MaxLength(80, ErrorMessage = "تعداد کارکتر های {0} بیش از حد مجاز است ")]
-        public string Icon { get; set; }
+        public IFormFile Icon { get; set; }
 
-        #region Relation
+        public string OldIconPath { get; set; }
 
-        [ForeignKey(nameof(ParentId))]
-        public Category Parent { get; set; }
-
-        #endregion
+        [Display(Name = "توضیحات")]
+        [MaxLength(500, ErrorMessage = "تعداد کارکتر ها بیش از حد مجاز است")]
+        public string Description { get; set; }
     }
 }

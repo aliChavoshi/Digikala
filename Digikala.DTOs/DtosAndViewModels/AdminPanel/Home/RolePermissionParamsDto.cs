@@ -1,6 +1,6 @@
-﻿using Digikala.DTOs.FormDto.Public;
+﻿using Digikala.DTOs.FormGenericDto.Public;
 
-namespace Digikala.DTOs.InputParams.AdminPanel.Home
+namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Home
 {
     public class RolePermissionParamsDto : PublicFilterFormParams
     {

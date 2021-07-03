@@ -2,6 +2,7 @@
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.AccountDtos;
+using Digikala.DTOs.DtosAndViewModels.AdminPanel.Category;
 using Digikala.DTOs.Store;
 using Digikala.Utility.Generator;
 
@@ -41,6 +42,23 @@ namespace Digikala.Core.Classes
                 .ForMember(x => x.RoleId,
                     c =>
                         c.MapFrom(v => 2));
+
+            #endregion
+
+            #region AdminPanel
+
+            #region Category
+
+            CreateMap<CreateCategoryViewModel, Category>()
+                .ForMember(x => x.Icon,
+                    c => c.Ignore());
+            CreateMap<Category, EditCategoryViewModel>()
+                .ForMember(x=>x.Icon,
+                    c=>c.Ignore())
+                .ForMember(x => x.OldIconPath,
+                    c => c.MapFrom(v => v.Icon));
+
+            #endregion
 
             #endregion
         }

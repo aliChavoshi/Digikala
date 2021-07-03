@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FormDto\AdminPanel\ForCreateOrEdit\" />
-    <Folder Include="InputParams\AdminPanel\Category\" />
-    <Folder Include="InputParams\StorePanel\" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.7" />
   </ItemGroup>
 
 </Project>

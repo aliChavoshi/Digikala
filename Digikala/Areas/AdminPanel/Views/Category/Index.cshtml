@@ -1,6 +1,6 @@
-﻿@using Digikala.DTOs.FormDto.AdminPanel.ForIndex
+﻿@using Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
 @using Digikala.Utility.Convertor
-@model Digikala.DTOs.FormDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Store.Category>
+@model Digikala.DTOs.FormGenericDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Store.Category>
 @{
    ViewBag.title = "دسته بندی محصولات";
    Layout = "_PanelLayout";
@@ -92,7 +92,6 @@
                               <th>عنوان</th>
                               <th>Root</th>
                               <th>تصویر</th>
-                              <th>توضیحات</th>
                               <th>زمان ثبت</th>
                               <th>کاربر ثبت کننده</th>
                               <th>وضیعت</th>
@@ -110,8 +109,14 @@
                                  <th scope="row">@row</th>
                                  <td>@item.Name</td>
                                  <td>@Model.List.FirstOrDefault(x => x.Id == item.ParentId)?.Name</td>
-                                 <td>@item.Icon</td>
-                                 <td>@item.Description</td>
+                                 <td>
+                                    @if (!string.IsNullOrEmpty(item.Icon))
+                                    {
+                                       <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                          <img class="" src="/savingImages/adminPanel/category/@item.Icon" alt="photo">
+                                       </div>
+                                    }
+                                 </td>
                                  <td>@item.CreateDate.ToShamsi()</td>
                                  <td>@item.UserCreator.Fullname</td>
                                  <td>@item.IsActive</td>

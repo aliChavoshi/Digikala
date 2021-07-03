@@ -1,5 +1,10 @@
-﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.CreateCategoryViewModel
+﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.EditCategoryViewModel
+@{
+   var disabled = !Model.ParentId.HasValue ? "disabled" : "";
+   var categories = ViewData["Categories"] as SelectList;
+}
 <form method="post" asp-action="Create" enctype="multipart/form-data">
+   <input type="hidden" asp-for="OldIconPath" />
    <div class="modal-body">
       <div class="form-group">
          <label class="col-form-label" asp-for="Name"></label>
@@ -20,14 +25,14 @@
       </div>
       <div class="form-group">
          <label class="col-form-label" asp-for="ParentId"></label>
-         <select disabled asp-for="ParentId" asp-items="@ViewData["Categories"] as SelectList" id="Categories" class="form-control"></select>
+         <select @(Model.ParentId.HasValue ? "disabled" : string.Empty) asp-for="ParentId" asp-items="@categories" id="Categories" class="form-control"></select>
       </div>
       <div class="form-group">
          <label class="col-3 col-form-label">سر گروه میباشد</label>
          <div class="col-3">
             <span class="switch switch-outline switch-icon switch-success">
                <label>
-                  <input type="checkbox" checked="checked" id="checkbox" />
+                  <input type="checkbox" @(!Model.ParentId.HasValue ? "checked" : "") id="checkbox" />
                   <span></span>
                </label>
             </span>

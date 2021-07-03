@@ -1,4 +1,4 @@
-﻿using Digikala.DTOs.FormDto.Public;
+﻿using Digikala.DTOs.FormGenericDto.Public;
 
 namespace Digikala.Core.Interfaces.Generic
 {
