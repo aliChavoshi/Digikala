@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Digikala.Core.Interfaces.AdminPanel;
@@ -43,7 +44,7 @@ namespace Digikala.Core.Services.AdminPanel
 
         public async Task<GetAllGenericByPaginationDto<Category>> CategoriesToList(CategoryParamsDto paramsDto)
         {
-            IQueryable<Category> result = Context.Category.Include(x=>x.UserCreator);
+            IQueryable<Category> result = Context.Category.Include(x => x.UserCreator);
 
             #region Searching
             //TODO Search both
@@ -67,8 +68,13 @@ namespace Digikala.Core.Services.AdminPanel
                 switch (paramsDto.OrderFrom)
                 {
                     case "0":
+                        {
+                            result = result.OrderByDescending(x => x.Name);
+                            break;
+                        }
+                    case "1":
                     {
-                        result = result.OrderByDescending(x => x.Name);
+                        result = result.OrderByDescending(x => x.ParentId);
                         break;
                     }
                 }
@@ -78,10 +84,16 @@ namespace Digikala.Core.Services.AdminPanel
                 switch (paramsDto.OrderFrom)
                 {
                     case "0":
+                        {
+                            result = result.OrderBy(x => x.Name);
+                            break;
+                        }
+                    case "1":
                     {
-                        result = result.OrderBy(x => x.Name);
+                        result = result.OrderBy(x => x.ParentId);
                         break;
                     }
+
                 }
             }
             #endregion
@@ -93,6 +105,16 @@ namespace Digikala.Core.Services.AdminPanel
                 PaginationDto = page,
                 List = await result.Skip(page.Skip).Take(paramsDto.SendTake).ToListAsync()
             };
+        }
+
+        public async Task DeleteCategory(Category category,int userId)
+        {
+            category.IsDeleted = true;
+            category.ModificationDate = DateTime.Now;
+            category.Version += 1;
+            category.ModifierUser = userId;
+            Update(category);
+            await Save();
         }
     }
 }

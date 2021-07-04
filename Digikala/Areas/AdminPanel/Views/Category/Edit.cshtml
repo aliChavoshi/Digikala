@@ -1,10 +1,11 @@
 ﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.EditCategoryViewModel
 @{
    var disabled = !Model.ParentId.HasValue ? "disabled" : "";
-   var categories = ViewData["Categories"] as SelectList;
 }
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
    <input type="hidden" asp-for="OldIconPath" />
+   <input type="hidden" asp-for="Id" />
+   <input type="hidden" asp-for="Version" />
    <div class="modal-body">
       <div class="form-group">
          <label class="col-form-label" asp-for="Name"></label>
@@ -25,7 +26,7 @@
       </div>
       <div class="form-group">
          <label class="col-form-label" asp-for="ParentId"></label>
-         <select @(Model.ParentId.HasValue ? "disabled" : string.Empty) asp-for="ParentId" asp-items="@categories" id="Categories" class="form-control"></select>
+         <select asp-for="ParentId" asp-items="@(ViewData["Categories"] as SelectList)" id="Categories" class="form-control"></select>
       </div>
       <div class="form-group">
          <label class="col-3 col-form-label">سر گروه میباشد</label>
@@ -49,6 +50,12 @@
    var input = document.getElementById("Categories");
    checkbox.addEventListener("click", function () {
       input.toggleAttribute("disabled");
+   });
+   $(function() {
+      const disabled = @Html.Raw(Json.Serialize(disabled));
+      if (disabled) {
+         input.setAttribute(disabled,disabled);
+      }
    });
 </script>
 <script>

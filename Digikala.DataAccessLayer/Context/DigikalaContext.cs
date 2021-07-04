@@ -47,6 +47,9 @@ namespace Digikala.DataAccessLayer.Context
                 .HasQueryFilter(x =>
                     x.ExpireRolePermission.HasValue ? x.ExpireRolePermission.Value.Date >= DateTime.Now.Date : !x.ExpireRolePermission.HasValue);
 
+            modelBuilder.Entity<Category>()
+                .HasQueryFilter(u => u.IsDeleted == false);
+
             //Seeding Data
             DataSeeder.SeedRoles(modelBuilder);
             DataSeeder.SeedUserAdmin(modelBuilder);

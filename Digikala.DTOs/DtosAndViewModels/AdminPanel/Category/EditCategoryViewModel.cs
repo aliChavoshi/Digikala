@@ -5,6 +5,8 @@ namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
 {
     public class EditCategoryViewModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "زیر مجموعه کدام است ؟")]
         public int? ParentId { get; set; }
 
@@ -22,5 +24,7 @@ namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
         [Display(Name = "توضیحات")]
         [MaxLength(500, ErrorMessage = "تعداد کارکتر ها بیش از حد مجاز است")]
         public string Description { get; set; }
+
+        public int Version { get; set; }
     }
 }

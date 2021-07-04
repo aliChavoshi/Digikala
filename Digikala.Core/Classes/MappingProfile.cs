@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.AccountDtos;
@@ -52,11 +53,19 @@ namespace Digikala.Core.Classes
             CreateMap<CreateCategoryViewModel, Category>()
                 .ForMember(x => x.Icon,
                     c => c.Ignore());
+            //Get
             CreateMap<Category, EditCategoryViewModel>()
-                .ForMember(x=>x.Icon,
-                    c=>c.Ignore())
+                .ForMember(x => x.Icon,
+                    c => c.Ignore())
                 .ForMember(x => x.OldIconPath,
                     c => c.MapFrom(v => v.Icon));
+            //post
+            CreateMap<EditCategoryViewModel, Category>()
+                .ForMember(x => x.Version,
+                    c => c.MapFrom(v => v.Version + 1))
+                .ForMember(x => x.Icon, c => c.Ignore())
+                .ForMember(x => x.ModificationDate,
+                    c => c.MapFrom(v => DateTime.Now));
 
             #endregion
 

@@ -62,6 +62,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
             await _categoryRepository.Add(category);
             await _categoryRepository.Save();
+            TempData["IsSuccess"] = true;
             return RedirectToAction("Index");
         }
 
@@ -79,6 +80,53 @@ namespace Digikala.Areas.AdminPanel.Controllers
             var model = ObjectMapper.Mapper.Map<Category, EditCategoryViewModel>(category);
             await CategoriesForSelectList(category.ParentId ?? 0);
             return PartialView(model);
+        }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Edit(EditCategoryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var category = await _categoryRepository.GetById(model.Id);
+            if (category.Name != model.Name)
+            {
+                if (await _categoryRepository.IsExist(x => x.Name.ToLower() == model.Name.ToLower()))
+                {
+                    return RedirectToAction("Index");
+                }
+            }
+            if (model.ParentId.HasValue && model.ParentId.Value == model.Id)
+            {
+                return RedirectToAction("Index");
+            }
+            var result = ObjectMapper.Mapper.Map(model, category);
+            result.ModifierUser = User.GetUserId();
+            result.Icon = await _saveFileDirectory.DeleteAndSaveFile(model.OldIconPath, model.Icon, _configuration["PathSaveFileDirectory:CategoryIcon"]);
+            _categoryRepository.Update(result);
+            await _categoryRepository.Save();
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            return PartialView(await _categoryRepository.GetById(id));
+        }
+
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> Delete(Category model,int id)
+        {
+            var category = await _categoryRepository.GetById(model.Id);
+            if (await _categoryRepository.IsExist(x => x.ParentId == model.Id))
+            {
+                return RedirectToAction("Index");
+            }
+            await _categoryRepository.DeleteCategory(category, User.GetUserId());
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("Index");
         }
     }
 }

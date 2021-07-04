@@ -13,5 +13,6 @@ namespace Digikala.Core.Interfaces.AdminPanel
     {
         Task<List<SelectListItem>> CategoriesForSelectList();
         Task<GetAllGenericByPaginationDto<Category>> CategoriesToList(CategoryParamsDto paramsDto);
+        Task DeleteCategory(Category category,int userId);
     }
 }

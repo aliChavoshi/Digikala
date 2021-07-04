@@ -21,8 +21,9 @@
       },
       InputsOrder = new Dictionary<int, string>()
 {
-         {0,"عنوان دسترسی"}
-      }
+         {0,"عنوان دسترسی"},
+         {1,"برحسب Root"},
+}
    };
    var searchResetButton = new SearchResetButtonFormDto()
    {
@@ -94,7 +95,6 @@
                               <th>تصویر</th>
                               <th>زمان ثبت</th>
                               <th>کاربر ثبت کننده</th>
-                              <th>وضیعت</th>
                               <th>تعداد ویرایش</th>
                               <th scope="col">دستورات</th>
                            </tr>
@@ -112,14 +112,15 @@
                                  <td>
                                     @if (!string.IsNullOrEmpty(item.Icon))
                                     {
-                                       <div class="symbol symbol-40 symbol-sm flex-shrink-0">
-                                          <img class="" src="/savingImages/adminPanel/category/@item.Icon" alt="photo">
-                                       </div>
+                                       <a href="/savingImages/adminPanel/category/@item.Icon" target="_blank">
+                                          <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                             <img class="" src="/savingImages/adminPanel/category/@item.Icon" alt="photo">
+                                          </div>
+                                       </a>
                                     }
                                  </td>
                                  <td>@item.CreateDate.ToShamsi()</td>
                                  <td>@item.UserCreator.Fullname</td>
-                                 <td>@item.IsActive</td>
                                  <td>@item.Version</td>
                                  <td>
                                     <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
