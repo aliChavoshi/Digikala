@@ -1,0 +1,31 @@
+﻿@model List<Digikala.DataAccessLayer.Entities.Store.Category>
+<ul class="list hidden-sm">
+   <li class="list-item list-item-has-children menu-col-1">
+      <a class="nav-link" href="#">خانه و آشپزخانه</a>
+      <ul class="sub-menu nav">
+         <li class="list-item">
+            <a class="nav-link" href="#">زیر منو یک</a>
+         </li>
+         <li class="list-item">
+            <a class="nav-link" href="#">زیر منو دو</a>
+         </li>
+         <li class="list-item list-item-has-children">
+            <a class="nav-link" href="#">زیر منو سه</a>
+            <ul class="sub-menu nav">
+               <li class="list-item">
+                  <a class="nav-link" href="#">زیر منو سه - یک</a>
+               </li>
+               <li class="list-item">
+                  <a class="nav-link" href="#">زیر منو سه - دو</a>
+               </li>
+               <li class="list-item">
+                  <a class="nav-link" href="#">زیر منو سه - سه</a>
+               </li>
+            </ul>
+         </li>
+      </ul>
+   </li>
+   <li class="list-item">
+      <a class="nav-link" asp-controller="Store" asp-action="Create">فروشنده شوید</a>
+   </li>
+</ul>
