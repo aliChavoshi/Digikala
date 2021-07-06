@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Digikala.DataAccessLayer.Entities.Store.Category>
+@{
+   ViewData["Title"] = "SubCategories";
+   Layout = "~/Views/Shared/_PanelLayout.cshtml";
+   int parentId = ViewBag.parentId;
+}
+<div class="d-flex flex-column-fluid">
+   <!--begin::Container-->
+   <div class="container">
+      <!--begin::Notice-->
+      @section Notice
+      {
+         <partial name="PanelLayoutShared/_PartialNoticePanelLayout" />
+      }
+      <!--end::Notice-->
+      <div class="row">
+         <div class="col-xxl-12">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b">
+               <div class="card-body">
+                  <!--begin::نمونه-->
+                  <div class="mb-10">
+                     @foreach (var parent in Model)
+                     {
+                        <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(parent.Id)">
+                           @if (!parent.ParentId.HasValue && parent.Id == parentId)
+                           {
+                              <div class="card">
+                                 <div class="card-header" id="headingیک3">
+                                    <div class="card-title" data-toggle="collapse" data-target="#collapse@(parent.Id)">
+                                       @parent.Name
+                                    </div>
+                                 </div>
+                                 <div id="collapse@(parent.Id)" class="collapse show" data-parent="#accordion@(parent.Id)">
+                                    <div class="card-body">
+                                       ...
+                                    </div>
+                                 </div>
+                              </div>
+                           }
+                        </div>
+                     }
+                  </div>
+                  <!--end::نمونه-->
+               </div>
+            </div>
+            <!--end::Card-->
+         </div>
+      </div>
+   </div>
+   <!--end::Container-->
+</div>
+
+

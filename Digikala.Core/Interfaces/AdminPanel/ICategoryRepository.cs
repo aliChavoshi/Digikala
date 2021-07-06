@@ -12,7 +12,7 @@ namespace Digikala.Core.Interfaces.AdminPanel
     public interface ICategoryRepository : IGenericRepository<Category>
     {
         Task<List<SelectListItem>> CategoriesForSelectList();
-        Task<GetAllGenericByPaginationDto<Category>> CategoriesToList(CategoryParamsDto paramsDto);
+        Task<GetAllGenericByPaginationDto<Category>> GetParentCategories(CategoryParamsDto paramsDto);
         Task DeleteCategory(Category category,int userId);
     }
 }

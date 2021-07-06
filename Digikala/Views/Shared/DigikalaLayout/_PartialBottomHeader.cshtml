@@ -1,14 +1,10 @@
-﻿@using Digikala.Core.Interfaces.AdminPanel
-@inject ICategoryRepository _categoryRepository
-@{
-   var categories = await _categoryRepository.ToListAsync();
-}
+﻿@model List<Digikala.DataAccessLayer.Entities.Store.Category>
 <div class="bottom-header dt-sl mb-sm-bottom-header">
    <div class="container main-container">
       <!-- Start Main-Menu -->
       <nav class="main-menu d-flex justify-content-md-between justify-content-end dt-sl">
          @* Sidebar in Desktop *@
-         <partial name="DigikalaLayout/_PartialMainMenuInDesktop" model="categories" />
+         <partial name="DigikalaLayout/_PartialMainMenuInDesktop" model="Model" />
          @*سبد خرید*@
          <div class="nav">
             <div class="nav-item cart--wrapper">
@@ -132,7 +128,7 @@
             </div>
          </div>
          @*SideBar in Mobile*@
-         <partial name="DigikalaLayout/_PartialMainMenuInMobile" model="categories"/>
+         <partial name="DigikalaLayout/_PartialMainMenuInMobile" model="Model"/>
       </nav>
       <!-- End Main-Menu -->
    </div>

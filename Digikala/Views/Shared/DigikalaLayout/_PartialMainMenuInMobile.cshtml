@@ -19,192 +19,38 @@
       </form>
    </div>
    <ul class="navbar-nav dt-sl">
-      <li class="sub-menu">
-         <a href="#">کالای دیجیتال</a>
-         <ul>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
+      @foreach (var parent in Model)
+      {
+         if (!parent.ParentId.HasValue)
+         {
+            <li class="@(Model.Select(x=>x.ParentId).Contains(parent.Id) ? "sub-menu" : "")">
+               <a href="#">@parent.Name</a>
                <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
+                  @foreach (var subOne in Model)
+                  {
+                     if (subOne.ParentId.HasValue && subOne.ParentId == parent.Id)
+                     {
+                        <li class="@(Model.Select(x=>x.ParentId).Contains(subOne.Id) ? "sub-menu" : "")">
+                           <a href="#">@subOne.Name</a>
+                           <ul>
+                              @foreach (var subTwo in Model)
+                              {
+                                 if (subTwo.ParentId.HasValue && subTwo.ParentId == subOne.Id)
+                                 {
+                                    <li>
+                                       <a href="#">@subTwo.Name</a>
+                                    </li>
+                                 }
+                              }
+                           </ul>
+                        </li>
+                     }
+                  }
                </ul>
             </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-               </ul>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
-               </ul>
-            </li>
-         </ul>
-      </li>
-      <li class="sub-menu">
-         <a href="#">بهداشت و سلامت</a>
-         <ul>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
-               </ul>
-            </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-               </ul>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
-               </ul>
-            </li>
-         </ul>
-      </li>
-      <li class="sub-menu">
-         <a href="#">ابزار و اداری</a>
-         <ul>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
-               </ul>
-            </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-               </ul>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li>
-               <a href="#">عنوان دسته</a>
-            </li>
-            <li class="sub-menu">
-               <a href="#">عنوان دسته</a>
-               <ul>
-                  <li>
-                     <a href="#">زیر منو یک</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو دو</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو سه</a>
-                  </li>
-                  <li>
-                     <a href="#">زیر منو چهار</a>
-                  </li>
-               </ul>
-            </li>
-         </ul>
-      </li>
-      <li>
-         <a href="#">مد و پوشاک</a>
-      </li>
-      <li>
-         <a href="#">خانه و آشپزخانه</a>
-      </li>
-      <li>
-         <a href="#">ورزش و سفر</a>
-      </li>
+         }
+      }
+
    </ul>
 </div>
 <div class="overlay-side-menu">

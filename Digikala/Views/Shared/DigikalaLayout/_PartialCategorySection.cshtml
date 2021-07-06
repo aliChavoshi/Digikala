@@ -1,0 +1,24 @@
+﻿@model List<Digikala.DataAccessLayer.Entities.Store.Category>
+<div class="row mt-3 mb-5">
+   <div class="col-12">
+      <div class="category-section dt-sn dt-sl">
+         <div class="category-section-title dt-sl">
+            <h3>بیش از ۱،۵۰۰،۰۰۰ کالا در دسته‌بندی‌های مختلف</h3>
+         </div>
+         <div class="category-section-slider dt-sl">
+            <div class="category-slider owl-carousel">
+               @foreach (var category in Model.Where(x => !x.ParentId.HasValue))
+               {
+                  <div class="item">
+                     <a href="#" class="promotion-category">
+                        <img src="/savingImages/adminPanel/category/@category.Icon" alt="">
+                        <h4 class="promotion-category-name">@category.Name</h4>
+                        <h6 class="promotion-category-quantity">۱۵۶۰۰۰ کالا</h6>
+                     </a>
+                  </div>
+               }
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

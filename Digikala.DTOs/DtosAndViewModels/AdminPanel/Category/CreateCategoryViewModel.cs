@@ -5,9 +5,6 @@ namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
 {
     public class CreateCategoryViewModel
     {
-        [Display(Name = "زیر مجموعه کدام است ؟")]
-        public int? ParentId { get; set; }
-
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(100, ErrorMessage = "تعداد کارکتر های {0} بیش از حد مجاز است ")]

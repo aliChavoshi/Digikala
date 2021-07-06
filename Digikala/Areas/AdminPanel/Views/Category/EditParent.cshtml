@@ -1,8 +1,8 @@
 ﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.EditCategoryViewModel
-@{
-   var disabled = !Model.ParentId.HasValue ? "disabled" : "";
-}
-<form method="post" asp-action="Edit" enctype="multipart/form-data">
+@* @{ *@
+@*    var disabled = !Model.ParentId.HasValue ? "disabled" : ""; *@
+@* } *@
+<form method="post" asp-action="EditParent" enctype="multipart/form-data">
    <input type="hidden" asp-for="OldIconPath" />
    <input type="hidden" asp-for="Id" />
    <input type="hidden" asp-for="Version" />
@@ -24,40 +24,12 @@
             </div>
          </div>
       </div>
-      <div class="form-group">
-         <label class="col-form-label" asp-for="ParentId"></label>
-         <select asp-for="ParentId" asp-items="@(ViewData["Categories"] as SelectList)" id="Categories" class="form-control"></select>
-      </div>
-      <div class="form-group">
-         <label class="col-3 col-form-label">سر گروه میباشد</label>
-         <div class="col-3">
-            <span class="switch switch-outline switch-icon switch-success">
-               <label>
-                  <input type="checkbox" @(!Model.ParentId.HasValue ? "checked" : "") id="checkbox" />
-                  <span></span>
-               </label>
-            </span>
-         </div>
-      </div>
    </div>
    <div class="modal-footer">
       <a href="#" class="btn btn-warning btn-shadow-hover font-weight-bold mr-2" data-dismiss="modal">بستن</a>
       <button type="submit" id="btnSubmit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">ثبت</button>
    </div>
 </form>
-<script>
-   var checkbox = document.getElementById('checkbox');
-   var input = document.getElementById("Categories");
-   checkbox.addEventListener("click", function () {
-      input.toggleAttribute("disabled");
-   });
-   $(function() {
-      const disabled = @Html.Raw(Json.Serialize(disabled));
-      if (disabled) {
-         input.setAttribute(disabled,disabled);
-      }
-   });
-</script>
 <script>
    Filevalidation = () => {
       const fi = document.getElementById('file');

@@ -42,19 +42,19 @@ namespace Digikala.Core.Services.AdminPanel
             return list;
         }
 
-        public async Task<GetAllGenericByPaginationDto<Category>> CategoriesToList(CategoryParamsDto paramsDto)
+        public async Task<GetAllGenericByPaginationDto<Category>> GetParentCategories(CategoryParamsDto paramsDto)
         {
-            IQueryable<Category> result = Context.Category.Include(x => x.UserCreator);
+            IQueryable<Category> result = Context.Category.Where(x=>!x.ParentId.HasValue).Include(x => x.UserCreator);
 
             #region Searching
             //TODO Search both
-            if (!string.IsNullOrEmpty(paramsDto.FilterRoot))
-            {
-                var ids = result
-                    .Where(x => x.ParentId == null && x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
-                    .Select(x => x.Id);
-                result = result.Where(p => ids.Any(x => p.Id == x || p.ParentId == x));
-            }
+            // if (!string.IsNullOrEmpty(paramsDto.FilterRoot))
+            // {
+            //     var ids = result
+            //         .Where(x => x.ParentId == null && x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
+            //         .Select(x => x.Id);
+            //     result = result.Where(p => ids.Any(x => p.Id == x || p.ParentId == x));
+            // }
             if (!string.IsNullOrEmpty(paramsDto.FilterTitle))
             {
                 result = result.Where(p => p.Name.ToLower().Contains(paramsDto.FilterTitle.ToLower()));
@@ -72,11 +72,6 @@ namespace Digikala.Core.Services.AdminPanel
                             result = result.OrderByDescending(x => x.Name);
                             break;
                         }
-                    case "1":
-                    {
-                        result = result.OrderByDescending(x => x.ParentId);
-                        break;
-                    }
                 }
             }
             else
@@ -88,12 +83,6 @@ namespace Digikala.Core.Services.AdminPanel
                             result = result.OrderBy(x => x.Name);
                             break;
                         }
-                    case "1":
-                    {
-                        result = result.OrderBy(x => x.ParentId);
-                        break;
-                    }
-
                 }
             }
             #endregion

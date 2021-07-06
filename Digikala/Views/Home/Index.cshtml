@@ -1,7 +1,9 @@
-﻿@{
+﻿@using Digikala.Core.Interfaces.AdminPanel
+@{
    ViewBag.Title = "صفحه اصلی";
+   var categories = await _categoryRepository.ToListAsync();
 }
-
+@inject ICategoryRepository _categoryRepository
 <!-- Start header -->
 <header class="main-header">
    <!-- Start ads -->
@@ -81,14 +83,13 @@
    </div>
    <!-- End topbar -->
    <!-- Start bottom-header -->
-   <partial name="DigikalaLayout/_PartialBottomHeader" />
+   <partial name="DigikalaLayout/_PartialBottomHeader" model="@categories" />
    <!-- End bottom-header -->
 </header>
 <!-- End header -->
 <!-- Start main-content -->
 <main class="main-content dt-sl mb-3">
    <div class="container main-container">
-
       <!-- Start Main-Slider -->
       <div class="row mb-5">
          <aside class="sidebar col-lg-4 hidden-md order-2 pr-0 hidden-md">
@@ -925,83 +926,7 @@
       </div>
       <!-- End Banner -->
       <!-- Start Category-Section -->
-      <div class="row mt-3 mb-5">
-         <div class="col-12">
-            <div class="category-section dt-sn dt-sl">
-               <div class="category-section-title dt-sl">
-                  <h3>بیش از ۱،۵۰۰،۰۰۰ کالا در دسته‌بندی‌های مختلف</h3>
-               </div>
-               <div class="category-section-slider dt-sl">
-                  <div class="category-slider owl-carousel">
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/notebook-computer.png" alt="">
-                           <h4 class="promotion-category-name">کالای دیجیتال</h4>
-                           <h6 class="promotion-category-quantity">۱۵۶۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/lifeline-in-a-heart-outline.png" alt="">
-                           <h4 class="promotion-category-name">آرایشی، بهداشتی و سلامت</h4>
-                           <h6 class="promotion-category-quantity">۴۸۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/repair-tools.png" alt="">
-                           <h4 class="promotion-category-name">خودرو،ابزار و اداری</h4>
-                           <h6 class="promotion-category-quantity">۵۶۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/hanbok.png" alt="">
-                           <h4 class="promotion-category-name">مد و پوشاک</h4>
-                           <h6 class="promotion-category-quantity">۲۱۷۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/sofa.png" alt="">
-                           <h4 class="promotion-category-name">خانه و آشپزخانه</h4>
-                           <h6 class="promotion-category-quantity">۲۲۹۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/school-material.png" alt="">
-                           <h4 class="promotion-category-name">لوازم تحریر و هنر</h4>
-                           <h6 class="promotion-category-quantity">۸۶۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/baby-girl.png" alt="">
-                           <h4 class="promotion-category-name">کودک و نوزاد</h4>
-                           <h6 class="promotion-category-quantity">۳۲۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/adventurer.png" alt="">
-                           <h4 class="promotion-category-name">ورزش و سفر</h4>
-                           <h6 class="promotion-category-quantity">۱۵۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                     <div class="item">
-                        <a href="#" class="promotion-category">
-                           <img src="./digikalaTemplate/img/category/restaurant-cutlery-circular-symbol-of-a-spoon-and-a-fork-in-a-circle.png"
-                                alt="">
-                           <h4 class="promotion-category-name">خوردنی و آشامیدنی</h4>
-                           <h6 class="promotion-category-quantity">۲۲۰۰۰ کالا</h6>
-                        </a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+      <partial name="DigikalaLayout/_PartialCategorySection" model="@categories" />
       <!-- End Category-Section -->
       <!-- Start Product-Slider -->
       <section class="slider-section dt-sl mb-5">

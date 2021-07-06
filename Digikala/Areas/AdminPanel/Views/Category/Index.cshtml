@@ -2,7 +2,7 @@
 @using Digikala.Utility.Convertor
 @model Digikala.DTOs.FormGenericDto.Public.GetAllGenericByPaginationDto<Digikala.DataAccessLayer.Entities.Store.Category>
 @{
-   ViewBag.title = "دسته بندی محصولات";
+   ViewBag.title = "لیست سرگروه ها";
    Layout = "_PanelLayout";
    var row = 1;
    var cardHeaderDto = new CardHeaderFormDto()
@@ -16,14 +16,12 @@
       ExistOrder = true,
       InputsSearch = new Dictionary<string, string>()
 {
-         {"Title","جستجو بر اساس دسترسی"},
-         {"Root","جستجو بر اساس Root"},
+         {"Title","جستجو بر اساس عنوان"},
       },
       InputsOrder = new Dictionary<int, string>()
 {
          {0,"عنوان دسترسی"},
-         {1,"برحسب Root"},
-}
+      }
    };
    var searchResetButton = new SearchResetButtonFormDto()
    {
@@ -80,7 +78,6 @@
                         <div class="row mb-8">
                            <partial name="PanelLayoutShared/SharedForm/_PartialFormBodyForm" model="formBodyDto" />
                         </div>
-
                         <div class="row mt-8">
                            <partial name="PanelLayoutShared/SharedForm/_PartialSearchResetButtonForm" model="searchResetButton" />
                         </div>
@@ -91,11 +88,11 @@
                            <tr>
                               <th scope="col">#</th>
                               <th>عنوان</th>
-                              <th>Root</th>
                               <th>تصویر</th>
                               <th>زمان ثبت</th>
                               <th>کاربر ثبت کننده</th>
                               <th>تعداد ویرایش</th>
+                              <th>زیر دسته ها</th>
                               <th scope="col">دستورات</th>
                            </tr>
                         </thead>
@@ -108,7 +105,6 @@
                               <tr>
                                  <th scope="row">@row</th>
                                  <td>@item.Name</td>
-                                 <td>@Model.List.FirstOrDefault(x => x.Id == item.ParentId)?.Name</td>
                                  <td>
                                     @if (!string.IsNullOrEmpty(item.Icon))
                                     {
@@ -122,6 +118,11 @@
                                  <td>@item.CreateDate.ToShamsi()</td>
                                  <td>@item.UserCreator.Fullname</td>
                                  <td>@item.Version</td>
+                                 <td>
+                                    <a asp-action="SubCategories" asp-route-id="@item.Id" class="btn btn-icon btn-sm btn-bg-primary">
+                                       <i class="flaticon2-layers"></i>
+                                    </a>
+                                 </td>
                                  <td>
                                     <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
                                  </td>
@@ -151,23 +152,23 @@
    <script>
       function Create() {
          $.ajax({
-            url: '/adminPanel/Category/Create',
+            url: '/adminPanel/Category/CreateParent',
             type: 'GET',
             date: {}
          }).done(function (result) {
             $('#exampleModal').modal('show');
-            $('#exampleModalLabel').html('ثبت دسته جدید');
+            $('#exampleModalLabel').html('ثبت سر گروه');
             $('#modalBody').html(result);
          });
       }
       function Edit(id) {
          $.ajax({
-            url: '/adminPanel/Category/Edit/' + id,
+            url: '/adminPanel/Category/EditParent/' + id,
             type: 'GET',
             date: {}
          }).done(function (result) {
             $('#exampleModal').modal('show');
-            $('#exampleModalLabel').html('ویرایش دسته بندی');
+            $('#exampleModalLabel').html('ویرایش سرگروه');
             $('#modalBody').html(result);
          });
       }

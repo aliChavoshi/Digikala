@@ -38,14 +38,14 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
         #endregion
 
-        public async Task<IActionResult> Create()
+        public IActionResult CreateParent()
         {
-            await CategoriesForSelectList();
+            //await CategoriesForSelectList();
             return PartialView();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCategoryViewModel model)
+        public async Task<IActionResult> CreateParent(CreateCategoryViewModel model)
         {
             if (await _categoryRepository.IsExist(x => x.Name == model.Name))
             {
@@ -70,20 +70,27 @@ namespace Digikala.Areas.AdminPanel.Controllers
         {
             ViewBag.FilterRoot = paramsDto.FilterRoot;
             ViewBag.FilterTitle = paramsDto.FilterTitle;
-            return View(await _categoryRepository.CategoriesToList(paramsDto));
+            return View(await _categoryRepository.GetParentCategories(paramsDto));
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> SubCategories(int id)
+        {
+            ViewBag.parentId = id;
+            return View(await _categoryRepository.ToListAsync());
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> EditParent(int id)
         {
             var category = await _categoryRepository.GetById(id);
             var model = ObjectMapper.Mapper.Map<Category, EditCategoryViewModel>(category);
-            await CategoriesForSelectList(category.ParentId ?? 0);
+            //await CategoriesForSelectList(category.ParentId ?? 0);
             return PartialView(model);
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> Edit(EditCategoryViewModel model)
+        public async Task<IActionResult> EditParent(EditCategoryViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -96,10 +103,6 @@ namespace Digikala.Areas.AdminPanel.Controllers
                 {
                     return RedirectToAction("Index");
                 }
-            }
-            if (model.ParentId.HasValue && model.ParentId.Value == model.Id)
-            {
-                return RedirectToAction("Index");
             }
             var result = ObjectMapper.Mapper.Map(model, category);
             result.ModifierUser = User.GetUserId();
@@ -117,7 +120,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
         }
 
         [HttpPost("{id:int}")]
-        public async Task<IActionResult> Delete(Category model,int id)
+        public async Task<IActionResult> Delete(Category model, int id)
         {
             var category = await _categoryRepository.GetById(model.Id);
             if (await _categoryRepository.IsExist(x => x.ParentId == model.Id))
