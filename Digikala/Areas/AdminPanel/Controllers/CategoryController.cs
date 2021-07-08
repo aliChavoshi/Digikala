@@ -40,7 +40,6 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
         public IActionResult CreateParent()
         {
-            //await CategoriesForSelectList();
             return PartialView();
         }
 
@@ -66,6 +65,31 @@ namespace Digikala.Areas.AdminPanel.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> CreateSubCategory(int id)
+        {
+            var category = await _categoryRepository.GetById(id);
+            return PartialView(ObjectMapper.Mapper.Map<Category, CreateSubCategoryDto>(category));
+        }
+
+        [HttpPost("{id:int}")]
+        public async Task<IActionResult> CreateSubCategory(CreateSubCategoryDto model, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _categoryRepository.IsExist(x => x.Name == model.Name))
+                {
+                    return RedirectToAction("Index");
+                }
+                var subCategory = ObjectMapper.Mapper.Map<CreateSubCategoryDto, Category>(model);
+                subCategory.CreatorUser = User.GetUserId();
+                await _categoryRepository.Add(subCategory);
+                await _categoryRepository.Save();
+                TempData["IsSuccess"] = true;
+            }
+            return RedirectToAction("SubCategories", new { id = model.Id });
+        }
+
         public async Task<IActionResult> Index(CategoryParamsDto paramsDto)
         {
             ViewBag.FilterRoot = paramsDto.FilterRoot;
@@ -76,7 +100,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> SubCategories(int id)
         {
-            ViewBag.parentId = id;
+            ViewBag.rootId = id;
             return View(await _categoryRepository.ToListAsync());
         }
 

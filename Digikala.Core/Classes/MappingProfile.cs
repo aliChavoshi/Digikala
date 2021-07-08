@@ -53,19 +53,30 @@ namespace Digikala.Core.Classes
             CreateMap<CreateCategoryViewModel, Category>()
                 .ForMember(x => x.Icon,
                     c => c.Ignore());
-            //Get
+            //Get Parent
             CreateMap<Category, EditCategoryViewModel>()
                 .ForMember(x => x.Icon,
                     c => c.Ignore())
                 .ForMember(x => x.OldIconPath,
                     c => c.MapFrom(v => v.Icon));
-            //post
+            //post Parent
             CreateMap<EditCategoryViewModel, Category>()
                 .ForMember(x => x.Version,
                     c => c.MapFrom(v => v.Version + 1))
                 .ForMember(x => x.Icon, c => c.Ignore())
                 .ForMember(x => x.ModificationDate,
                     c => c.MapFrom(v => DateTime.Now));
+            //Get Sub
+            CreateMap<Category, CreateSubCategoryDto>()
+                .ForMember(x=>x.Name,c=>c.Ignore())
+                .ForMember(x=>x.ParentName,
+                    c=>c.MapFrom(v=>v.Name))
+                .ForMember(x => x.ParentId,
+                    c => c.MapFrom(v => v.Id));
+            //post sub
+            CreateMap<CreateSubCategoryDto, Category>()
+                .ForMember(x => x.Id,
+                    c => c.Ignore());
 
             #endregion
 

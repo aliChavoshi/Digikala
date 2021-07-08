@@ -1,8 +1,37 @@
-﻿@model IEnumerable<Digikala.DataAccessLayer.Entities.Store.Category>
+﻿@using Digikala.DTOs.FormGenericDto.AdminPanel.ForCreateOrEdit
+@using Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
+@model IEnumerable<Digikala.DataAccessLayer.Entities.Store.Category>
 @{
-   ViewData["Title"] = "SubCategories";
+   ViewData["Title"] = "زیر گروه ها";
    Layout = "~/Views/Shared/_PanelLayout.cshtml";
-   int parentId = ViewBag.parentId;
+   int parentId = ViewBag.rootId;
+   var cardHeaderDto = new CardHeaderFormDto()
+   {
+      ExistBtn = false,
+      CardLabel = ViewBag.title
+   };
+   var cardFooter = new CardFooterCreateEditBtnForm()
+   {
+      ActionReturn = "Index",
+      ActionSubmit = "Index"
+   };
+}
+@if (TempData["IsSuccess"] != null)
+{
+   <script>
+      swal({
+         title: "موفق",
+         text: "عملیات با موفقیت انجام شد",
+         icon: "success",
+         button: false,
+         timer: 2000
+      });
+   </script>
+}
+
+@section SubHeader
+{
+   <partial name="PanelLayoutShared/_PartialSubHeaderPanelLayout" />
 }
 <div class="d-flex flex-column-fluid">
    <!--begin::Container-->
@@ -17,32 +46,107 @@
          <div class="col-xxl-12">
             <!--begin::Card-->
             <div class="card card-custom gutter-b">
-               <div class="card-body">
-                  <!--begin::نمونه-->
-                  <div class="mb-10">
-                     @foreach (var parent in Model)
-                     {
-                        <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(parent.Id)">
-                           @if (!parent.ParentId.HasValue && parent.Id == parentId)
-                           {
-                              <div class="card">
-                                 <div class="card-header" id="headingیک3">
-                                    <div class="card-title" data-toggle="collapse" data-target="#collapse@(parent.Id)">
-                                       @parent.Name
-                                    </div>
-                                 </div>
-                                 <div id="collapse@(parent.Id)" class="collapse show" data-parent="#accordion@(parent.Id)">
-                                    <div class="card-body">
-                                       ...
-                                    </div>
-                                 </div>
-                              </div>
-                           }
-                        </div>
-                     }
-                  </div>
-                  <!--end::نمونه-->
+               <div class="card-header">
+                  <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
                </div>
+               <form class="form">
+                  <div class="card-body">
+                     <!--begin::نمونه-->
+                     <div class="mb-10">
+                        @foreach (var parent in Model)
+                        {
+                           <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(parent.Id)">
+                              @if (!parent.ParentId.HasValue && parent.Id == parentId)
+                              {
+                                 <div class="card border" data-card="true">
+                                    <div class="card-header" id="heading@(parent.Id)">
+                                       <div class="card-title text-white" data-toggle="collapse" data-target="#collapse@(parent.Id)" style="background-color: #424949 ">
+                                          <h3 class="card-label">@parent.Name</h3>
+                                          <div class="card-toolbar pr-15">
+                                             <a onclick="Create(@parent.Id)" class="btn btn-icon btn-sm btn-light-success mr-1">
+                                                <i class="ki ki-plus icon-nm"></i>
+                                             </a>
+                                             <a href="#" class="btn btn-icon btn-sm btn-light-warning mr-1">
+                                                <i class="ki ki-bold-more-ver icon-nm"></i>
+                                             </a>
+                                             <a href="#" class="btn btn-icon btn-sm btn-light-danger">
+                                                <i class="ki ki-close icon-nm"></i>
+                                             </a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div id="collapse@(parent.Id)" class="collapse show" data-parent="#accordion@(parent.Id)">
+                                       <div class="card-body">
+                                          @* ... *@
+                                          <div class="mb-10">
+                                             @foreach (var subOne in Model)
+                                             {
+                                                <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(subOne.Id)">
+                                                   @if (subOne.ParentId.HasValue && subOne.ParentId == parent.Id)
+                                                   {
+                                                      <div class="card  border">
+                                                         <div class="card-header" id="heading@(subOne.Id)">
+                                                            <div class="card-title text-white" data-toggle="collapse" data-target="#collapse@(subOne.Id)" style="background-color: #5D6D7E ">
+                                                               <h3 class="card-label">@subOne.Name</h3>
+                                                               <div class="card-toolbar pr-15">
+                                                                  <a onclick="Create(@subOne.Id)" class="btn btn-icon btn-sm btn-light-success mr-1">
+                                                                     <i class="ki ki-plus icon-nm"></i>
+                                                                  </a>
+                                                                  <a href="#" class="btn btn-icon btn-sm btn-light-warning mr-1">
+                                                                     <i class="ki ki-bold-more-ver icon-nm"></i>
+                                                                  </a>
+                                                                  <a href="#" class="btn btn-icon btn-sm btn-light-danger">
+                                                                     <i class="ki ki-close icon-nm"></i>
+                                                                  </a>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div id="collapse@(subOne.Id)" class="collapse show" data-parent="#accordion@(subOne.Id)">
+                                                            <div class="card-body">
+                                                               @* ... *@
+                                                               @foreach (var subTwo in Model)
+                                                               {
+                                                                  <div class="mt-2">
+                                                                     @if (subTwo.ParentId.HasValue && subTwo.ParentId == subOne.Id)
+                                                                     {
+                                                                        <div class="alert row" style="background-color: #979A9A">
+                                                                           <div class="col-10">
+                                                                              <h3 class="card-label text-white">@subTwo.Name</h3>
+                                                                           </div>
+                                                                           <div class="col-2">
+                                                                              <div class="card-toolbar pr-15 ">
+                                                                                 <a href="#" class="btn btn-icon btn-sm btn-light-warning mr-1">
+                                                                                    <i class="ki ki-bold-more-ver icon-nm"></i>
+                                                                                 </a>
+                                                                                 <a href="#" class="btn btn-icon btn-sm btn-light-danger">
+                                                                                    <i class="ki ki-close icon-nm"></i>
+                                                                                 </a>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     }
+                                                                  </div>
+                                                               }
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   }
+                                                </div>
+                                             }
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              }
+                           </div>
+                        }
+                     </div>
+                     <!--end::نمونه-->
+                  </div>
+                  <div class="card-footer">
+                     <partial name="PanelLayoutShared/SharedForm/_PartialCardFooterCreateEditBtnForm" model="cardFooter" />
+                  </div>
+               </form>
             </div>
             <!--end::Card-->
          </div>
@@ -50,5 +154,47 @@
    </div>
    <!--end::Container-->
 </div>
+<partial name="_PartialModalRole" />
 
-
+@section scripts
+{
+   <script>
+      function Create(id) {
+         $.ajax({
+            url: '/adminPanel/Category/CreateSubCategory/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ثبت زیر گروه');
+            $('#modalBody').html(result);
+         });
+      }
+      function Edit(id) {
+         $.ajax({
+            url: '/adminPanel/Category/EditParent/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ویرایش سرگروه');
+            $('#modalBody').html(result);
+         });
+      }
+      function Delete(id) {
+         $.ajax({
+            url: '/adminPanel/Category/Delete/' + id,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('حذف دسته بندی');
+            $('#modalBody').html(result);
+         });
+      }
+      $("a").click(function (e) {
+         // Do something
+         e.stopPropagation();
+      });
+   </script>
+}
