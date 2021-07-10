@@ -1,7 +1,13 @@
 ﻿@model Digikala.DTOs.FormGenericDto.AdminPanel.ForCreateOrEdit.CardFooterCreateEditBtnForm
 <div class="row">
    <div class="col-lg-6">
-      <button type="submit" asp-action="@Model.ActionSubmit" class="btn btn-success mr-2">@Model.LabelSubmit</button>
-      <a class="btn btn-secondary" asp-action="@Model.ActionReturn">@Model.LabelReturn</a>
+      @if (Model.IsExistSubmit)
+      {
+         <button type="submit" asp-action="@Model.ActionSubmit" class="btn btn-success mr-2">@Model.LabelSubmit</button>
+      }
+      @if (Model.IsExistReturn)
+      {
+         <a class="btn btn-secondary" asp-action="@Model.ActionReturn">@Model.LabelReturn</a>
+      }
    </div>
 </div>

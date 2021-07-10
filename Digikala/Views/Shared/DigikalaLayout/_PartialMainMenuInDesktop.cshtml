@@ -1,22 +1,22 @@
 ﻿@model List<Digikala.DataAccessLayer.Entities.Store.Category>
 <ul class="list hidden-sm">
    <li class="list-item list-item-has-children menu-col-1">
-      <a class="nav-link" href="#">دسته بندی کالا ها</a>
+      <a class="nav-link" href="#"><span class="fas fa-align-justify"></span>  دسته بندی کالا ها </a>
       <ul class="sub-menu nav">
          @foreach (var item in Model)
          {
             if (!item.ParentId.HasValue)
             {
-               <li class="list-item @(Model.Select(x=>x.ParentId).Contains(item.Id) ? "list-item-has-children" : "")">
+               <li class="list-item @(Model.Select(x => x.ParentId).Contains(item.Id) ? "list-item-has-children" : "")">
                   @*Parent*@
-                  @* <a class="nav-link" href="#"><span class="far fa-digital-tachograph text-dark"></span> @item.Name </a> *@
-                  <a class="nav-link" href="#"> @item.Name<img src="/savingImages/adminPanel/category/@item.Icon" style="max-height: 50px;max-height: 50px" /> </a>
+                  <a class="nav-link" href="#"><span class="@(item.Icon) font-size-h1 text-dark"></span> @item.Name </a>
+                  @* <a class="nav-link" href="#"> @item.Name </a> *@
                   <ul class="sub-menu nav">
                      @foreach (var sub in Model)
                      {
                         if (sub.ParentId.HasValue && sub.ParentId == item.Id)
                         {
-                           <li class="list-item @(Model.Select(x=>x.ParentId).Contains(sub.Id) ? "list-item-has-children" : "")">
+                           <li class="list-item @(Model.Select(x => x.ParentId).Contains(sub.Id) ? "list-item-has-children" : "")">
                               @*Sub One*@
                               <a class="nav-link" href="#">@sub.Name</a>
                               <ul class="sub-menu nav">

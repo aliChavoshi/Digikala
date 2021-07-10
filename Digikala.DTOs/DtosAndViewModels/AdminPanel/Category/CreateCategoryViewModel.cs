@@ -12,7 +12,7 @@ namespace Digikala.DTOs.DtosAndViewModels.AdminPanel.Category
         public string Name { get; set; }
 
         [Display(Name = "آیکون")]
-        public IFormFile Icon { get; set; }
+        public string Icon { get; set; }
 
         [Display(Name = "توضیحات")]
         [MaxLength(500, ErrorMessage = "تعداد کارکتر ها بیش از حد مجاز است")]

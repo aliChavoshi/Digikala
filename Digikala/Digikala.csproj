@@ -73,7 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\savingImages\adminPanel\category\" />
+    <Folder Include="wwwroot\savingImages\adminPanel\" />
   </ItemGroup>
 
 </Project>

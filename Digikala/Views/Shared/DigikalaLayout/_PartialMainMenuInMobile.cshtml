@@ -24,7 +24,7 @@
          if (!parent.ParentId.HasValue)
          {
             <li class="@(Model.Select(x=>x.ParentId).Contains(parent.Id) ? "sub-menu" : "")">
-               <a href="#">@parent.Name</a>
+               <a href="#"><span class="@(parent.Icon) font-size-h1 text-dark"></span> @parent.Name </a>
                <ul>
                   @foreach (var subOne in Model)
                   {

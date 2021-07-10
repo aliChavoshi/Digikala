@@ -1,6 +1,7 @@
 ﻿@model Digikala.DataAccessLayer.Entities.Store.Category
-<form method="post" asp-action="Delete">
+<form method="post" asp-action="DeleteSubCategory">
    <input type="hidden" asp-for="Id" />
+   <input type="hidden" name="rootId" value="@ViewBag.rootId" />
    <div class="modal-body">
       <div class="form-group">
          <label for="recipient-name" class="col-form-label" asp-for="Name"></label>

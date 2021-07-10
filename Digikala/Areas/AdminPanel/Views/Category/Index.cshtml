@@ -108,11 +108,7 @@
                                  <td>
                                     @if (!string.IsNullOrEmpty(item.Icon))
                                     {
-                                       <a href="/savingImages/adminPanel/category/@item.Icon" target="_blank">
-                                          <div class="symbol symbol-40 symbol-sm flex-shrink-0">
-                                             <img class="" src="/savingImages/adminPanel/category/@item.Icon" alt="photo">
-                                          </div>
-                                       </a>
+                                       <a class="text-dark font-size-h1" href="#"><span class="@item.Icon"></span></a>
                                     }
                                  </td>
                                  <td>@item.CreateDate.ToShamsi()</td>
@@ -120,7 +116,7 @@
                                  <td>@item.Version</td>
                                  <td>
                                     <a asp-action="SubCategories" asp-route-id="@item.Id" class="btn btn-icon btn-sm btn-bg-primary">
-                                       <i class="flaticon2-layers text-white"></i>
+                                       <span class="fas fa-layer-group font-size-h3 text-white"></span>
                                     </a>
                                  </td>
                                  <td>
@@ -174,12 +170,12 @@
       }
       function Delete(id) {
          $.ajax({
-            url: '/adminPanel/Category/Delete/' + id,
+            url: '/adminPanel/Category/DeleteParent/' + id,
             type: 'GET',
             date: {}
          }).done(function (result) {
             $('#exampleModal').modal('show');
-            $('#exampleModalLabel').html('حذف دسته بندی');
+            $('#exampleModalLabel').html('حذف گروه');
             $('#modalBody').html(result);
          });
       }

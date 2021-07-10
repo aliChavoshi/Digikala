@@ -1,0 +1,14 @@
+﻿@model Digikala.DataAccessLayer.Entities.Store.Category
+<form method="post" asp-action="DeleteParent">
+   <input type="hidden" asp-for="Id" />
+   <div class="modal-body">
+      <div class="form-group">
+         <label for="recipient-name" class="col-form-label" asp-for="Name"></label>
+         <input disabled="disabled" asp-for="Name" type="text" class="form-control" id="recipient-name">
+      </div>
+   </div>
+   <div class="modal-footer">
+      <a href="#" class="btn btn-warning btn-shadow-hover font-weight-bold mr-2" data-dismiss="modal">بستن</a>
+      <button type="submit" class="btn btn-danger btn-shadow-hover font-weight-bold mr-2">حذف</button>
+   </div>
+</form>

@@ -49,34 +49,42 @@ namespace Digikala.Core.Classes
             #region AdminPanel
 
             #region Category
+            //Create Parent post
+            CreateMap<CreateCategoryViewModel, Category>();
 
-            CreateMap<CreateCategoryViewModel, Category>()
-                .ForMember(x => x.Icon,
-                    c => c.Ignore());
-            //Get Parent
-            CreateMap<Category, EditCategoryViewModel>()
-                .ForMember(x => x.Icon,
-                    c => c.Ignore())
-                .ForMember(x => x.OldIconPath,
-                    c => c.MapFrom(v => v.Icon));
-            //post Parent
+            //Get Edit Parent
+            CreateMap<Category, EditCategoryViewModel>();
+
+            //post Edit Parent
             CreateMap<EditCategoryViewModel, Category>()
                 .ForMember(x => x.Version,
-                    c => c.MapFrom(v => v.Version + 1))
-                .ForMember(x => x.Icon, c => c.Ignore())
+                    c =>
+                        c.MapFrom(v => v.Version + 1))
                 .ForMember(x => x.ModificationDate,
-                    c => c.MapFrom(v => DateTime.Now));
-            //Get Sub
+                    c =>
+                        c.MapFrom(v => DateTime.Now));
+
+            //Get Sub Create sub category
             CreateMap<Category, CreateSubCategoryDto>()
-                .ForMember(x=>x.Name,c=>c.Ignore())
-                .ForMember(x=>x.ParentName,
-                    c=>c.MapFrom(v=>v.Name))
+                .ForMember(x => x.Name,
+                    c => c.Ignore())
+                .ForMember(x => x.ParentName,
+                    c => c.MapFrom(v => v.Name))
                 .ForMember(x => x.ParentId,
                     c => c.MapFrom(v => v.Id));
-            //post sub
-            CreateMap<CreateSubCategoryDto, Category>()
-                .ForMember(x => x.Id,
-                    c => c.Ignore());
+
+            //Post Sub Create sub category
+            CreateMap<CreateSubCategoryDto, Category>();
+
+            //get edit sub category
+            CreateMap<Category, EditSubCategoryDto>();
+
+            //post edit sub category
+            CreateMap<EditSubCategoryDto, Category>()
+                .ForMember(x => x.ModificationDate,
+                    c => c.MapFrom(v => DateTime.Now))
+                .ForMember(x => x.Version,
+                    c => c.MapFrom(v => v.Version + 1));
 
             #endregion
 

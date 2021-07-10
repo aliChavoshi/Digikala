@@ -1,19 +1,12 @@
-﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.EditCategoryViewModel
-<form method="post" asp-action="EditParent">
+﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.EditSubCategoryDto
+<form method="post" asp-action="EditSubCategory">
    <input type="hidden" asp-for="Id" />
+   <input type="hidden" asp-for="RootId" />
    <input type="hidden" asp-for="Version" />
    <div class="modal-body">
       <div class="form-group">
          <label class="col-form-label" asp-for="Name"></label>
          <input required asp-for="Name" type="text" class="form-control">
-      </div>
-      <div class="form-group">
-         <label class="col-form-label" asp-for="Icon"></label>
-         <input required asp-for="Icon" type="text" class="form-control">
-      </div>
-      <div class="form-group">
-         <label class="col-form-label" asp-for="Description"></label>
-         <textarea class="form-control" rows="3" asp-for="Description"></textarea>
       </div>
    </div>
    <div class="modal-footer">

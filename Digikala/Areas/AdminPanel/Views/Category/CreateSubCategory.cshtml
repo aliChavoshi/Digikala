@@ -1,7 +1,7 @@
 ﻿@model Digikala.DTOs.DtosAndViewModels.AdminPanel.Category.CreateSubCategoryDto
 <form method="post" asp-action="CreateSubCategory">
    <input type="hidden" asp-for="ParentId" />
-   <input type="hidden" asp-for="Id" />
+   <input type="hidden" asp-for="RootId" />
    <div class="modal-body">
       <div class="form-group">
          <label class="col-form-label" asp-for="ParentName"></label>
