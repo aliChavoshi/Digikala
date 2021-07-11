@@ -1,0 +1,200 @@
+﻿@using Digikala.DTOs.FormGenericDto.AdminPanel.ForCreateOrEdit
+@using Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
+@model IEnumerable<Digikala.DataAccessLayer.Entities.Identity.Permission>
+@{
+   ViewData["Title"] = "زیر دسته ها";
+   Layout = "_PanelLayout";
+   int rootId = ViewBag.rootId;
+   var cardHeaderDto = new CardHeaderFormDto()
+   {
+      ExistBtn = false,
+      CardLabel = ViewBag.title
+   };
+   var cardFooter = new CardFooterCreateEditBtnForm()
+   {
+      ActionReturn = "Permissions",
+      IsExistSubmit = false
+   };
+}
+@if (TempData["IsSuccess"] != null)
+{
+   <script>
+      swal({
+         title: "موفق",
+         text: "عملیات با موفقیت انجام شد",
+         icon: "success",
+         button: false,
+         timer: 2000
+      });
+   </script>
+}
+
+@section SubHeader
+{
+   <partial name="PanelLayoutShared/_PartialSubHeaderPanelLayout" />
+}
+<div class="d-flex flex-column-fluid">
+   <!--begin::Container-->
+   <div class="container">
+      <!--begin::Notice-->
+      @section Notice
+      {
+         <partial name="PanelLayoutShared/_PartialNoticePanelLayout" />
+      }
+      <!--end::Notice-->
+      <div class="row">
+         <div class="col-xxl-12">
+            <!--begin::Card-->
+            <div class="card card-custom gutter-b">
+               <div class="card-header">
+                  <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
+               </div>
+               <form class="form">
+                  <div class="card-body">
+                     <!--begin::نمونه-->
+                     <div class="mb-10">
+                        @foreach (var parent in Model)
+                        {
+                           <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(parent.Id)">
+                              @if (!parent.ParentId.HasValue && parent.Id == rootId)
+                              {
+                                 <div class="card border" data-card="true">
+                                    <div class="card-header" id="heading@(parent.Id)">
+                                       <div class="card-title text-white" data-toggle="collapse" data-target="#collapse@(parent.Id)" style="background-color: #0A006B ">
+                                          <h3 class="card-label">@parent.Name</h3>
+                                          <div class="card-toolbar pr-15">
+                                             <a onclick="Create(@parent.Id,@rootId)" class="btn btn-icon btn-sm btn-light-success mr-1 subCategory">
+                                                <span class="fas fa-plus-square font-size-h3"></span>
+                                             </a>
+                                             <a onclick="Edit(@parent.Id,@rootId)" class="btn btn-icon btn-sm btn-light-warning mr-1 subCategory">
+                                                <span class="far fa-edit font-size-h3"></span>
+                                             </a>
+                                             <a onclick="Delete(@parent.Id,@rootId)" class="btn btn-icon btn-sm btn-light-danger subCategory">
+                                                <span class="fas fa-trash-alt font-size-h3"></span>
+                                             </a>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div id="collapse@(parent.Id)" class="collapse show" data-parent="#accordion@(parent.Id)">
+                                       <div class="card-body">
+                                          @* ... *@
+                                          <div class="mb-10">
+                                             @foreach (var subOne in Model)
+                                             {
+                                                <div class="accordion accordion-solid accordion-toggle-plus mt-2" id="accordion@(subOne.Id)">
+                                                   @if (subOne.ParentId.HasValue && subOne.ParentId == parent.Id)
+                                                   {
+                                                      <div class="card  border">
+                                                         <div class="card-header" id="heading@(subOne.Id)">
+                                                            <div class="card-title text-white" data-toggle="collapse" data-target="#collapse@(subOne.Id)" style="background-color: #1C47E0 ">
+                                                               <h3 class="card-label">@subOne.Name</h3>
+                                                               <div class="card-toolbar pr-15">
+                                                                  <a onclick="Create(@subOne.Id,@rootId)" class="btn btn-icon btn-sm btn-light-success mr-1 subCategory">
+                                                                     <span class="fas fa-plus-square font-size-h3"></span>
+                                                                  </a>
+                                                                  <a onclick="Edit(@subOne.Id,@rootId)" class="btn btn-icon btn-sm btn-light-warning mr-1 subCategory">
+                                                                     <span class="far fa-edit font-size-h3"></span>
+                                                                  </a>
+                                                                  <a onclick="Delete(@subOne.Id,@rootId)" class="btn btn-icon btn-sm btn-light-danger subCategory">
+                                                                     <span class="fas fa-trash-alt font-size-h3"></span>
+                                                                  </a>
+                                                               </div>
+                                                            </div>
+                                                         </div>
+                                                         <div id="collapse@(subOne.Id)" class="collapse" data-parent="#accordion@(subOne.Id)">
+                                                            <div class="card-body">
+                                                               @* ... *@
+                                                               @foreach (var subTwo in Model)
+                                                               {
+                                                                  <div class="mt-2">
+                                                                     @if (subTwo.ParentId.HasValue && subTwo.ParentId == subOne.Id)
+                                                                     {
+                                                                        <div class="alert row" style="background-color: #7AB5E6 ">
+                                                                           <div class="col-10">
+                                                                              <h3 class="card-label text-white">@subTwo.Name</h3>
+                                                                           </div>
+                                                                           <div class="col-2">
+                                                                              <div class="card-toolbar pr-15 ">
+                                                                                 <a onclick="Edit(@subTwo.Id,@rootId)" class="btn btn-icon btn-sm btn-light-warning mr-1 subCategory">
+                                                                                    <span class="far fa-edit font-size-h3"></span>
+                                                                                 </a>
+                                                                                 <a onclick="Delete(@subTwo.Id,@rootId)" class="btn btn-icon btn-sm btn-light-danger subCategory">
+                                                                                    <span class="fas fa-trash-alt font-size-h3"></span>
+                                                                                 </a>
+                                                                              </div>
+                                                                           </div>
+                                                                        </div>
+                                                                     }
+                                                                  </div>
+                                                               }
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   }
+                                                </div>
+                                             }
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              }
+                           </div>
+                        }
+                     </div>
+                     <!--end::نمونه-->
+                  </div>
+                  <div class="card-footer">
+                     <partial name="PanelLayoutShared/SharedForm/_PartialCardFooterCreateEditBtnForm" model="cardFooter" />
+                  </div>
+               </form>
+            </div>
+            <!--end::Card-->
+         </div>
+      </div>
+   </div>
+   <!--end::Container-->
+</div>
+<partial name="_PartialModalRole" />
+
+@section scripts
+{
+   <script>
+      function Create(id, rootId) {
+         $.ajax({
+            url: '/adminPanel/home/CreateSubPermission/' + id + "/" + rootId,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ثبت زیر گروه');
+            $('#modalBody').html(result);
+         });
+      }
+      function Edit(id,rootId) {
+         $.ajax({
+            url: '/adminPanel/home/EditSubPermission/' + id+"/"+rootId,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('ویرایش زیر گروه');
+            $('#modalBody').html(result);
+         });
+      }
+      function Delete(id,rootId) {
+         $.ajax({
+            url: '/adminPanel/home/DeleteSubPermission/' + id +"/" + rootId,
+            type: 'GET',
+            date: {}
+         }).done(function (result) {
+            $('#exampleModal').modal('show');
+            $('#exampleModalLabel').html('حذف زیر گروه');
+            $('#modalBody').html(result);
+         });
+      }
+      $("a.subCategory").click(function (e) {
+         // Do something
+         e.stopPropagation();
+      });
+   </script>
+}

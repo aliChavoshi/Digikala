@@ -11,7 +11,7 @@ namespace Digikala.Core.Interfaces.AdminPanel.Identity
     public interface IPermissionRepository : IGenericRepository<Permission>
     {
         Task<List<SelectListItem>> PermissionsForSelectList();
-        Task<GetAllGenericByPaginationDto<Permission>> PermissionsToList(PermissionParamsDto paramsDto);
+        Task<GetAllGenericByPaginationDto<Permission>> ParentPermissionsToList(PermissionParamsDto paramsDto);
         Task DeleteSave(Permission permission);
     }
 }

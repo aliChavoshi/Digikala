@@ -4,6 +4,7 @@ using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.AccountDtos;
 using Digikala.DTOs.DtosAndViewModels.AdminPanel.Category;
+using Digikala.DTOs.DtosAndViewModels.AdminPanel.Home;
 using Digikala.DTOs.Store;
 using Digikala.Utility.Generator;
 
@@ -47,6 +48,23 @@ namespace Digikala.Core.Classes
             #endregion
 
             #region AdminPanel
+
+            #region Permission
+
+            //Get Sub Create sub Permission
+            CreateMap<Permission,CreateSubPermissionDto>()
+                .ForMember(x => x.Name,
+                    c => c.Ignore())
+                .ForMember(x => x.ParentName,
+                    c => c.MapFrom(v => v.Name))
+                .ForMember(x => x.ParentId,
+                    c => c.MapFrom(v => v.Id));
+            //postSub Create sub Permission
+            CreateMap<CreateSubPermissionDto, Permission>();
+
+            //get edit sub permission
+            CreateMap<Permission, EditSubPermissionDto>().ReverseMap();
+            #endregion
 
             #region Category
             //Create Parent post

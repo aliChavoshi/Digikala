@@ -14,12 +14,12 @@
       ExistSearch = true,
       ExistOrder = true,
       InputsSearch = new Dictionary<string, string>()
-{
-         {"Title","جستجو بر اساس دسترسی"},
-         {"Root","جستجو بر اساس Root"},
-},
+      {
+         {"Title","جستجو بر اساس دسترسی"}
+
+      },
       InputsOrder = new Dictionary<int, string>()
-{
+      {
          {0,"عنوان دسترسی"}
       }
    };
@@ -88,8 +88,8 @@
                         <thead>
                            <tr>
                               <th scope="col">#</th>
-                              <th>عنوان</th>
-                              <th>Root</th>
+                              <th>گروه های دسترسی</th>
+                              <th>زیر دسته ها</th>
                               <th scope="col">دستورات</th>
                            </tr>
                         </thead>
@@ -102,7 +102,11 @@
                               <tr>
                                  <th scope="row">@row</th>
                                  <td>@item.Name</td>
-                                 <td>@Model.List.FirstOrDefault(x => x.Id == item.ParentId)?.Name</td>
+                                 <td>
+                                    <a asp-action="SubPermissions" asp-route-id="@item.Id" class="btn btn-icon btn-sm btn-bg-primary">
+                                       <span class="fas fa-layer-group font-size-h3 text-white"></span>
+                                    </a>
+                                 </td>
                                  <td>
                                     <partial name="PanelLayoutShared/SharedForm/_PartialEditDeleteBtnForm" model="editDeleteBtnForm" />
                                  </td>

@@ -1,28 +1,11 @@
 ﻿@model Digikala.DataAccessLayer.Entities.Identity.Permission
-@{
-   var disabled = !Model.ParentId.HasValue ? "disabled" : "";
-}
+
 <form method="post" asp-action="EditPermission">
    <input type="hidden" asp-for="Id" />
    <div class="modal-body">
       <div class="form-group">
-         <label for="recipient-name" class="col-form-label">عنوان :</label>
+         <label for="recipient-name" class="col-form-label" asp-for="Name"></label>
          <input required asp-for="Name" type="text" class="form-control" id="recipient-name">
-      </div>
-      <div class="form-group">
-         <label for="recipient-name" class="col-form-label" asp-for="ParentId"></label>
-         <select asp-for="ParentId" asp-items="@ViewData["Permissions"] as SelectList" id="permissions" class="form-control"></select>
-      </div>
-      <div class="form-group">
-         <label class="col-3 col-form-label">سر گروه میباشد</label>
-         <div class="col-3">
-            <span class="switch switch-outline switch-icon switch-success">
-               <label>
-                  <input type="checkbox" @(!Model.ParentId.HasValue ? "checked" : "") name="isParent" id="checkbox" />
-                  <span></span>
-               </label>
-            </span>
-         </div>
       </div>
    </div>
    <div class="modal-footer">
@@ -30,16 +13,16 @@
       <button type="submit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">ثبت</button>
    </div>
 </form>
-<script>
-   var input = document.getElementById("permissions");
-   var checkbox = document.getElementById('checkbox');
-   checkbox.addEventListener("click", function () {
-      input.toggleAttribute("disabled");
-   });
-   $(function() {
-      const disabled = @Html.Raw(Json.Serialize(disabled));
-      if (disabled) {
-         input.setAttribute(disabled,disabled);
-      }
-   });
-</script>
+@* <script> *@
+@*    var input = document.getElementById("permissions"); *@
+@*    var checkbox = document.getElementById('checkbox'); *@
+@*    checkbox.addEventListener("click", function () { *@
+@*       input.toggleAttribute("disabled"); *@
+@*    }); *@
+@*    $(function() { *@
+@*       const disabled = @Html.Raw(Json.Serialize(disabled)); *@
+@*       if (disabled) { *@
+@*          input.setAttribute(disabled,disabled); *@
+@*       } *@
+@*    }); *@
+@* </script> *@

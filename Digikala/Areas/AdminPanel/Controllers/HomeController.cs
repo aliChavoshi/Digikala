@@ -140,18 +140,104 @@ namespace Digikala.Areas.AdminPanel.Controllers
 
         #endregion
 
-        #region Permission
+        #region SubPermission
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> SubPermissions(int id)
+        {
+            ViewBag.rootId = id;
+            return View(await _permissionRepository.ToListAsync());
+        }
+
+        [HttpGet("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> CreateSubPermission(int id, int rootId)
+        {
+            var category = await _permissionRepository.GetById(id);
+            var model = ObjectMapper.Mapper.Map<Permission, CreateSubPermissionDto>(category);
+            model.RootId = rootId;
+            return PartialView(model);
+        }
+
+        [HttpPost("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> CreateSubPermission(CreateSubPermissionDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (await _permissionRepository.IsExist(x => x.Name == model.Name))
+                {
+                    return RedirectToAction("SubPermissions", new { id = model.RootId });
+                }
+
+                var permission = ObjectMapper.Mapper.Map<CreateSubPermissionDto, Permission>(model);
+                await _permissionRepository.Add(permission);
+                await _permissionRepository.Save();
+                TempData["IsSuccess"] = true;
+            }
+            return RedirectToAction("SubPermissions", new { id = model.RootId });
+        }
+
+        [HttpGet("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> EditSubPermission(int id, int rootId)
+        {
+            var category = await _permissionRepository.GetById(id);
+            var model = ObjectMapper.Mapper.Map<Permission, EditSubPermissionDto>(category);
+            model.RootId = rootId;
+            return PartialView(model);
+        }
+
+        [HttpPost("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> EditSubPermission(EditSubPermissionDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                var permission = await _permissionRepository.GetById(model.Id);
+                if (permission.Name != model.Name && await _permissionRepository.IsExist(x => x.Name == model.Name))
+                {
+                    return RedirectToAction("SubPermissions", new { id = model.RootId });
+                }
+                var result = ObjectMapper.Mapper.Map(model, permission);
+                _permissionRepository.Update(result);
+                await _permissionRepository.Save();
+                TempData["IsSuccess"] = true;
+            }
+            return RedirectToAction("SubPermissions", new { id = model.RootId });
+
+        }
+
+        [HttpGet("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> DeleteSubPermission(int id, int rootId)
+        {
+            ViewBag.rootId = rootId;
+            return PartialView(await _permissionRepository.GetById(id));
+        }
+
+        [HttpPost("{id:int}/{rootId:int}")]
+        public async Task<IActionResult> DeleteSubPermission(Permission model,int id, int rootId)
+        {
+            if (await _rolePermissionRepository.IsExist(x => x.PermissionId == model.Id))
+            {
+                return RedirectToAction("SubPermissions", new { id = rootId });
+            }
+            if (await _permissionRepository.IsExist(x => x.ParentId == model.Id))
+            {
+                return RedirectToAction("SubPermissions", new { id = rootId });
+            }
+            var permission = await _permissionRepository.GetById(model.Id);
+            await _permissionRepository.DeleteSave(permission);
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("SubPermissions", new { id = rootId });
+        }
+        #endregion
+
+        #region ParentPermission
 
         public async Task<IActionResult> Permissions(PermissionParamsDto paramsDto)
         {
-            ViewBag.FilterRoot = paramsDto.FilterRoot;
             ViewBag.FilterTitle = paramsDto.FilterTitle;
-            return View(await _permissionRepository.PermissionsToList(paramsDto));
+            return View(await _permissionRepository.ParentPermissionsToList(paramsDto));
         }
 
-        public async Task<IActionResult> CreatePermission()
+        public IActionResult CreatePermission()
         {
-            await PermissionsForSelectList();
             return PartialView();
         }
 
@@ -166,7 +252,6 @@ namespace Digikala.Areas.AdminPanel.Controllers
             {
                 return RedirectToAction("Permissions");
             }
-
             await _permissionRepository.Add(model);
             await _permissionRepository.Save();
             TempData["IsSuccess"] = true;
@@ -177,7 +262,6 @@ namespace Digikala.Areas.AdminPanel.Controllers
         public async Task<IActionResult> EditPermission(int id)
         {
             var permission = await _permissionRepository.GetById(id);
-            await PermissionsForSelectList(permission.ParentId ?? 0);
             return PartialView(permission);
         }
 
@@ -196,12 +280,7 @@ namespace Digikala.Areas.AdminPanel.Controllers
                     return RedirectToAction("Permissions");
                 }
             }
-            if (model.ParentId.HasValue && model.ParentId.Value == permission.Id)
-            {
-                return RedirectToAction("Permissions");
-            }
             permission.Name = model.Name;
-            permission.ParentId = model.ParentId;
             _permissionRepository.Update(permission);
             await _permissionRepository.Save();
             TempData["IsSuccess"] = true;

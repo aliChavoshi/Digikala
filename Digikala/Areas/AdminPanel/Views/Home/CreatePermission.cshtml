@@ -2,23 +2,8 @@
 <form method="post" asp-action="CreatePermission">
      <div class="modal-body">
           <div class="form-group">
-               <label for="recipient-name" class="col-form-label">عنوان :</label>
+               <label for="recipient-name" class="col-form-label" asp-for="Name"></label>
                <input required asp-for="Name" type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-               <label for="recipient-name" class="col-form-label" asp-for="ParentId"></label>
-               <select disabled asp-for="ParentId" asp-items="@ViewData["Permissions"] as SelectList" id="permissions" class="form-control"></select>
-          </div>
-          <div class="form-group">
-               <label class="col-3 col-form-label">سر گروه میباشد</label>
-               <div class="col-3">
-                    <span class="switch switch-outline switch-icon switch-success">
-                         <label>
-                              <input type="checkbox" checked="checked" name="isParent" id="checkbox" />
-                              <span></span>
-                         </label>
-                    </span>
-               </div>
           </div>
      </div>
      <div class="modal-footer">
@@ -26,12 +11,12 @@
           <button type="submit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">ثبت</button>
      </div>
 </form>
-<script>
-     var checkbox = document.getElementById('checkbox');
-     var input = document.getElementById("permissions");
-
-     checkbox.addEventListener("click", function () {
-          input.toggleAttribute("disabled");
-     });
-</script>
+@* <script> *@
+@*      var checkbox = document.getElementById('checkbox'); *@
+@*      var input = document.getElementById("permissions"); *@
+@* *@
+@*      checkbox.addEventListener("click", function () { *@
+@*           input.toggleAttribute("disabled"); *@
+@*      }); *@
+@* </script> *@
 

@@ -41,19 +41,11 @@ namespace Digikala.Core.Services.AdminPanel.Identity
             return list;
         }
 
-        public async Task<GetAllGenericByPaginationDto<Permission>> PermissionsToList(PermissionParamsDto paramsDto)
+        public async Task<GetAllGenericByPaginationDto<Permission>> ParentPermissionsToList(PermissionParamsDto paramsDto)
         {
-            IQueryable<Permission> result = Context.Permission;
+            IQueryable<Permission> result = Context.Permission.Where(x=>!x.ParentId.HasValue);
 
             #region Searching
-            //TODO Search both
-            if (!string.IsNullOrEmpty(paramsDto.FilterRoot))
-            {
-                var ids = result
-                    .Where(x => x.ParentId == null && x.Name.ToLower().Contains(paramsDto.FilterRoot.ToLower()))
-                    .Select(x => x.Id);
-                result = result.Where(p => ids.Any(x => p.Id == x || p.ParentId == x));
-            }
             if (!string.IsNullOrEmpty(paramsDto.FilterTitle))
             {
                 result = result.Where(p => p.Name.ToLower().Contains(paramsDto.FilterTitle.ToLower()));

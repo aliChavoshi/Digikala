@@ -32,7 +32,8 @@ namespace Digikala.Core.Services.AdminPanel.Identity
         public async Task AddPermissionsIdToRole(CreateRolePermissionDto model)
         {
             var perIdForRoleIdDb = await Context.RolePermission
-                .Where(x => x.RoleId == model.RoleId).Select(x => x.PermissionId).ToListAsync();
+                .Where(x => x.RoleId == model.RoleId)
+                .Select(x => x.PermissionId).ToListAsync();
 
             #region Distinct
 
