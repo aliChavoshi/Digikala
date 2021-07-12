@@ -8,5 +8,6 @@ namespace Digikala.Core.Interfaces
     {
         Task<bool> IsExistUser(int userId);
         Task<bool> IsActiveStore(int userId);
+        Task<Store> GetStoreByUserId(int userId);
     }
 }

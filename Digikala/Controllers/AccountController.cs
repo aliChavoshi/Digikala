@@ -68,14 +68,16 @@ namespace Digikala.Controllers
         #region Register
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterDto model)
+        public async Task<IActionResult> Register(RegisterDto model, string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -95,7 +97,7 @@ namespace Digikala.Controllers
             #endregion
 
             TempData["ResendActiveCode"] = true;
-            return RedirectToAction("ConfirmMobileNumber", new { mobile = user.Mobile });
+            return RedirectToAction("ConfirmMobileNumber", new { mobile = user.Mobile, returnUrl = returnUrl });
         }
 
         #endregion
@@ -103,14 +105,17 @@ namespace Digikala.Controllers
         #region ConfirmMobileNumber
 
         [HttpGet]
-        public IActionResult ConfirmMobileNumber(string mobile)
+        public IActionResult ConfirmMobileNumber(string mobile, string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             return View(new ConfirmMobileDto { Mobile = mobile });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmMobileNumber(ConfirmMobileDto model, bool resendCode = false)
+        public async Task<IActionResult> ConfirmMobileNumber(ConfirmMobileDto model,
+            bool resendCode = false, string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             if (resendCode)
             {
                 await ResendActiveCode(model.Mobile);
@@ -134,7 +139,7 @@ namespace Digikala.Controllers
 
             await _accountRepository.ConfirmMobileAndActiveUserUpdateSaveUser(user);
             TempData["SuccessConfirmMobile"] = true;
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", new { returnUrl = returnUrl });
         }
 
         #endregion
@@ -214,8 +219,9 @@ namespace Digikala.Controllers
         #region ChangeMobileNumber
 
         [HttpGet]
-        public async Task<IActionResult> ChangeMobileNumber(string mobile)
+        public async Task<IActionResult> ChangeMobileNumber(string mobile, string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             var user = await _accountRepository.GetUserByMobile(mobile);
             if (user == null)
             {
@@ -225,8 +231,9 @@ namespace Digikala.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangeMobileNumber(ChangeMobileNumberDto model)
+        public async Task<IActionResult> ChangeMobileNumber(ChangeMobileNumberDto model, string returnUrl = "")
         {
+            ViewBag.returnUrl = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -256,7 +263,7 @@ namespace Digikala.Controllers
             #endregion
 
             TempData["ResendActiveCode"] = true;
-            return RedirectToAction("ConfirmMobileNumber", new { mobile = result.Mobile });
+            return RedirectToAction("ConfirmMobileNumber", new { mobile = result.Mobile, returnUrl = returnUrl });
         }
 
         #endregion
@@ -264,11 +271,16 @@ namespace Digikala.Controllers
         #region ForgotPassword
 
         [HttpGet]
-        public IActionResult ForgotPassword() => View();
+        public IActionResult ForgotPassword(string returnUrl="")
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model,string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -281,21 +293,23 @@ namespace Digikala.Controllers
 
             await ResendActiveCode(model.Mobile);
             TempData["ResendActiveCode"] = true;
-            return RedirectToAction("ResetPassword", new { mobile = model.Mobile });
+            return RedirectToAction("ResetPassword", new { mobile = model.Mobile,returnUrl = returnUrl });
         }
 
         #endregion
 
         #region ResetPassword
 
-        public IActionResult ResetPassword(string mobile)
+        public IActionResult ResetPassword(string mobile, string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             return View(new ResetPasswordDto { Mobile = mobile });
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto model, bool resendCode = false)
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto model, bool resendCode = false, string returnUrl="")
         {
+            ViewBag.returnUrl = returnUrl;
             if (resendCode)
             {
                 await ResendActiveCode(model.Mobile);
@@ -321,7 +335,7 @@ namespace Digikala.Controllers
             await _accountRepository.Save();
 
             TempData["SuccessResetPassword"] = true;
-            return RedirectToAction("Login");
+            return RedirectToAction("Login",new {returnUrl = returnUrl});
         }
 
         #endregion

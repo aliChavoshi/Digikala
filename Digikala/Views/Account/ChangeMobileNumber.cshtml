@@ -21,22 +21,23 @@
                     </div>
 
                     <form method="post">
-                        <input type="hidden" asp-for="OldMobile"/>
-                        <div class="form-row with-icon">
-                            <input required asp-for="NewMobile" type="text" maxlength="11" class="input-ui pr-2" placeholder="شماره موبایل جدید را وارد نمائید.">
-                            <i class="mdi mdi-account-circle-outline"></i>
-                        </div>
-                        <div class="form-row-title mt-2">
-                            <span class="text-danger font-weight-bold" asp-validation-for="NewMobile"></span>
-                            <span class="text-danger font-weight-bold" asp-validation-for="OldMobile"></span>
-                        </div>
-                        <div class="form-row mt-3">
-                            <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
-                                <i class="mdi mdi-account-circle-outline"></i>
-                                ویرایش شماره همراه
-                            </button>
-                        </div>
-                        
+                       <input type="hidden" asp-for="OldMobile" />
+                       <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                       <div class="form-row with-icon">
+                          <input required asp-for="NewMobile" type="text" maxlength="11" class="input-ui pr-2" placeholder="شماره موبایل جدید را وارد نمائید.">
+                          <i class="mdi mdi-account-circle-outline"></i>
+                       </div>
+                       <div class="form-row-title mt-2">
+                          <span class="text-danger font-weight-bold" asp-validation-for="NewMobile"></span>
+                          <span class="text-danger font-weight-bold" asp-validation-for="OldMobile"></span>
+                       </div>
+                       <div class="form-row mt-3">
+                          <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
+                             <i class="mdi mdi-account-circle-outline"></i>
+                             ویرایش شماره همراه
+                          </button>
+                       </div>
+
                     </form>
                     <div class="form-footer mt-3">
                         <div>

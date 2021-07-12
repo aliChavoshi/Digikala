@@ -133,7 +133,8 @@ namespace Digikala.Controllers
                 #endregion
 
                 TempData["ResendActiveCode"] = true;
-                return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = model.Mobile });
+                return RedirectToAction("ConfirmMobileNumber", "Account",
+                    new { mobile = model.Mobile, returnUrl = "/store/index" });
             }
         }
 
@@ -155,7 +156,8 @@ namespace Digikala.Controllers
             #endregion
 
             TempData["ResendActiveCode"] = true;
-            return RedirectToAction("ConfirmMobileNumber", "Account", new { mobile = User.GetMobileNumber() });
+            return RedirectToAction("ConfirmMobileNumber", "Account",
+                new { mobile = User.GetMobileNumber(), returnUrl = "/store/index" });
         }
 
         [Permission(1)]
@@ -170,11 +172,12 @@ namespace Digikala.Controllers
 
             #region SendActiveEmailCode
 
-                var messageSender = new MessageSender(_configuration, _viewRenderService);
-                await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user,
-                    "Account/_PartialActiveEmail", "/store/index");
+            var messageSender = new MessageSender(_configuration, _viewRenderService);
+            await messageSender.SendMailToUserWithView("فعال سازی ایمیل ", user,
+                "Account/_PartialActiveEmail", "/store/index");
 
             #endregion
+
             TempData["ResendConfirmEmail"] = true;
             return RedirectToAction("Index");
         }
@@ -186,7 +189,8 @@ namespace Digikala.Controllers
         [HttpGet]
         public IActionResult Login(bool permission = false, string backUrl = "")
         {
-            return RedirectToAction("Login", "Account", new { permission = permission, returnUrl = backUrl });
+            return RedirectToAction("Login", "Account",
+                new { permission = permission, returnUrl = backUrl });
         }
 
         #endregion
@@ -195,11 +199,16 @@ namespace Digikala.Controllers
 
         [HttpGet]
         [Permission(1)]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet("{userId:int}")]
+        public async Task<IActionResult> Properties(int userId)
+        {
+            return View(await _storeRepository.GetStoreByUserId(userId));
+        }
         #endregion
     }
 }

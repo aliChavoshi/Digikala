@@ -38,37 +38,38 @@
                         </a>
                     </div>
                     <form method="post" id="form">
-                        <input type="hidden" asp-for="Mobile" />
-                        <input type="hidden" name="resendCode" id="resendCode" value="false" />
-                        <div class="form-row-title">
-                            <h3>کد تایید را وارد کنید</h3>
-                        </div>
+                       <input type="hidden" asp-for="Mobile" />
+                       <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                       <input type="hidden" name="resendCode" id="resendCode" value="false" />
+                       <div class="form-row-title">
+                          <h3>کد تایید را وارد کنید</h3>
+                       </div>
 
-                        <div class="form-row">
-                            <div class="numbers-verify">
-                                <div class="lines-number-input">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1" autofocus="">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
-                                    <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row mt-2">
-                            <span class="text-primary">دریافت مجدد کد تایید</span>(
-                            <p id="countdown-verify-end"></p>)
-                        </div>
-                        <div class="form-row-title mt-2">
-                            <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
-                            <span class="text-danger font-weight-bold" asp-validation-for="ActiveCode"></span>
-                        </div>
-                        <div class="form-row mt-3">
-                            <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
-                                <i class="mdi mdi-account-circle-outline"></i>
-                                تایید کردن شماره
-                            </button>
-                        </div>
+                       <div class="form-row">
+                          <div class="numbers-verify">
+                             <div class="lines-number-input">
+                                <input required name="ActiveCode" type="number" class="line-number" maxlength="1" autofocus="">
+                                <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                                <input required name="ActiveCode" type="number" class="line-number" maxlength="1">
+                             </div>
+                          </div>
+                       </div>
+                       <div class="form-row mt-2">
+                          <span class="text-primary">دریافت مجدد کد تایید</span>(
+                          <p id="countdown-verify-end"></p>)
+                       </div>
+                       <div class="form-row-title mt-2">
+                          <span class="text-danger font-weight-bold" asp-validation-for="Mobile"></span>
+                          <span class="text-danger font-weight-bold" asp-validation-for="ActiveCode"></span>
+                       </div>
+                       <div class="form-row mt-3">
+                          <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
+                             <i class="mdi mdi-account-circle-outline"></i>
+                             تایید کردن شماره
+                          </button>
+                       </div>
 
                     </form>
                     <div class="form-footer mt-3">

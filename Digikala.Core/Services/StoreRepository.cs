@@ -3,6 +3,7 @@ using Digikala.Core.Interfaces;
 using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace Digikala.Core.Services
 {
@@ -23,6 +24,11 @@ namespace Digikala.Core.Services
         public async Task<bool> IsActiveStore(int userId)
         {
             return await IsExist(x => x.UserId == userId && x.IsActive);
+        }
+
+        public async Task<Store> GetStoreByUserId(int userId)
+        {
+            return await Context.Stores.SingleOrDefaultAsync(x => x.UserId == userId);
         }
     }
 }

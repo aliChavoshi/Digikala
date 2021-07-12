@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Digikala.DataAccessLayer.Entities.Identity;
 
@@ -26,6 +27,18 @@ namespace Digikala.DataAccessLayer.Entities.Store
         [Display(Name = "تصویر")]
         [MaxLength(100, ErrorMessage = " تعداد کارکترهای {0} بیش از حد مجاز است")]
         public string Logo { get; set; }
+
+        [Display(Name = "رای مثبت")]
+        [Range(0,Int32.MaxValue, ErrorMessage = "لطفا {0} را انتخاب کنید")]
+        public int VotePositive { get; set; } = 0;
+
+        [Display(Name = "رای منفی")]
+        [Range(0, Int32.MaxValue, ErrorMessage = "لطفا {0} را انتخاب کنید")]
+        public int VoteNegative { get; set; } = 0;
+
+        [Display(Name = "تعداد بازگشتی")]
+        [Range(0, Int32.MaxValue, ErrorMessage = "لطفا {0} را انتخاب کنید")]
+        public int ReturnNumber { get; set; } = 0;
 
         #region Relations
 

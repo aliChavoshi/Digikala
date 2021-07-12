@@ -4,14 +4,16 @@ using Digikala.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Digikala.DataAccessLayer.Migrations
 {
     [DbContext(typeof(DigikalaContext))]
-    partial class DigikalaContextModelSnapshot : ModelSnapshot
+    [Migration("20210712094539_UpdateStoreEntity")]
+    partial class UpdateStoreEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +222,7 @@ namespace Digikala.DataAccessLayer.Migrations
                             Id = 1,
                             ConfirmEmail = true,
                             ConfirmMobile = true,
-                            CreateDate = new DateTime(2021, 7, 12, 14, 22, 44, 524, DateTimeKind.Local).AddTicks(7183),
+                            CreateDate = new DateTime(2021, 7, 12, 14, 15, 39, 0, DateTimeKind.Local).AddTicks(8118),
                             Email = "Admin@gmail.com",
                             Fullname = "Admin",
                             IsActive = true,
@@ -330,10 +332,7 @@ namespace Digikala.DataAccessLayer.Migrations
                     b.Property<int>("Version")
                         .HasColumnType("int");
 
-                    b.Property<int>("VoteNegative")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VotePositive")
+                    b.Property<int>("Vote")
                         .HasColumnType("int");
 
                     b.HasKey("UserId");
