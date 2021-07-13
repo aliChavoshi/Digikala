@@ -1,6 +1,7 @@
 ﻿@model Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex.CardHeaderFormDto
 @if (Model.ExistCardTitle)
 {
+   //Label 
    <div class="card-title" id="search" @(Model.ExistBtn ? "onclick=ToggleFrm()" : "")>
       <span class="card-icon"><i class="flaticon2-arrow-down text-primary"></i></span>
       <h3 class="card-label">@Model.CardLabel</h3>
@@ -8,6 +9,7 @@
 }
 @if (Model.ExistBtn)
 {
+   //button for create new record modal or default
    <div class="card-toolbar">
       <!--begin::دکمه-->
       @if (Model.ModalButton)
@@ -44,6 +46,7 @@
       }
       <!--end::دکمه-->
    </div>
+   //script for toggle show search and properties in form 
    <script>
       function ToggleFrm() {
          var x = document.getElementById("frm");

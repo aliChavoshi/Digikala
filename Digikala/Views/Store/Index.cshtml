@@ -50,6 +50,18 @@
           });
      </script>
 }
+@if (TempData["IsSuccess"] != null)
+{
+   <script>
+      swal({
+         title: "موفق",
+         text: "عملیات با موفقیت انجام شد",
+         icon: "success",
+         button: false,
+         timer: 3000
+      });
+   </script>
+}
 <h1>title</h1>
 
 

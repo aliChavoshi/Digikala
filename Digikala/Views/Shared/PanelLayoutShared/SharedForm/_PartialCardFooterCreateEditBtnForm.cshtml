@@ -3,11 +3,11 @@
    <div class="col-lg-6">
       @if (Model.IsExistSubmit)
       {
-         <button type="submit" asp-action="@Model.ActionSubmit" class="btn btn-success mr-2">@Model.LabelSubmit</button>
+         <button type="submit" id="btnSubmit" asp-action="@Model.ActionSubmit" class="btn btn-success btn-shadow-hover font-weight-bold mr-2">@Model.LabelSubmit</button>
       }
       @if (Model.IsExistReturn)
       {
-         <a class="btn btn-secondary" asp-action="@Model.ActionReturn">@Model.LabelReturn</a>
+         <a class="btn btn-warning btn-shadow-hover font-weight-bold mr-2" asp-action="@Model.ActionReturn">@Model.LabelReturn</a>
       }
    </div>
 </div>

@@ -67,11 +67,11 @@ namespace Digikala.DataAccessLayer.SeedingData
             {
                 new User()
                 {
-                    Email = "Admin@gmail.com",
+                    Email = "alichavoshii1372@gmail.com",
                     ConfirmEmail = true,
                     ConfirmMobile = true,
                     CreateDate = DateTime.Now,
-                    Fullname = "Admin",
+                    Fullname = "ادمین",
                     IsActive = true,
                     Mobile = "09130242780",
                     Password = HashGenerators.Encrypt("admin"),

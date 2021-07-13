@@ -18,17 +18,19 @@ namespace Digikala.Controllers
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IStoreRepository _storeRepository;
+        private readonly ISaveFileDirectory _saveFileDirectory;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IViewRenderService _viewRenderService;
 
-        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper, IConfiguration configuration, IViewRenderService viewRenderService)
+        public StoreController(IAccountRepository accountRepository, IStoreRepository storeRepository, IMapper mapper, IConfiguration configuration, IViewRenderService viewRenderService, ISaveFileDirectory saveFileDirectory)
         {
             _accountRepository = accountRepository;
             _storeRepository = storeRepository;
             _mapper = mapper;
             _configuration = configuration;
             _viewRenderService = viewRenderService;
+            _saveFileDirectory = saveFileDirectory;
         }
 
         #region Properties
@@ -86,7 +88,7 @@ namespace Digikala.Controllers
                     #endregion
                 }
                 //ایمیلی که الان میزند با ایمیلی که قبلا زده متفاوت است
-                else if (user.Email != model.Email)
+                else if (user.Email.ToLower() != model.Email.ToLower())
                 {
                     ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید متفاوت است ");
                     return View(model);
@@ -207,7 +209,37 @@ namespace Digikala.Controllers
         [HttpGet("{userId:int}")]
         public async Task<IActionResult> Properties(int userId)
         {
-            return View(await _storeRepository.GetStoreByUserId(userId));
+            var store = await _storeRepository.GetStoreByUserId(userId);
+            return View(ObjectMapper.Mapper.Map<Store, PropertiesStoreDto>(store));
+        }
+
+        [HttpPost("{userId:int}")]
+        public async Task<IActionResult> Properties(int userId, PropertiesStoreDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (userId != model.UserId)
+            {
+                return NotFound();
+            }
+            var store = await _storeRepository.GetStoreByUserId(model.UserId);
+            var result = ObjectMapper.Mapper.Map(model, store);
+            if (string.IsNullOrEmpty(model.OldLogo))
+            {
+                result.Logo = await _saveFileDirectory.SaveFile(model.Logo,
+                    _configuration["PathSaveFileDirectory:StoreLogo"]);
+            }
+            else
+            {
+                result.Logo = await _saveFileDirectory.DeleteAndSaveFile(model.OldLogo, model.Logo,
+                    _configuration["PathSaveFileDirectory:StoreLogo"]);
+            }
+            _storeRepository.Update(result);
+            await _storeRepository.Save();
+            TempData["IsSuccess"] = true;
+            return RedirectToAction("Index");
         }
         #endregion
     }

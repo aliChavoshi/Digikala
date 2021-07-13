@@ -1,13 +1,19 @@
-﻿@using Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
-@model Digikala.DataAccessLayer.Entities.Store.Store
+﻿@using Digikala.DTOs.FormGenericDto.AdminPanel.ForCreateOrEdit
+@using Digikala.DTOs.FormGenericDto.AdminPanel.ForIndex
+@model Digikala.DTOs.Store.PropertiesStoreDto
 @{
-   ViewBag.title = "تنظیمات فروشگاه";
-   Layout = "_StoreLayout";
-   var cardHeaderDto = new CardHeaderFormDto()
-   {
-      ExistBtn = false,
-      CardLabel = ViewBag.title
-   };
+    ViewBag.title = "تنظیمات فروشگاه";
+    Layout = "_StoreLayout";
+    var cardHeaderDto = new CardHeaderFormDto()
+    {
+       ExistBtn = false,
+       CardLabel = ViewBag.title
+    };
+    var cardFooter = new CardFooterCreateEditBtnForm()
+    {
+       ActionSubmit = "Properties",
+       IsExistReturn = false
+    };
 }
 
 <!--begin::زیر هدر-->
@@ -33,9 +39,46 @@
                <div class="card-header">
                   <partial name="PanelLayoutShared/SharedForm/_PartialCardHedaerForm" model="cardHeaderDto" />
                </div>
-               <form class="form" method="post" asp-action="Properties">
+               <form class="form" method="post" asp-action="Properties" enctype="multipart/form-data">
+                  <input type="hidden" asp-for="UserId" />
+                  <input type="hidden" asp-for="OldLogo" />
+                  <input type="hidden" asp-for="Version" />
                   <div class="card-body">
-                    <h1>Hello</h1>
+                     <div class="form-group row">
+                        <div class="col-lg-4">
+                           <label asp-for="Name"></label>
+                           <input required type="text" class="form-control" asp-for="Name" placeholder="نام فروشگاه" />
+                           <span class="form-text text-danger" asp-validation-for="Name"></span>
+                        </div>
+                        <div class="col-lg-4">
+                           <label asp-for="Tel"></label>
+                           <input required type="text" maxlength="20" class="form-control" asp-for="Tel" placeholder="تلفن فروشگاه" />
+                           <span class="form-text text-danger" asp-validation-for="Tel"></span>
+                        </div>
+                        <div class="col-lg-4">
+                           <label asp-for="Logo"></label>
+                           <div class="custom-file">
+                              <input asp-for="Logo" onchange="FileValidation()" type="file" class="custom-file-input" id="file" />
+                              <label class="custom-file-label text-danger" for="file">حجم فایل حداکثر 2 مگابایت</label>
+                              <span class="form-text text-danger" asp-validation-for="Logo"></span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group row">
+                        <div class="col-lg-6">
+                           <label asp-for="Address"></label>
+                           <textarea rows="5" asp-for="Address" placeholder="آدرس فروشگاه" class="form-control" required></textarea>
+                           <span class="form-text text-danger" asp-validation-for="Address"></span>
+                        </div>
+                        <div class="col-lg-6">
+                           <label asp-for="Description"></label>
+                           <textarea rows="5" asp-for="Description" placeholder="توضیحات لازمه" class="form-control"></textarea>
+                           <span class="form-text text-danger" asp-validation-for="Description"></span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="card-footer">
+                     <partial name="PanelLayoutShared/SharedForm/_PartialCardFooterCreateEditBtnForm" model="cardFooter" />
                   </div>
                </form>
             </div>
@@ -46,3 +89,30 @@
    <!--end::Container-->
 </div>
 <!--end::Entry-->
+<script>
+   FileValidation = () => {
+      const fi = document.getElementById('file');
+      const btnSubmit = document.getElementById('btnSubmit');
+      // Check if any file is selected.
+      if (fi.files.length > 0) {
+         for (let i = 0; i <= fi.files.length - 1; i++) {
+            const fSize = fi.files.item(i).size;
+            const file = Math.round((fSize / 1024));
+            // The size of the file.
+            if (file >= 2048) {
+               alert('فایل باید کمتر از 2مگابایت باشد. ');
+               btnSubmit.setAttribute('disabled', 'disabled');
+            } else {
+               btnSubmit.removeAttribute('disabled');
+            }
+         }
+      }
+   }
+</script>
+@* <script> *@
+@*    var checkbox = document.getElementById('checkbox'); *@
+@*    var input = document.getElementById("Categories"); *@
+@*    checkbox.addEventListener("click", function () { *@
+@*       input.toggleAttribute("disabled"); *@
+@*    }); *@
+@* </script> *@

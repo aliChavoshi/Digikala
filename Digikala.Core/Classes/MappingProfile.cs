@@ -44,7 +44,22 @@ namespace Digikala.Core.Classes
                 .ForMember(x => x.RoleId,
                     c =>
                         c.MapFrom(v => 2));
-
+            //get properties Store
+            CreateMap<Store, PropertiesStoreDto>()
+                .ForMember(x => x.OldLogo,
+                    c => c.MapFrom(v => v.Logo))
+                .ForMember(x => x.Logo,
+                    c => c.Ignore());
+            //post properties store 
+            CreateMap<PropertiesStoreDto, Store>()
+                .ForMember(x => x.Version,
+                    c =>
+                        c.MapFrom(v => v.Version+1))
+                .ForMember(x => x.ModificationDate,
+                    c =>
+                        c.MapFrom(v => DateTime.Now))
+                .ForMember(x => x.Logo,
+                    x => x.Ignore());
             #endregion
 
             #region AdminPanel
@@ -52,7 +67,7 @@ namespace Digikala.Core.Classes
             #region Permission
 
             //Get Sub Create sub Permission
-            CreateMap<Permission,CreateSubPermissionDto>()
+            CreateMap<Permission, CreateSubPermissionDto>()
                 .ForMember(x => x.Name,
                     c => c.Ignore())
                 .ForMember(x => x.ParentName,

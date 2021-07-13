@@ -74,6 +74,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\savingImages\adminPanel\" />
+    <Folder Include="wwwroot\savingImages\store\logos\" />
   </ItemGroup>
 
 </Project>

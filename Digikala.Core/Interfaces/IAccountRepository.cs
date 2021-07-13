@@ -12,6 +12,7 @@ namespace Digikala.Core.Interfaces
         Task<User> GetUser(string mobile, string password);
         Task<User> GetUser(string mobile, string email, string password);
         Task<int> GetUserRole(int userId);
+        Task<User> GetUserIncludeStore(int userId);
         //with update & save
         Task UpdateSaveUserRoleId(User user, int newRoleId);
         Task UpdateSaveUser(User user);

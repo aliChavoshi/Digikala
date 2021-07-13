@@ -87,6 +87,12 @@ namespace Digikala.Core.Services
             return user.RoleId;
         }
 
+        public async Task<User> GetUserIncludeStore(int userId)
+        {
+            return await Context.User.Include(x=>x.Store)
+                .SingleOrDefaultAsync(x => x.Id == userId);
+        }
+
         public async Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode)
         {
             var user = await _context.User.SingleOrDefaultAsync(u => u.ActiveCodeEmail == activeCode);
