@@ -2,7 +2,7 @@
 
 namespace Digikala.DTOs.Store
 {
-    public class StoreRegisterDto
+    public class StoreLoginDto
     {
         [Display(Name = "تلفن همراه")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -23,13 +23,5 @@ namespace Digikala.DTOs.Store
         [DataType(DataType.Password)]
         [MinLength(5, ErrorMessage = "کلمه عبور نباید از پنج کارکتر کمتر باشد")]
         public string Password { get; set; }
-
-        [Display(Name = "تایید کلمه عبور جدید")]
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد .")]
-        [MinLength(5, ErrorMessage = "کلمه عبور نباید از پنج کارکتر کمتر باشد")]
-        [Compare(nameof(Password), ErrorMessage = "کلمه عبور یکسان نمیباشد.")]
-        public string ConfirmPassword { get; set; }
     }
 }

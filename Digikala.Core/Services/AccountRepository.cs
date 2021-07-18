@@ -1,11 +1,11 @@
-﻿using System;
-using Digikala.Core.Interfaces;
+﻿using Digikala.Core.Interfaces;
+using Digikala.Core.Services.Generic;
 using Digikala.DataAccessLayer.Context;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.Utility.Generator;
-using System.Threading.Tasks;
-using Digikala.Core.Services.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace Digikala.Core.Services
 {
@@ -89,8 +89,16 @@ namespace Digikala.Core.Services
 
         public async Task<User> GetUserIncludeStore(int userId)
         {
-            return await Context.User.Include(x=>x.Store)
+            return await Context.User.Include(x => x.Store)
                 .SingleOrDefaultAsync(x => x.Id == userId);
+        }
+
+        public async Task<User> IsExistUserByMobileEmailPass(string mobile, string email, string password)
+        {
+            return await _context.User
+                .SingleOrDefaultAsync(x => x.Email.ToLower() == email.Trim().ToLower() &&
+                                           x.Mobile == mobile &&
+                                           x.Password == HashGenerators.Encrypt(password));
         }
 
         public async Task<bool> ConfirmEmailWithActiveCodeUpdateUser(string activeCode)
@@ -109,7 +117,11 @@ namespace Digikala.Core.Services
 
         public async Task UpdateSaveUserRoleId(User user, int newRoleId)
         {
-            user.RoleId = newRoleId;
+            //roleId (3) == admin
+            if (user.RoleId != 3)
+            {
+                user.RoleId = newRoleId;
+            }
             await UpdateSaveUser(user);
         }
 

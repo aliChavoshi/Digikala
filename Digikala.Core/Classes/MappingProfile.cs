@@ -44,6 +44,7 @@ namespace Digikala.Core.Classes
                 .ForMember(x => x.RoleId,
                     c =>
                         c.MapFrom(v => 2));
+
             //get properties Store
             CreateMap<Store, PropertiesStoreDto>()
                 .ForMember(x => x.OldLogo,

@@ -1,6 +1,6 @@
-﻿@model Digikala.DTOs.Store.StoreRegisterDto
+﻿@model Digikala.DTOs.Store.StoreLoginDto
 @{
-   ViewBag.Title = "فروشنده شوید";
+   ViewBag.Title = "ورود بخش فروشندگان";
    Layout = "_RegisterLayout";
 }
 
@@ -9,13 +9,12 @@
    <script>
       swal({
          title: "موفق",
-         text: "عملیات با موفقیت ثبت شد لطفا ایمیل خود را بررسی کنید",
+         text: "عملیات با موفقیت انجام شد",
          icon: "success",
          button: "باشه"
       });
    </script>
 }
-
 <!-- Start main-content -->
 <main class="main-content dt-sl mt-4 mb-3">
    <div class="container main-container">
@@ -26,10 +25,7 @@
             <!-- End mini-header -->
             <div class="auth-wrapper form-ui pt-4">
                <div class="section-title title-wide mb-1 no-after-title-wide">
-                  <h2 class="font-weight-bold">فروشنده شوید</h2>
-               </div>
-               <div class="message-light">
-                  اگر قبلا ثبت نام کرده اید نیاز به ثبت نام مجدد نیست
+                  <h2 class="font-weight-bold">@ViewBag.Title</h2>
                </div>
                <form method="post">
                   <div class="form-row-title">
@@ -57,29 +53,21 @@
                      <i class="mdi mdi-lock-open-variant-outline"></i>
                      <span class="text-danger font-weight-bold" asp-validation-for="Password"></span>
                   </div>
-                  <div class="form-row-title">
-                     <h3>تکرار کلمه عبور</h3>
-                  </div>
-                  <div class="form-row with-icon">
-                     <input required asp-for="ConfirmPassword" type="password" class="input-ui pr-2" placeholder="کلمه عبور را تکرار نمائید">
-                     <i class="mdi mdi-lock-open-variant-outline"></i>
-                     <span class="text-danger font-weight-bold" asp-validation-for="ConfirmPassword"></span>
-                  </div>
                   <div class="form-row mt-3">
                      <button type="submit" class="btn-primary-cm btn-with-icon mx-auto w-100">
                         <i class="mdi mdi-account-circle-outline"></i>
-                        ثبت نام در فروشندگان
+                        ورود به بخش فروشندگان
                      </button>
                   </div>
                </form>
                <div class="form-footer mt-3">
                   <div>
-                     <span class="font-weight-bold">قبلا ثبت نام کرده اید ؟</span>
-                     <a asp-action="Login" class="mr-3 mt-2">ورود به فروشگاه</a><br />
+                     <span class="font-weight-bold">فروشنده نیستید ؟</span>
+                     <a asp-action="Create" class="mr-3 mt-2">ساخت فروشگاه</a><br />
                   </div>
                   <div class="mt-3">
                      <span class="font-weight-bold">کاربر جدید هستید؟</span>
-                     <a asp-controller="Account" asp-action="Register" class="mr-3 mt-2">ساخت حساب کاربری جدید</a>
+                     <a asp-controller="Account" asp-action="Register" class="mr-3 mt-2">ساخت اکانت جدید</a>
                   </div>
                </div>
             </div>

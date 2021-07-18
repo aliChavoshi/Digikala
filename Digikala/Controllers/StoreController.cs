@@ -4,12 +4,15 @@ using Digikala.Core.Interfaces;
 using Digikala.DataAccessLayer.Entities.Identity;
 using Digikala.DataAccessLayer.Entities.Store;
 using Digikala.DTOs.Store;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using Digikala.Utility.Convertor;
 using Digikala.Utility.Generator;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Digikala.Controllers
 {
@@ -39,6 +42,24 @@ namespace Digikala.Controllers
             var messageSender = new MessageSender(_configuration, _viewRenderService);
             await messageSender.Sms(mobile, "کد فعال سازی : " + activeCode);
         }
+
+        private async Task LoginUserClaim(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.MobilePhone,user.Mobile),
+                new Claim(ClaimTypes.Email,user.Email)
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            var properties = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+            await HttpContext.SignInAsync(principal, properties);
+        }
         #endregion
 
         #region Create
@@ -50,9 +71,8 @@ namespace Digikala.Controllers
         public async Task<IActionResult> Create(StoreRegisterDto model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
+            //کاربر از قبل ثبت نام کرده است
             if (await _accountRepository.IsExistMobileNumber(model.Mobile))
             {
                 var user = await _accountRepository.GetUser(model.Mobile, model.Password);
@@ -63,7 +83,7 @@ namespace Digikala.Controllers
                 }
                 if (await _storeRepository.IsExistUser(user.Id))
                 {
-                    ModelState.AddModelError("Mobile", "شما قبلا ثبت نام کرده اید لطفا وارد بخش فروشندگان شوید");
+                    ModelState.AddModelError(nameof(model.Mobile), "شما قبلا ثبت نام کرده اید لطفا وارد بخش فروشندگان شوید");
                     return View(model);
                 }
 
@@ -71,9 +91,11 @@ namespace Digikala.Controllers
                 //کاربر ایمیل از قبل نداشته است
                 if (string.IsNullOrEmpty(user.Email))
                 {
+                    //اگر کاربر از قبل ایمیل نداشته باشد،نباید ایمیلی که الان وارد کرده
+                    //در دیتابیس موجود باشد
                     if (await _accountRepository.IsExistMail(model.Email))
                     {
-                        ModelState.AddModelError("Email", "ایمیل وارد شده تکراری میباشد");
+                        ModelState.AddModelError(nameof(model.Email), "ایمیل وارد شده تکراری میباشد لطفا آن را بررسی کنید");
                         return View(model);
                     }
                     user.Email = model.Email;
@@ -88,7 +110,7 @@ namespace Digikala.Controllers
                     #endregion
                 }
                 //ایمیلی که الان میزند با ایمیلی که قبلا زده متفاوت است
-                else if (user.Email.ToLower() != model.Email.ToLower())
+                else if (user.Email.ToLower() != model.Email.Trim().ToLower())
                 {
                     ModelState.AddModelError("Email", "ایمیل وارد شده با ایمیلی که قبلا وارد کرده اید متفاوت است ");
                     return View(model);
@@ -101,16 +123,21 @@ namespace Digikala.Controllers
 
                 //update user to store roleId
                 await _storeRepository.Add(store);
+                //نقش کاربر را باید تغییر بدهیم
                 await _accountRepository.UpdateSaveUserRoleId(user, 2);
 
                 TempData["IsSuccess"] = true;
-                return View();
+                //الان کاربر اطلاعاتش را از قبل پر کرده بوده است 
+                //پس باید به لاگین انتقال داده شود
+                return RedirectToAction("Login");
             }
+            //کاربر از قبل یوزر نداشته باشد
             else
             {
+                //اگر کاربر ثبت نام نکرده است پس نباید ایمیل آن هم در دیتابیس باشد
                 if (await _accountRepository.IsExistMail(model.Email))
                 {
-                    ModelState.AddModelError(nameof(model.Email), "ایمیل وارد شده با شماره همراه همخوانی ندارد");
+                    ModelState.AddModelError(nameof(model.Email), "ایمیل وارد شده تکراری میباشد لطفا ایمیل را بررسی کنید");
                     return View(model);
                 }
                 var user = _mapper.Map<StoreRegisterDto, User>(model);
@@ -189,22 +216,54 @@ namespace Digikala.Controllers
         #region Login
 
         [HttpGet]
-        public IActionResult Login(bool permission = false, string backUrl = "")
-        {
-            return RedirectToAction("Login", "Account",
-                new { permission = permission, returnUrl = backUrl });
-        }
+        public IActionResult Login() => View();
 
+        [HttpPost]
+        public async Task<IActionResult> LoginAsync(StoreLoginDto model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var user = await _accountRepository.IsExistUserByMobileEmailPass(model.Mobile, model.Email,
+                model.Password);
+            if (user != null)
+            {
+                if (user.IsActive)
+                {
+                    if (await _storeRepository.IsExistUser(user.Id))
+                    {
+                        #region LognInWeb
+                        await LoginUserClaim(user);
+                        #endregion
+
+                        TempData["LoginSuccess"] = true;
+                        return RedirectToAction("Index");
+                    }
+                    ModelState.AddModelError(nameof(model.Email), "فروشگاهی برای شما یافت نشد ابتدا آن را بسازید");
+                    return View(model);
+                }
+                ModelState.AddModelError(nameof(model.Email), "حساب کاربری شما غیر فعال میباشد");
+                return View(model);
+            }
+            ModelState.AddModelError(nameof(model.Mobile), "کاربری با مشخصات وارد شده یافت نشد");
+            return View(model);
+        }
         #endregion
 
         #region Index
-
         [HttpGet]
         [Permission(1)]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            if (!await _storeRepository.IsExistUser(User.GetUserId()))
+            {
+                return RedirectToAction("Login", "Account",
+                    new { permission = false, returnUrl = "/store/index" });
+            }
             return View();
         }
+        #endregion
+
+        #region Properties
 
         [HttpGet("{userId:int}")]
         public async Task<IActionResult> Properties(int userId)
@@ -217,13 +276,9 @@ namespace Digikala.Controllers
         public async Task<IActionResult> Properties(int userId, PropertiesStoreDto model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
             if (userId != model.UserId)
-            {
                 return NotFound();
-            }
             var store = await _storeRepository.GetStoreByUserId(model.UserId);
             var result = ObjectMapper.Mapper.Map(model, store);
             if (string.IsNullOrEmpty(model.OldLogo))
@@ -241,6 +296,7 @@ namespace Digikala.Controllers
             TempData["IsSuccess"] = true;
             return RedirectToAction("Index");
         }
+
         #endregion
     }
 }
